@@ -87,23 +87,16 @@
     margin: 50px auto 0;
 }
 
-.ic {
-    display: inline-block;
-    font: normal normal normal 14px/1 FontAwesome;
-    font-size: inherit;
-    text-rendering: auto;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    transform: translate(0, 0);
+.fastyle {
+    font-size: 48px;
+    color: #db5423;
 }
 
-.ic-logo {
-    font-size: 4em;
+.text-muted {
+    font-size: 25px;
+    color: #777;
 }
 
-.text-primary {
-    color: #337ab7;
-}
 
 /* navbar style */
 
