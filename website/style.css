@@ -105,6 +105,14 @@
     background-color: #f9e7dd;
 }
 
+.p-3 {
+    padding: 1rem!important;
+}
+
+.img-us {
+  border-radius: 50%;
+}
+
 
 /* navbar style */
 
