@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src='https://api.mapbox.com/mapbox-gl-js/v1.8.0/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v1.8.0/mapbox-gl.css' rel='stylesheet' />
     <link rel="stylesheet" type="text/css" href="style.css">
 
 </head>
@@ -184,30 +186,30 @@
         </div>
 
         <div class="col-lg-12 text-center">
-            <p>Click the button to get your coordinates.</p>
+        <p>Click the button to get your coordinates.</p>
 
-            <button onclick="getLocation()">Get your coordinates</button>
+        <button onclick="getLocation()">Get your coordinates</button>
 
-            <p id="demo"></p>
+        <p id="demo"></p>
 
-            <script>
-            var x = document.getElementById("demo");
+        <script>
+        var x = document.getElementById("demo");
 
-            function getLocation() {
-              if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(showPosition);
-              } else { 
-                x.innerHTML = "Geolocation is not supported by this browser.";
-              }
-            }
+        function getLocation() {
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+          } else { 
+            x.innerHTML = "Geolocation is not supported by this browser.";
+          }
+        }
 
-            function showPosition(position) {
-              x.innerHTML = "Latitude: " + position.coords.latitude + 
-              "<br>Longitude: " + position.coords.longitude;
-            }
-            </script>
-            <br>
-            <br>
+        function showPosition(position) {
+          x.innerHTML = "Latitude: " + position.coords.latitude + 
+          "<br>Longitude: " + position.coords.longitude;
+        }
+        </script>
+        <br>
+        <br>
         </div>
 
         <div class="col-lg-12 text-center">
@@ -219,6 +221,15 @@
             <br>
             <br>
         </div>
+
+        <div class="col-lg-12" id='map' style='width: 1400px; height: 700px;'></div>
+        <script>
+            mapboxgl.accessToken = 'pk.eyJ1IjoidGxldWNiIiwiYSI6ImNrN2JmaWVkdjBiZHEzZm1nOGdiM3c5YjAifQ.gDRc9ga5EKllPE1yxAZVZg';
+            var map = new mapboxgl.Map({
+                container: 'map',
+                style: 'mapbox://styles/mapbox/streets-v11'
+            });
+        </script>
 
 
         <div class="banner-parallax-flex" style="background-image:url('images/wildfire12.jpg');overflow:auto; max-width: 1400px; max-height: 700px; margin: auto">
@@ -319,6 +330,7 @@
     <div class="wrapper-banner" id="banner-id">
         <img class="banner-img1" src="images/wildfire_banner.jpg" alt="fire1">
     </div>
+
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
