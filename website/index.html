@@ -10,8 +10,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src='https://api.mapbox.com/mapbox-gl-js/v1.8.0/mapbox-gl.js'></script>
-    <link href='https://api.mapbox.com/mapbox-gl-js/v1.8.0/mapbox-gl.css' rel='stylesheet' />
+    <script src="https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="style.css">
 
 </head>
@@ -222,15 +222,85 @@
             <br>
         </div>
 
-        <div class="col-lg-12" id='map' style='width: 1400px; height: 700px;'></div>
-        <script>
-            mapboxgl.accessToken = 'pk.eyJ1IjoidGxldWNiIiwiYSI6ImNrN2JmaWVkdjBiZHEzZm1nOGdiM3c5YjAifQ.gDRc9ga5EKllPE1yxAZVZg';
-            var map = new mapboxgl.Map({
-                container: 'map',
-                style: 'mapbox://styles/mapbox/streets-v11'
-            });
-        </script>
+        <div id='map' style='width: 1400px; height: 700px; margin-right: auto; margin-left: auto;'>
+            <script>
+                var mapkey = 'pk.eyJ1IjoidGxldWNiIiwiYSI6ImNrN2N3d3h1aTA0YWwzaHFoNGJreDJmY2YifQ.pbWSn9txb4n8fKmUaKAG4g'
+                mapboxgl.accessToken = mapkey;
+                var map = new mapboxgl.Map({
+                    container: 'map',
+                    style: 'mapbox://styles/mapbox/streets-v11',
+                    // style: 'mapbox://styles/mapbox/satellite-v9',
+                    center:[-122.2585, 37.8719],
+                    zoom: 12
+                });
 
+                map.on('load', function() {
+                    map.addSource('national-park', {
+                        'type': 'geojson',
+                        'data': {
+                            'type': 'FeatureCollection',
+                            'features': [
+                            {
+                                'type': 'Feature',
+                                'geometry': {
+                                    'type': 'Polygon',
+                                    'coordinates': [
+                                    [
+                                        [-122.25894915764205, 37.871545440725484], 
+                                        [-122.25805084235793, 37.871545440725484], 
+                                        [-122.25805084235793, 37.87225455756818], 
+                                        [-122.25894915764205, 37.87225455756818], 
+                                        [-122.25894915764205, 37.871545440725484]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            'type': 'Feature',
+                            'geometry': {
+                                'type': 'Point',
+                                'coordinates': [-122.2585, 37.8719]
+                            }
+                        }
+                        ]
+                    }
+                });   
+
+                    map.addLayer({
+                        'id': 'park-boundary',
+                        'type': 'fill',
+                        'source': 'national-park',
+                        'paint': {
+                            'fill-color': '#888888',
+                            'fill-opacity': 0.8
+                        },
+                        'filter': ['==', '$type', 'Polygon']
+                    });
+
+                    map.addLayer({
+                        'id': 'park-volcanoes',
+                        'type': 'circle',
+                        'source': 'national-park',
+                        'paint': {
+                            'circle-radius': 6,
+                            'circle-color': '#B42222'
+                        },
+                        'filter': ['==', '$type', 'Point']
+                    });
+                });
+
+  
+            </script>
+        </div>
+
+        <div>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>  
+        </div>
 
         <div class="banner-parallax-flex" style="background-image:url('images/wildfire12.jpg');overflow:auto; max-width: 1400px; max-height: 700px; margin: auto">
         </div>
