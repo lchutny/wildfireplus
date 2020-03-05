@@ -3,226 +3,407 @@
 
 <head>
 
-	<title>hotzone</title>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>hotzone</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js">
-	<link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="style.css">
 
 </head>
 
 <body>
 
     <nav class="navbar-default navbar-fixed-top affix">
-    	<div class="container-fluid">
-    		<div class="navbar-header">
-    			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-    		        <span class="icon-bar"></span>
-    		        <span class="icon-bar"></span>
-    		        <span class="icon-bar"></span>                        
-    		    </button>
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>                        
+                </button>
             </div>
-    		<div class="collapse navbar-collapse" id="myNavbar">
-    			<ul class="nav navbar-nav navbar-center">
-    				<li ><a href="index.html">
-    					<img src="images/home.png" alt="home" width="20" height="20" hspace="5"></li></a>
-    				<li><a href="projects.html">About the Project</a></li>
-                    <li><a href="projects.html">Data Source</a></li>
-                    <li><a href="projects.html">Algorithms</a></li>
-                    <li><a href="resume.html">HOTzone App</a></li>
-    				<li><a href="index.html">About the Team</a></li>
-    			</ul>
-    		</div>
-    	</div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav navbar-center">
+                    <li ><a href="index.html">
+                        <img src="images/home.png" alt="home" width="20" height="20" hspace="5"></li></a>
+                    <li><a href="#proj">About the Project</a></li>
+                    <li><a href="#alg">How It Works</a></li>
+                    <li><a href="#app">HOTzone App</a></li>
+                    <li><a href="#us">About the Team</a></li>
+                </ul>
+            </div>
+        </div>
     </nav>
 
     <div class="wrapper-banner" id="banner-id">
-        <img class="banner-img" src="images/11.jpeg" alt="fire">
+        <img class="banner-img" src="images/cover.jpg" alt="fire">
     </div>
+
+<a name="proj"></a>
 
     <div class="wrapper-white-bg" id="white-bg">
         <div class="container">
             <div class="row justify-content-md-center">
-                <div class="row-fluid">
-                       <!--  <div class="col-lg-3 col-md-1 col-sm-1 col-xs-1">   
-                        </div> class="col-lg-6 col-md-10 col-sm-10 col-xs-10"-->
-                        <div >
-                            <br>
-                            <img src="images/fire_icon.jpg" alt="logo" class="img-responsive pull-left alignleft" width="200" height="200">
-                            <h2 class="lead">
-                            </br>   
-                            </br>
-                            </br>
-                            <p>Millions of acres burn annually in wildfires across the globe.  As population grows and spreads to all lands, as climate change challenges the environments, and as wildfires grows in intensity and frequency, every second counts.
-                            </br>   
-                            </br>
-                            HOTzone is an attempt to predict the probability of the spread of an existing fire, to provide an early warning.
-                            </p>
-                            </h2>   
-                        </div>  
+                <div >
+                    <br>
+                    <img src="images/fire_icon.jpg" alt="logo" class="img-responsive pull-left alignleft" width="200" height="200">
+                    <h2 class="lead">
+                    <br>   
+                    <br>
+                    <br>
+                    <p>Millions of acres burn annually in wildfires across the globe.  As population grows and spreads to all lands, as climate change challenges the environments, and as wildfires grows in intensity and frequency, every second counts.
+                    <br>   
+                    <br>
+                    HOTzone is an attempt to predict the probability and the perimeter spread of an existing fire, to provide an early warning.
+                    </p>
+                    <br>   
+                    <br>
+                    <br>
+                    </h2> 
+                </div>  
+                <div class="banner-parallax-flex" style="background-image:url('images/wildfire2.jpg');overflow:auto; max-width: 1400px; max-height: 700px; margin: auto">
                 </div>
-            </div>  
-        </div>
-    </div>
-                
-
-<!-- <section class="header1 cid-qyvcqB36eR" id="header1-0" data-rv-view="7258">
-
-    
-
-    
-
-    <div class="container">
-        <div class="row justify-content-md-center">
-            <div class="mbr-white col-md-10">
-                
-                
-                
-                
             </div>
         </div>
-    </div>
-
-</section>
-
-<section class="features1 cid-qyvcAqZyNq" id="features1-1" data-rv-view="7261">
-    
-    
-
-    
-    <div class="container">
-        <div class="media-container-row">
-
-            <div class="card p-3 col-12 col-md-6 col-lg-4">
-                <div class="card-img pb-3">
-                    <span class="mbr-iconfont mbri-users" style="color: rgb(0, 0, 0);" media-simple="true"></span>
-                </div>
-                <div class="card-box">
-                    <h4 class="card-title py-3 mbr-fonts-style display-5">
-                        Creativity</h4>
-                    <p class="mbr-text mbr-fonts-style display-7">
-                        Mobirise is an easy website builder - just drop site elements to your page, add content and style it to look the way you like.
-                    </p>
+        <div class="container">
+            <div class="row">   
+                <div class="col-lg-12 text-center">
+                    <br>
+                    <h2 class="section-heading">California Wildfires</h2>
+                    <h6>https://www.fire.ca.gov/incidents</h6>
+                    <hr class="primary">
                 </div>
             </div>
+        </div>
 
-            <div class="card p-3 col-12 col-md-6 col-lg-4">
-                <div class="card-img pb-3">
-                    <span class="mbr-iconfont mbri-globe" style="color: rgb(0, 0, 0);" media-simple="true"></span>
-                </div>
-                <div class="card-box">
-                    <h4 class="card-title py-3 mbr-fonts-style display-5">
-                        Worldwide</h4>
-                    <p class="mbr-text mbr-fonts-style display-7">
-                        All sites you make with Mobirise are mobile-friendly. You don't have to create a special mobile version of your site.
-                    </p>
+        <div class="row">
+            <div class="col-lg-2 col-md-2 text-center">
+                <div class="service-box">
+                    <i class="fa fa-bar-chart fastyle" style="visibility: visible;"></i>
+                    <h3>Year</h3>
+                    <p class="text-muted">2017</p>
+                    <p class="text-muted">2018</p>
+                    <p class="text-muted">2019</p>
                 </div>
             </div>
-
-            <div class="card p-3 col-12 col-md-6 col-lg-4">
-                <div class="card-img pb-3">
-                    <span class="mbr-iconfont mbri-smile-face" style="color: rgb(0, 0, 0);" media-simple="true"></span>
+            <div class="col-lg-2 col-md-2 text-center">
+                <div class="service-box">
+                    <i class="fa fa-fire fastyle" style="visibility: visible;"></i>
+                    <h3>Total Wildfires</h3>
+                    <p class="text-muted">9,270</p>
+                    <p class="text-muted">7,639</p>
+                    <p class="text-muted">7,860</p>
                 </div>
-                <div class="card-box">
-                    <h4 class="card-title py-3 mbr-fonts-style display-5">
-                        Unique Styles
+            </div>
+            <div class="col-lg-2 col-md-2 text-center">
+                <div class="service-box">
+                    <i class="fa fa-tree fastyle" style="visibility: visible;"></i>
+                    <h3>Acres Burned</h3>
+                    <p class="text-muted">1,548,429</p>
+                    <p class="text-muted">1,963,101</p>
+                    <p class="text-muted">259,823</p>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-2 text-center">
+                <div class="service-box">
+                    <i class="fa fa-ambulance fastyle" style="visibility: visible;"></i>
+                    <h3>Fatalities</h3>
+                    <p class="text-muted">47</p>
+                    <p class="text-muted">100</p>
+                    <p class="text-muted">3</p>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-2 text-center">
+                <div class="service-box">
+                    <i class="fa fa-building fastyle" style="visibility: visible;"></i>
+                    <h3>Structures Damaged</h3  >
+                    <p class="text-muted">10,280</p>
+                    <p class="text-muted">24,226</p>
+                    <p class="text-muted">732</p>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-2 text-center">
+                <div class="service-box">
+                    <i class="fa fa-dollar fastyle" style="visibility: visible;"></i>
+                    <h3>Total Cost</h3>
+                    <p class="text-muted">unknown</p>
+                    <p class="text-muted">unknown</p>
+                    <p class="text-muted">163,000,000</p>
+                </div>
+                <br>
+                <br>
+                <br>
+                <br>
+            </div>
+        </div>  
+
+        <div class="banner-parallax-flex" style="background-image:url('images/wildfire14.jpg');overflow:auto; max-width: 1400px; max-height: 700px; margin: auto">
+        </div>
+                 
+<a name="alg"></a>
+
+        <div class="container">
+            <div class="row">   
+                <div class="col-lg-12 text-center">
+                    <br>
+                    <h2 class="section-heading">How HOTzone Works</h2>
+                    <hr class="primary">
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <p>Here we blah blah blah</p>
+        </div>
+        <br>
+        <div>
+            <img src="images/darksky.png" class="img-us" alt=darksky width="80" height="40">
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+
+
+        <div class="banner-parallax-flex" style="background-image:url('images/wildfire13.jpeg');overflow:auto; max-width: 80%; max-height: 700px; margin: auto">
+        </div>
+
+<a name="app"></a>
+       
+        <div class="container">
+            <div class="row">   
+                <div class="col-lg-12 text-center">
+                    <br>
+                    <h2 class="section-heading">HOTzone</h2>
+                    <hr class="primary">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-12 text-center">
+        <p>Click the button to get your coordinates.</p>
+
+        <button onclick="getLocation()">Get your coordinates</button>
+
+        <p id="demo"></p>
+
+        <script>
+        var x = document.getElementById("demo");
+
+        function getLocation() {
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+          } else { 
+            x.innerHTML = "Geolocation is not supported by this browser.";
+          }
+        }
+
+        function showPosition(position) {
+          x.innerHTML = "Latitude: " + position.coords.latitude + 
+          "<br>Longitude: " + position.coords.longitude;
+        }
+        </script>
+        <br>
+        <br>
+        </div>
+
+        <div class="col-lg-12 text-center">
+            <iframe src="my_map.html" seamless width="1400px" height="700px"></iframe>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+        </div>
+
+        <div id='map' style='width: 1400px; height: 700px; margin-right: auto; margin-left: auto;'>
+            <script>
+                var mapkey = 'pk.eyJ1IjoidGxldWNiIiwiYSI6ImNrN2N3d3h1aTA0YWwzaHFoNGJreDJmY2YifQ.pbWSn9txb4n8fKmUaKAG4g'
+                mapboxgl.accessToken = mapkey;
+                var map = new mapboxgl.Map({
+                    container: 'map',
+                    style: 'mapbox://styles/mapbox/streets-v11',
+                    // style: 'mapbox://styles/mapbox/satellite-v9',
+                    center:[-122.2585, 37.8719],
+                    zoom: 15
+                });
+
+                map.on('load', function() {
+                    map.addSource('national-park', {
+                        'type': 'geojson',
+                        'data': {
+                            'type': 'FeatureCollection',
+                            'features': [
+                            {
+                                'type': 'Feature',
+                                'geometry': {
+                                    'type': 'Polygon',
+                                    'coordinates': [
+                                    [
+                                        [-122.2593983152841, 37.87119087974465],
+                                        [-122.25760168471588, 37.87119087974465],
+                                        [-122.25760168471588, 37.87260911343006],
+                                        [-122.2593983152841, 37.87260911343006],
+                                        [-122.2593983152841, 37.87119087974465]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            'type': 'Feature',
+                            'geometry': {
+                                'type': 'Point',
+                                'coordinates': [-122.2585, 37.8719]
+                            }
+                        }
+                        ]
+                    }
+                });   
+
+                    map.addLayer({
+                        'id': 'park-boundary',
+                        'type': 'fill',
+                        'source': 'national-park',
+                        'paint': {
+                            'fill-color': '#888888',
+                            'fill-opacity': 0.8
+                        },
+                        'filter': ['==', '$type', 'Polygon']
+                    });
+
+                    map.addLayer({
+                        'id': 'park-volcanoes',
+                        'type': 'circle',
+                        'source': 'national-park',
+                        'paint': {
+                            'circle-radius': 6,
+                            'circle-color': '#B42222'
+                        },
+                        'filter': ['==', '$type', 'Point']
+                    });
+                });
+
+  
+            </script>
+        </div>
+
+        <div>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>  
+        </div>
+
+        <div class="banner-parallax-flex" style="background-image:url('images/wildfire12.jpg');overflow:auto; max-width: 1400px; max-height: 700px; margin: auto">
+        </div>
+
+<a name="us"></a>
+
+        <div class="container">
+            <div class="row">   
+                <div class="col-lg-12 text-center">
+                    <br>
+                    <h2 class="section-heading">Meet Our Team</h2>
+                    <hr class="primary">
+                    <h4>We are graduate students at UC Berkeley Information and Data Science Master Program.
                     </h4>
-                    <p class="mbr-text mbr-fonts-style display-7">
-                        Mobirise offers many site blocks in several themes, and though these blocks are pre-made, they are flexible.
-                    </p>
+                    <br>
+                    <br>
                 </div>
             </div>
-
-            
-
         </div>
 
-    </div>
-
-</section>
-
-<section class="carousel slide testimonials-slider cid-qyvf5AQs7c" id="testimonials-slider1-3" data-rv-view="7264">
-    
-    
-
-    
-
-    <div class="container text-center">
-        
-
-        <div class="carousel slide" data-ride="carousel" role="listbox">
-            <div class="carousel-inner">
-                
-                
-            <div class="carousel-item active">
-                    <div class="user col-md-8">
-                        <div class="user_image">
-                            <img src="assets/images/mike-wilson-253599-2189x2189.jpg" alt="" title="" media-simple="true">
-                        </div>
-                        <div class="user_text pb-3">
-                            <p class="mbr-fonts-style display-7">
-                                No complaints, only positive impressions. We will continue cooperation.
+        <div>
+            <div class="pt-3 mt-2">
+                <div class="col-lg-4 col-md-12 col-sm-12">
+                    <div>
+                        <div>
+                            <div class="container-us">
+                                <img src="images/laura.jpg" class="img-us" alt=laura width="200" height="200">
+                            </div>
+                            <p class="text-us title-desc">
+                                <br>Data Scientist<br>
                             </p>
                         </div>
-                        <div class="user_name mbr-bold pb-2 mbr-fonts-style display-7">
-                            Helen
-                        </div>
-                        <div class="user_desk mbr-light mbr-fonts-style display-7">
-                            DESIGNER
+                        <div>
+                            <div class="text-us p-desc">
+                                Laura Chutny
+                                <p align="center">
+                                    <a href="https://www.linkedin.com/in/lchutny/"><img src="images/linkedin_logo.png" alt="linkedIn" width="20" height="20" hspace="15">
+                                    </a>
+                                </p>
+                                <br>
+                            </div>
                         </div>
                     </div>
-                </div><div class="carousel-item">
-                    <div class="user col-md-8">
-                        <div class="user_image">
-                            <img src="assets/images/ayo-ogunseinde-316141-3333x3333.jpg" alt="" title="" media-simple="true">
-                        </div>
-                        <div class="user_text pb-3">
-                            <p class="mbr-fonts-style display-7">
-                                The results surpassed expectations: sales growth is very high.
+                </div>
+                <div class="col-lg-4 col-md-12 col-sm-12">
+                    <div>
+                        <div>
+                            <div class="container-us">
+                                <img src="images/keane.jpeg" class="img-us" alt=keane width="200" height="200">
+                            </div>
+                            <p class="text-us title-desc">
+                                <br>Senior Analyst<br>
                             </p>
                         </div>
-                        <div class="user_name mbr-bold pb-2 mbr-fonts-style display-7">
-                            Linda
-                        </div>
-                        <div class="user_desk mbr-light mbr-fonts-style display-7">
-                            DEVELOPER
+                        <div>
+                            <div class="text-us p-desc">
+                                Keane Johnson
+                                <p align="center">
+                                    <a href="https://www.linkedin.com/in/keane-johnson/"><img src="images/linkedin_logo.png" alt="linkedIn" width="20" height="20" hspace="15">
+                                    </a>
+                                </p>
+                                <br>
+                            </div>
                         </div>
                     </div>
-                </div><div class="carousel-item">
-                    <div class="user col-md-8">
-                        <div class="user_image">
-                            <img src="assets/images/yoann-boyer-316485-1333x1333.jpg" alt="" title="" media-simple="true">
-                        </div>
-                        <div class="user_text pb-3">
-                            <p class="mbr-fonts-style display-7">
-                               The author is very accessible explained the ins and outs. I recommend.
+                </div>
+                <div class="col-lg-4 col-md-12 col-sm-12">
+                    <div>
+                        <div>
+                            <div class="container-us">
+                                <img src="images/thanh.jpg" class="img-us" alt=thanh width="200" height="200">
+                            </div>
+                            <p class="text-us title-desc">
+                                <br>Data Scientist<br>
                             </p>
                         </div>
-                        <div class="user_name mbr-bold pb-2 mbr-fonts-style display-7">
-                            Linda
-                        </div>
-                        <div class="user_desk mbr-light mbr-fonts-style display-7">
-                            DEVELOPER
+                        <div>
+                            <div class="text-us p-desc">
+                                Thanh Le
+                                <p align="center">
+                                    <a href="https://www.linkedin.com/in/thanh-le/"><img src="images/linkedin_logo.png" alt="linkedIn" width="20" height="20" hspace="15">
+                                    </a>
+                                </p>
+                                <br>
+                            </div>
                         </div>
                     </div>
-                </div></div>
-
-            <div class="carousel-controls">
-                <a class="carousel-control-prev" role="button" data-slide="prev"  href="#testimonials-slider1-3">
-                  <span aria-hidden="true" class="mbri-arrow-prev mbr-iconfont"></span>
-                  <span class="sr-only">Previous</span>
-                </a>
-                
-                <a class="carousel-control-next" role="button" data-slide="next"  href="#testimonials-slider1-3">
-                  <span aria-hidden="true" class="mbri-arrow-next mbr-iconfont"></span>
-                  <span class="sr-only">Next</span>
-                </a>
+                </div>
             </div>
         </div>
+        <br>
+        <br>
+        <br>
+        <br>
     </div>
-</section> -->
+
+    <div class="wrapper-banner" id="banner-id">
+        <img class="banner-img1" src="images/wildfire_banner.jpg" alt="fire1">
+    </div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 </body>
 </html>
