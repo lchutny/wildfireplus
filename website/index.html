@@ -56,7 +56,7 @@
                     <br>   
                     <br>
                     <br>
-                    <p>Millions of acres burn annually in wildfires across the globe.  As population grows and spreads to all lands, as climate change challenges the environments, and as wildfires grows in intensity and frequency, every second counts.
+                    <p>Millions of acres burn annually in wildfires across the globe.  As population grows and spreads to all lands, as climate change challenges the environments, and as wildfires grow in intensity and frequency, every second count.
                     <br>   
                     <br>
                     HOTzone is an attempt to predict the probability and the perimeter spread of an existing fire, to provide an early warning.
@@ -212,7 +212,7 @@
         <br>
         </div>
 
-        <div class="col-lg-12 text-center">
+<!--         <div class="col-lg-12 text-center">
             <iframe src="my_map.html" seamless width="1400px" height="700px"></iframe>
             <br>
             <br>
@@ -220,7 +220,7 @@
             <br>
             <br>
             <br>
-        </div>
+        </div> -->
 
         <div id='map' style='width: 1400px; height: 700px; margin-right: auto; margin-left: auto;'>
             <script>
@@ -271,7 +271,7 @@
                         'type': 'fill',
                         'source': 'national-park',
                         'paint': {
-                            'fill-color': '#888888',
+                            'fill-color': '#FF5733',
                             'fill-opacity': 0.8
                         },
                         'filter': ['==', '$type', 'Polygon']
@@ -289,6 +289,60 @@
                     });
                 });
 
+                map.on('load', function() {
+                    map.addSource('national-park', {
+                        'type': 'geojson',
+                        'data': {
+                            'type': 'FeatureCollection',
+                            'features': [
+                            {
+                                'type': 'Feature',
+                                'geometry': {
+                                    'type': 'Polygon',
+                                    'coordinates': [
+                                    [
+                                        [-122.26748315284117, 37.864808490316214], 
+                                        [-122.2495168471588, 37.864808490316214], 
+                                        [-122.2495168471588, 37.878990827156095], 
+                                        [-122.26748315284117, 37.878990827156095], 
+                                        [-122.26748315284117, 37.864808490316214]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            'type': 'Feature',
+                            'geometry': {
+                                'type': 'Point',
+                                'coordinates': [-122.2585, 37.8719]
+                            }
+                        }
+                        ]
+                    }
+                });   
+
+                    map.addLayer({
+                        'id': 'park-boundary',
+                        'type': 'line',
+                        'source': 'national-park',
+                        'paint': {
+                            'fill-color': '#888888',
+                            'fill-opacity': 0.5
+                        },
+                        'filter': ['==', '$type', 'Polygon']
+                    });
+
+                    map.addLayer({
+                        'id': 'park-volcanoes',
+                        'type': 'circle',
+                        'source': 'national-park',
+                        'paint': {
+                            'circle-radius': 6,
+                            'circle-color': '#B42222'
+                        },
+                        'filter': ['==', '$type', 'Point']
+                    });
+                });
   
             </script>
         </div>
