@@ -250,9 +250,15 @@
         </div> -->
 
         <div id='map' style='width: 1400px; height: 700px; margin-right: auto; margin-left: auto;'>
+
             <script>
+
                 var mapkey = '{{ACCESS_KEY}}'
+
                 mapboxgl.accessToken = mapkey;
+
+                poly_output = {{map_output|safe}}
+
                 var map = new mapboxgl.Map({
                     container: 'map',
                     style: 'mapbox://styles/mapbox/streets-v11',
@@ -261,6 +267,7 @@
                     zoom: 15
                 });
 
+                
                 // var data_csv = $.csv.toArrays('../static/polygon.csv');
 
                 map.on('load', function() {
@@ -273,14 +280,15 @@
                                 'type': 'Feature',
                                 'geometry': {
                                     'type': 'Polygon',
-                                    'coordinates': [
-                                    [
-                                        [-122.2593983152841, 37.87119087974465],
-                                        [-122.25760168471588, 37.87119087974465],
-                                        [-122.25760168471588, 37.87260911343006],
-                                        [-122.2593983152841, 37.87260911343006],
-                                        [-122.2593983152841, 37.87119087974465]
-                                    ]
+                                    'coordinates': [ poly_output
+                                    // [
+                                        
+                                        // [-122.2593983152841, 37.87119087974465],
+                                        // [-122.25760168471588, 37.87119087974465],
+                                        // [-122.25760168471588, 37.87260911343006],
+                                        // [-122.2593983152841, 37.87260911343006],
+                                        // [-122.2593983152841, 37.87119087974465]
+                                    // ]
                                 ]
                             }
                         },

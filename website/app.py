@@ -14,7 +14,7 @@ map_output = [[a, b] for a, b in zip(lon_input, lat_input)]
 
 @app.route('/')
 def index():
-	return render_template('index.html', ACCESS_KEY = MAPBOX_ACCESS_KEY, output = map_output)
+	return render_template('index.html', ACCESS_KEY = MAPBOX_ACCESS_KEY, map_output = map_output)
 
 # @app.route('/polygon')
 # def polygon_map():
