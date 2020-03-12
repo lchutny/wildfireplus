@@ -251,7 +251,7 @@
 
         <div id='map' style='width: 1400px; height: 700px; margin-right: auto; margin-left: auto;'>
             <script>
-                var mapkey = 'pk.eyJ1IjoidGxldWNiIiwiYSI6ImNrN2N3d3h1aTA0YWwzaHFoNGJreDJmY2YifQ.pbWSn9txb4n8fKmUaKAG4g'
+                var mapkey = '{{ACCESS_KEY}}'
                 mapboxgl.accessToken = mapkey;
                 var map = new mapboxgl.Map({
                     container: 'map',
@@ -260,6 +260,8 @@
                     center:[-122.2585, 37.8719],
                     zoom: 15
                 });
+
+                // var data_csv = $.csv.toArrays('../static/polygon.csv');
 
                 map.on('load', function() {
                     map.addSource('national-park', {
@@ -293,29 +295,29 @@
                     }
                 }); 
 
-                    map.addSource('line', {
-                        'type': 'geojson',
-                        'data': {
-                            'type': 'FeatureCollection',
-                            'features': [
-                            {
-                                'type': 'Feature',
-                                'geometry': {
-                                    'type': 'Polygon',
-                                    'coordinates': [
-                                    [
-                                        [-122.26748315284117, 37.864808490316214], 
-                                        [-122.2495168471588, 37.864808490316214], 
-                                        [-122.2495168471588, 37.878990827156095], 
-                                        [-122.26748315284117, 37.878990827156095], 
-                                        [-122.26748315284117, 37.864808490316214]
-                                    ]
-                                ]
-                            }
-                        },
-                        ]
-                    }
-                });   
+                    // map.addSource('line', {
+                    //     'type': 'geojson',
+                    //     'data': {
+                    //         'type': 'FeatureCollection',
+                    //         'features': [
+                    //         {
+                    //             'type': 'Feature',
+                    //             'geometry': {
+                    //                 'type': 'Polygon',
+                    //                 'coordinates': [
+                    //                 [
+                    //                     [-122.26748315284117, 37.864808490316214], 
+                    //                     [-122.2495168471588, 37.864808490316214], 
+                    //                     [-122.2495168471588, 37.878990827156095], 
+                    //                     [-122.26748315284117, 37.878990827156095], 
+                    //                     [-122.26748315284117, 37.864808490316214]
+                    //                 ]
+                    //             ]
+                    //         }
+                    //     },
+                    //     ]
+                    // }
+                // });   
 
                     map.addLayer({  
                         'id': 'park-boundary',
@@ -464,7 +466,7 @@
         <img class="banner-img1" src="../static/images/wildfire_banner.jpg" alt="fire1">
     </div>
 
-
+<script src="jquery-csv.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
