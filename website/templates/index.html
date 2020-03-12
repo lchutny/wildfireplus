@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.js"></script>
     <link href="https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="../static/style.css">
     <!-- This is for Flask -->
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"> </script>
     <script type=text/javascript> $(function() { $("#mybutton").click(function (event) { $.getJSON('/SomeFunction', { },
@@ -34,7 +34,7 @@
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav navbar-center">
                     <li ><a href="index.html">
-                        <img src="images/home.png" alt="home" width="20" height="20" hspace="5"></li></a>
+                        <img src="../static/images/home.png" alt="home" width="20" height="20" hspace="5"></li></a>
                     <li><a href="#proj">About the Project</a></li>
                     <li><a href="#alg">How It Works</a></li>
                     <li><a href="#app">HOTzone App</a></li>
@@ -45,7 +45,7 @@
     </nav>
 
     <div class="wrapper-banner" id="banner-id">
-        <img class="banner-img" src="images/cover.jpg" alt="fire">
+        <img class="banner-img" src="../static/images/cover.jpg" alt="fire">
     </div>
 
 <a name="proj"></a>
@@ -55,7 +55,7 @@
             <div class="row justify-content-md-center">
                 <div >
                     <br>
-                    <img src="images/fire_icon.jpg" alt="logo" class="img-responsive pull-left alignleft" width="200" height="200">
+                    <img src="../static/images/fire_icon.jpg" alt="logo" class="img-responsive pull-left alignleft" width="200" height="200">
                     <h2 class="lead">
                     <br>   
                     <br>
@@ -70,7 +70,7 @@
                     <br>
                     </h2> 
                 </div>  
-                <div class="banner-parallax-flex" style="background-image:url('images/wildfire2.jpg');overflow:auto; max-width: 1400px; max-height: 700px; margin: auto">
+                <div class="banner-parallax-flex" style="background-image:url('../static/images/wildfire2.jpg');overflow:auto; max-width: 1400px; max-height: 700px; margin: auto">
                 </div>
             </div>
         </div>
@@ -146,7 +146,7 @@
             </div>
         </div>  
 
-        <div class="banner-parallax-flex" style="background-image:url('images/wildfire14.jpg');overflow:auto; max-width: 1400px; max-height: 700px; margin: auto">
+        <div class="banner-parallax-flex" style="background-image:url('../static/images/wildfire14.jpg');overflow:auto; max-width: 1400px; max-height: 700px; margin: auto">
         </div>
                  
 <a name="alg"></a>
@@ -165,7 +165,7 @@
             
         <br>
         <div>
-            <img src="images/darksky.png" class="img-us" alt=darksky width="80" height="40">
+            <img src="../static/images/darksky.png" class="img-us" alt=darksky width="80" height="40">
         </div>
         <br>
         <br>
@@ -173,7 +173,7 @@
         <br>
 
 
-        <div class="banner-parallax-flex" style="background-image:url('images/wildfire13.jpeg');overflow:auto; max-width: 80%; max-height: 700px; margin: auto">
+        <div class="banner-parallax-flex" style="background-image:url('../static/images/wildfire13.jpeg');overflow:auto; max-width: 80%; max-height: 700px; margin: auto">
         </div>
 
 <a name="app"></a>
@@ -229,6 +229,10 @@
               x.innerHTML = "Latitude: " + position.coords.latitude + 
               "<br>Longitude: " + position.coords.longitude;
             }
+
+            var lat = position.coords.latitude;
+            var lon = position.coords.longitude;
+            
             </script>
             <br>
             <br>
@@ -361,7 +365,7 @@
             <br>  
         </div>
 
-        <div class="banner-parallax-flex" style="background-image:url('images/wildfire12.jpg');overflow:auto; max-width: 1400px; max-height: 700px; margin: auto">
+        <div class="banner-parallax-flex" style="background-image:url('../static/images/wildfire12.jpg');overflow:auto; max-width: 1400px; max-height: 700px; margin: auto">
         </div>
 
 <a name="us"></a>
@@ -386,7 +390,7 @@
                     <div>
                         <div>
                             <div class="container-us">
-                                <img src="images/laura.jpg" class="img-us" alt=laura width="200" height="200">
+                                <img src="../static/images/laura.jpg" class="img-us" alt=laura width="200" height="200">
                             </div>
                             <p class="text-us title-desc">
                                 <br>Data Scientist<br>
@@ -396,7 +400,7 @@
                             <div class="text-us p-desc">
                                 Laura Chutny
                                 <p align="center">
-                                    <a href="https://www.linkedin.com/in/lchutny/"><img src="images/linkedin_logo.png" alt="linkedIn" width="20" height="20" hspace="15">
+                                    <a href="https://www.linkedin.com/in/lchutny/"><img src="../static/images/linkedin_logo.png" alt="linkedIn" width="20" height="20" hspace="15">
                                     </a>
                                 </p>
                                 <br>
@@ -408,7 +412,7 @@
                     <div>
                         <div>
                             <div class="container-us">
-                                <img src="images/keane.jpeg" class="img-us" alt=keane width="200" height="200">
+                                <img src="../static/images/keane.jpeg" class="img-us" alt=keane width="200" height="200">
                             </div>
                             <p class="text-us title-desc">
                                 <br>Senior Analyst<br>
@@ -418,7 +422,7 @@
                             <div class="text-us p-desc">
                                 Keane Johnson
                                 <p align="center">
-                                    <a href="https://www.linkedin.com/in/keane-johnson/"><img src="images/linkedin_logo.png" alt="linkedIn" width="20" height="20" hspace="15">
+                                    <a href="https://www.linkedin.com/in/keane-johnson/"><img src="../static/images/linkedin_logo.png" alt="linkedIn" width="20" height="20" hspace="15">
                                     </a>
                                 </p>
                                 <br>
@@ -430,7 +434,7 @@
                     <div>
                         <div>
                             <div class="container-us">
-                                <img src="images/thanh.jpg" class="img-us" alt=thanh width="200" height="200">
+                                <img src="../static/images/thanh.jpg" class="img-us" alt=thanh width="200" height="200">
                             </div>
                             <p class="text-us title-desc">
                                 <br>Data Scientist<br>
@@ -440,7 +444,7 @@
                             <div class="text-us p-desc">
                                 Thanh Le
                                 <p align="center">
-                                    <a href="https://www.linkedin.com/in/thanh-le/"><img src="images/linkedin_logo.png" alt="linkedIn" width="20" height="20" hspace="15">
+                                    <a href="https://www.linkedin.com/in/thanh-le/"><img src="../static/images/linkedin_logo.png" alt="linkedIn" width="20" height="20" hspace="15">
                                     </a>
                                 </p>
                                 <br>
@@ -457,7 +461,7 @@
     </div>
 
     <div class="wrapper-banner" id="banner-id">
-        <img class="banner-img1" src="images/wildfire_banner.jpg" alt="fire1">
+        <img class="banner-img1" src="../static/images/wildfire_banner.jpg" alt="fire1">
     </div>
 
 
