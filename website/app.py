@@ -3,6 +3,7 @@ import csv
 from csv import reader
 from flask import Flask, render_template
 
+# initialize Flask
 app = Flask(__name__)
 
 # mapbox api
