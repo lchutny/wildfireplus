@@ -7,20 +7,21 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- mapbox -->
     <script src="https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.js"></script>
     <link href="https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="../static/style.css">
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.min.js'></script>
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.css' type='text/css' />
+    
     <!-- This is for Flask -->
-    <!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"> </script>
-    <script type=text/javascript>
-        $(function() { $("#mybutton").click(function (event) { $.getJSON('/SomeFunction', { },
-    function(data) { }); return false; }); });
-    </script>  -->
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script type="text/javascript" src="loc.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="../static/style.css">
 
 </head>
 
@@ -37,227 +38,205 @@
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav navbar-center">
-                    <li ><a href="/">
-                        <img src="../static/images/home.png" alt="home" width="20" height="20" hspace="5"></li></a>
+                    <li >
+                        <a href="/">
+                        <img src="../static/images/home.png" alt="home" width="20" height="20" hspace="5">
+                        </a>
+                    </li>   
                     <li><a href="/#proj">About the Project</a></li>
                     <li><a href="/#alg">How It Works</a></li>
                     <li><a href="/fire_map">HOTzone App</a></li>
                     <li><a href="/#us">About the Team</a></li>
+                    <li><a href="/#data">Data Source</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 
-<!--     <div class="wrapper-banner" id="banner-id">
-        <img class="banner-img" src="../static/images/cover.jpg" alt="fire">
-    </div> -->
-
-<a name="app"></a>
-       
-
-        <div class="container">
-            <div class="row">   
-                <div class="col-lg-12 text-center">
-                    <br>
-                    <br>
-                    <br>
-                    <h2 class="section-heading">HOTzone</h2>
-                    <hr class="primary">
-                    <br>
-                    <br>
-                </div>
+    <!-- Header for App -->
+    <div class="container">
+        <div class="row">   
+            <div class="col-lg-12 text-center">
+                <br>
+                <br>
+                <br>
+                <h2 class="section-heading">HOTzone</h2>
+                <hr class="primary">
+                <br>
+                <br>
             </div>
         </div>
+    </div>
 
-        <div class="col-lg-12 text-center">
-            <p>Click this button to manually enter your coordinates.</p>
-            <button id="button2" onclick="myFunction()">Enter Location</button>
-        <!--     <button onclick="myLoc()">Enter Location</button>
-            <br>
-            <br>
-            <br>
-        <script>
-            
-            function myLoc() {
-              var lat_loc = prompt("Please enter your location - latitude:");
-              var lon_loc = prompt("Please enter your location - longitude:");
-          }
+    <div class="col-lg-12 text-center">
 
-        </script> -->
-
-        <div class="col-lg-12 text-center">
-
-            <form method="POST">
+        <form action="" method="post">
+            <div class="input text">
+            { { form.name.label }} { { form.name }}
+            </div>
+            <div class="input submit">
+                <input type="submit" value="Submit">
+            </div>
+        </form>
 
 
-                <p>Click this button to get your coordinates.</p>
+<!--         <p>Click this button to manually enter your coordinates.</p>
+        <button id="button2" onclick="myFunction()">Enter Location</button> -->
+    <!--     <button onclick="myLoc()">Enter Location</button>
+        <br>
+        <br>
+        <br>
+    <script>
+        
+        function myLoc() {
+          var lat_loc = prompt("Please enter your location - latitude:");
+          var lon_loc = prompt("Please enter your location - longitude:");
+      }
 
-                <button onclick="getLocation()">Get your coordinates</button>
+    </script> -->
 
-                <p id="demo"></p>
+    <!-- <div class="col-lg-12 text-center">
 
-                <script>
-                var x = document.getElementById("demo");
+        <form method="POST">
 
-                function getLocation() {
-                  if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(showPosition);
-                  } else { 
-                    x.innerHTML = "Geolocation is not supported by this browser.";
-                  }
-                }
 
-                function showPosition(position) {
-                  x.innerHTML = "Latitude: " + position.coords.latitude + 
-                  "<br>Longitude: " + position.coords.longitude;
-                }
+            <p>Click this button to get your coordinates.</p>
 
-                var lat_loc = position.coords.latitude;
-                var lon_loc = position.coords.longitude;
-                
-                </script>
-                <br>
-                <br>
+            <button onclick="getLocation()">Get your coordinates</button>
 
-            </form>
-
-        </div>
-
-<!--         <div class="col-lg-12 text-center">
-            <iframe src="my_map.html" seamless width="1400px" height="700px"></iframe>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-        </div> -->
-
-        <div id='map' style='width: 1400px; height: 700px; margin-right: auto; margin-left: auto;'>
+            <p id="demo"></p>
 
             <script>
+            var x = document.getElementById("demo");
 
-                var mapkey = '{{ACCESS_KEY}}'
+            function getLocation() {
+              if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+              } else { 
+                x.innerHTML = "Geolocation is not supported by this browser.";
+              }
+            }
 
-                mapboxgl.accessToken = mapkey;
+            function showPosition(position) {
+              x.innerHTML = "Latitude: " + position.coords.latitude + 
+              "<br>Longitude: " + position.coords.longitude;
+            }
 
-                poly_output = {{map_output|safe}}
+            var lat_loc = position.coords.latitude;
+            var lon_loc = position.coords.longitude;
+            
+            </script>
+            <br>
+            <br>
 
-                var map = new mapboxgl.Map({
-                    container: 'map',
-                    style: 'mapbox://styles/mapbox/streets-v11',
-                    // style: 'mapbox://styles/mapbox/satellite-v9',
-                    center:[-122.2585, 37.8719],
-                    zoom: 15
-                });
+        </form>
 
-                
-                // var data_csv = $.csv.toArrays('../static/polygon.csv');
+    </div> -->
 
-                map.on('load', function() {
-                    map.addSource('national-park', {
-                        'type': 'geojson',
-                        'data': {
-                            'type': 'FeatureCollection',
-                            'features': [
-                            {
-                                'type': 'Feature',
-                                'geometry': {
-                                    'type': 'Polygon',
-                                    'coordinates': [ poly_output
-                                    // [
-                                        
-                                        // [-122.2593983152841, 37.87119087974465],
-                                        // [-122.25760168471588, 37.87119087974465],
-                                        // [-122.25760168471588, 37.87260911343006],
-                                        // [-122.2593983152841, 37.87260911343006],
-                                        // [-122.2593983152841, 37.87119087974465]
-                                    // ]
-                                ]
-                            }
-                        },
+<!--         <div class="col-lg-12 text-center">
+        <iframe src="my_map.html" seamless width="1400px" height="700px"></iframe>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+    </div> -->
+
+    <div id='map' style='width: 1400px; height: 700px; margin-right: auto; margin-left: auto;'>
+
+        <script>
+
+            var mapkey = '{{ACCESS_KEY}}'
+
+            mapboxgl.accessToken = mapkey;
+
+            poly_output = {{map_output|safe}}
+
+            geo_list = {{geo_list|safe}}
+
+            add_loc = {{add_loc|safe}}
+
+            var map = new mapboxgl.Map({
+                container: 'map',
+                style: 'mapbox://styles/mapbox/streets-v11',
+                // style: 'mapbox://styles/mapbox/satellite-v9',
+                center:[-122.2585, 37.8719],
+                zoom: 15
+            });
+
+            var marker = new mapboxgl.Marker() // Initialize a new marker
+                .setLngLat(add_loc) // Marker [lng, lat] coordinates
+                .addTo(map); // Add the marker to the map
+
+            var i;
+
+            for (i = 0; i < geo_list.length; i++) {
+                var marker = new mapboxgl.Marker({color: 'red'}) // Initialize a new marker
+                    .setLngLat(geo_list[i]) // Marker [lng, lat] coordinates
+                    .addTo(map); // Add the marker to the map
+                }
+
+            map.on('load', function() {
+                map.addSource('national-park', {
+                    'type': 'geojson',
+                    'data': {
+                        'type': 'FeatureCollection',
+                        'features': [
                         {
                             'type': 'Feature',
                             'geometry': {
-                                'type': 'Point',
-                                'coordinates': [-122.2585, 37.8719]
-                            }
+                                'type': 'Polygon',
+                                'coordinates': [ poly_output
+                            ]
                         }
-                        ]
-                    }
-                }); 
-
-                    // map.addSource('line', {
-                    //     'type': 'geojson',
-                    //     'data': {
-                    //         'type': 'FeatureCollection',
-                    //         'features': [
-                    //         {
-                    //             'type': 'Feature',
-                    //             'geometry': {
-                    //                 'type': 'Polygon',
-                    //                 'coordinates': [
-                    //                 [
-                    //                     [-122.26748315284117, 37.864808490316214], 
-                    //                     [-122.2495168471588, 37.864808490316214], 
-                    //                     [-122.2495168471588, 37.878990827156095], 
-                    //                     [-122.26748315284117, 37.878990827156095], 
-                    //                     [-122.26748315284117, 37.864808490316214]
-                    //                 ]
-                    //             ]
-                    //         }
-                    //     },
-                    //     ]
+                    },
+                    // {
+                    //     'type': 'Feature',
+                    //     'geometry': {
+                    //         'type': 'Point',
+                    //         'coordinates': [-122.2585, 37.8719]
+                    //     }
                     // }
-                // });   
+                    ]
+                }
+            }); 
 
-                    map.addLayer({  
-                        'id': 'park-boundary',
-                        'type': 'line',
-                        'source': 'national-park',
-                        'paint': {
-                            'line-color': '#FF5733',
-                            'line-width': 5,
-                            'line-opacity': 0.8
-                        },
-                        'filter': ['==', '$type', 'Polygon']
-                    });
-
-                    // map.addLayer({
-                    //     'id': 'park-boundary',
-                    //     'type': 'line',
-                    //     'source': 'line',
-                    //     'paint': {
-                    //         'line-color': '#2A59D5 ',
-                    //         'line-width': 5,
-                    //         'line-opacity': 0.8
-                    //     },
-                    //     'filter': ['==', '$type', 'Polygon']
-                    // });
-
-                    map.addLayer({
-                        'id': 'park-volcanoes',
-                        'type': 'circle',
-                        'source': 'national-park',
-                        'paint': {
-                            'circle-radius': 6,
-                            'circle-color': '#B42222'
-                        },
-                        'filter': ['==', '$type', 'Point']
-                    });
+                map.addLayer({  
+                    'id': 'park-boundary',
+                    'type': 'line',
+                    'source': 'national-park',
+                    'paint': {
+                        'line-color': '#FF5733',
+                        'line-width': 5,
+                        'line-opacity': 0.8
+                    },
+                    'filter': ['==', '$type', 'Polygon']
                 });
-  
-            </script>
-        </div>
 
-        <div>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>  
-        </div>
+                // map.addLayer({
+                //     'id': 'park-volcanoes',
+                //     'type': 'circle',
+                //     'source': 'national-park',
+                //     'paint': {
+                //         'circle-radius': 6,
+                //         'circle-color': '#B42222'
+                //     },
+                //     'filter': ['==', '$type', 'Point']
+                // });
+            });
+
+        </script>
+    </div>
+
+    <div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>  
+    </div>
 
 
 
