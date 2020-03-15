@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang=”en”>
+
+<head>
+
+    <title>hotzone</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- mapbox -->
+    <script src="https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.css" rel="stylesheet" />
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.min.js'></script>
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.css' type='text/css' />
+    
+    <!-- This is for Flask -->
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="../static/style.css">
+
+</head>
+
+<body>
+
+    <nav class="navbar-default navbar-fixed-top affix">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>                        
+                </button>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav navbar-center">
+                    <li >
+                        <a href="/">
+                        <img src="../static/images/home.png" alt="home" width="20" height="20" hspace="5">
+                        </a>
+                    </li>   
+                    <li><a href="/#proj">About the Project</a></li>
+                    <li><a href="/#alg">How It Works</a></li>
+                    <li><a href="/fire_map">HOTzone App</a></li>
+                    <li><a href="/#us">About the Team</a></li>
+                    <li><a href="/#data">Data Source</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header for App -->
+    <div class="container">
+        <div class="row">   
+            <div class="col-lg-12 text-center">
+                <br>
+                <br>
+                <br>
+                <h2 class="section-heading">HOTzone</h2>
+                <hr class="primary">
+                <br>
+                <br>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-12 text-center">
+
+        <form action="" method="post">
+            <div class="input text">
+            { { form.name.label }} { { form.name }}
+            </div>
+            <div class="input submit">
+                <input type="submit" value="Submit">
+            </div>
+        </form>
+
+
+<!--         <p>Click this button to manually enter your coordinates.</p>
+        <button id="button2" onclick="myFunction()">Enter Location</button> -->
+    <!--     <button onclick="myLoc()">Enter Location</button>
+        <br>
+        <br>
+        <br>
+    <script>
+        
+        function myLoc() {
+          var lat_loc = prompt("Please enter your location - latitude:");
+          var lon_loc = prompt("Please enter your location - longitude:");
+      }
+
+    </script> -->
+
+    <!-- <div class="col-lg-12 text-center">
+
+        <form method="POST">
+
+
+            <p>Click this button to get your coordinates.</p>
+
+            <button onclick="getLocation()">Get your coordinates</button>
+
+            <p id="demo"></p>
+
+            <script>
+            var x = document.getElementById("demo");
+
+            function getLocation() {
+              if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+              } else { 
+                x.innerHTML = "Geolocation is not supported by this browser.";
+              }
+            }
+
+            function showPosition(position) {
+              x.innerHTML = "Latitude: " + position.coords.latitude + 
+              "<br>Longitude: " + position.coords.longitude;
+            }
+
+            var lat_loc = position.coords.latitude;
+            var lon_loc = position.coords.longitude;
+            
+            </script>
+            <br>
+            <br>
+
+        </form>
+
+    </div> -->
+
+<!--         <div class="col-lg-12 text-center">
+        <iframe src="my_map.html" seamless width="1400px" height="700px"></iframe>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+    </div> -->
+
+    <div id='map' style='width: 1400px; height: 700px; margin-right: auto; margin-left: auto;'>
+
+        <script>
+
+            var mapkey = '{{ACCESS_KEY}}'
+
+            mapboxgl.accessToken = mapkey;
+
+            poly_output = {{map_output|safe}}
+
+            geo_list = {{geo_list|safe}}
+
+            add_loc = {{add_loc|safe}}
+
+            var map = new mapboxgl.Map({
+                container: 'map',
+                style: 'mapbox://styles/mapbox/streets-v11',
+                // style: 'mapbox://styles/mapbox/satellite-v9',
+                center:[-122.2585, 37.8719],
+                zoom: 15
+            });
+
+            var marker = new mapboxgl.Marker() // Initialize a new marker
+                .setLngLat(add_loc) // Marker [lng, lat] coordinates
+                .addTo(map); // Add the marker to the map
+
+            var i;
+
+            for (i = 0; i < geo_list.length; i++) {
+                var marker = new mapboxgl.Marker({color: 'red'}) // Initialize a new marker
+                    .setLngLat(geo_list[i]) // Marker [lng, lat] coordinates
+                    .addTo(map); // Add the marker to the map
+                }
+
+            map.on('load', function() {
+                map.addSource('national-park', {
+                    'type': 'geojson',
+                    'data': {
+                        'type': 'FeatureCollection',
+                        'features': [
+                        {
+                            'type': 'Feature',
+                            'geometry': {
+                                'type': 'Polygon',
+                                'coordinates': [ poly_output
+                            ]
+                        }
+                    },
+                    // {
+                    //     'type': 'Feature',
+                    //     'geometry': {
+                    //         'type': 'Point',
+                    //         'coordinates': [-122.2585, 37.8719]
+                    //     }
+                    // }
+                    ]
+                }
+            }); 
+
+                map.addLayer({  
+                    'id': 'park-boundary',
+                    'type': 'line',
+                    'source': 'national-park',
+                    'paint': {
+                        'line-color': '#FF5733',
+                        'line-width': 5,
+                        'line-opacity': 0.8
+                    },
+                    'filter': ['==', '$type', 'Polygon']
+                });
+
+                // map.addLayer({
+                //     'id': 'park-volcanoes',
+                //     'type': 'circle',
+                //     'source': 'national-park',
+                //     'paint': {
+                //         'circle-radius': 6,
+                //         'circle-color': '#B42222'
+                //     },
+                //     'filter': ['==', '$type', 'Point']
+                // });
+            });
+
+        </script>
+    </div>
+
+    <div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>  
+    </div>
+
+
+
+
+<script src="jquery-csv.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang=”en”>
+
+<head>
+
+    <title>hotzone</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="../static/style.css">
+    <!-- This is for Flask -->
+    <!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"> </script>
+    <script type=text/javascript>
+        $(function() { $("#mybutton").click(function (event) { $.getJSON('/SomeFunction', { },
+    function(data) { }); return false; }); });
+    </script>  -->
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="loc.js"></script>
+
+</head>
+
+<body>
+
+    <nav class="navbar-default navbar-fixed-top affix">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>                        
+                </button>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav navbar-center">
+                    <li ><a href="/">
+                        <img src="../static/images/home.png" alt="home" width="20" height="20" hspace="5"></li></a>
+                    <li><a href="/#proj">About the Project</a></li>
+                    <li><a href="/#alg">How It Works</a></li>
+                    <li><a href="/fire_map">HOTzone App</a></li>
+                    <li><a href="/#us">About the Team</a></li>
+                    <li><a href="/#data">Data Source</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="wrapper-banner" id="banner-id">
+        <img class="banner-img" src="../static/images/cover.jpg" alt="fire">
+    </div>
+
+<a name="proj"></a>
+
+    <div class="wrapper-white-bg" id="white-bg">
+        <div class="container">
+            <div class="row justify-content-md-center">
+                <div >
+                    <br>
+                    <br>
+                    <br>
+                    <img src="../static/images/fire_icon.jpg" alt="logo" class="img-responsive pull-left alignleft" width="200" height="200">
+                    <h2 class="lead">
+                    <br>
+                    <br>
+                    <p>Millions of acres burn annually in wildfires across the globe.  As population grows and spreads to all lands, as climate change challenges the environments, and as wildfires grow in intensity and frequency, every second count.
+                    <br>   
+                    <br>
+                    HOTzone is an attempt to predict the probability and the perimeter spread of an existing fire, to provide an early warning.
+                    </p>
+                    <br>   
+                    <br>
+                    <br>
+                    </h2> 
+                </div>  
+                <div class="banner-parallax-flex" style="background-image:url('../static/images/wildfire2.jpg');overflow:auto; max-width: 1400px; max-height: 700px; margin: auto">
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">   
+                <div class="col-lg-12 text-center">
+                    <br>
+                    <h2 class="section-heading">California Wildfires</h2>
+                    <h6>https://www.fire.ca.gov/incidents</h6>
+                    <hr class="primary">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-2 col-md-2 text-center">
+                <div class="service-box">
+                    <i class="fa fa-bar-chart fastyle" style="visibility: visible;"></i>
+                    <h3>Year</h3>
+                    <p class="text-muted">2017</p>
+                    <p class="text-muted">2018</p>
+                    <p class="text-muted">2019</p>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-2 text-center">
+                <div class="service-box">
+                    <i class="fa fa-fire fastyle" style="visibility: visible;"></i>
+                    <h3>Total Wildfires</h3>
+                    <p class="text-muted">9,270</p>
+                    <p class="text-muted">7,639</p>
+                    <p class="text-muted">7,860</p>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-2 text-center">
+                <div class="service-box">
+                    <i class="fa fa-tree fastyle" style="visibility: visible;"></i>
+                    <h3>Acres Burned</h3>
+                    <p class="text-muted">1,548,429</p>
+                    <p class="text-muted">1,963,101</p>
+                    <p class="text-muted">259,823</p>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-2 text-center">
+                <div class="service-box">
+                    <i class="fa fa-ambulance fastyle" style="visibility: visible;"></i>
+                    <h3>Fatalities</h3>
+                    <p class="text-muted">47</p>
+                    <p class="text-muted">100</p>
+                    <p class="text-muted">3</p>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-2 text-center">
+                <div class="service-box">
+                    <i class="fa fa-building fastyle" style="visibility: visible;"></i>
+                    <h3>Structures Damaged</h3  >
+                    <p class="text-muted">10,280</p>
+                    <p class="text-muted">24,226</p>
+                    <p class="text-muted">732</p>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-2 text-center">
+                <div class="service-box">
+                    <i class="fa fa-dollar fastyle" style="visibility: visible;"></i>
+                    <h3>Total Cost</h3>
+                    <p class="text-muted">unknown</p>
+                    <p class="text-muted">unknown</p>
+                    <p class="text-muted">163,000,000</p>
+                </div>
+                <br>
+                <br>
+                <br>
+                <br>
+            </div>
+        </div>  
+
+        <div class="banner-parallax-flex" style="background-image:url('../static/images/wildfire14.jpg');overflow:auto; max-width: 1400px; max-height: 700px; margin: auto">
+        </div>
+                 
+<a name="alg"></a>
+
+        <div class="container">
+            <div class="row">   
+                <div class="col-lg-12 text-center">
+                    <br>
+                    <br>
+                    <h2 class="section-heading">How HOTzone Works</h2>
+                    <hr class="primary">
+                </div>
+            </div>
+        </div>
+
+        <div>
+            
+        <br>
+        <div>
+            <img src="../static/images/darksky.png" class="img-us" alt=darksky width="80" height="40">
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+
+
+<!--         <div class="banner-parallax-flex" style="background-image:url('../static/images/wildfire13.jpeg');overflow:auto; max-width: 80%; max-height: 700px; margin: auto">
+        </div> -->
+
+<!-- <a name="app"></a>
+       
+        <div class="container">
+            <div class="row">   
+                <div class="col-lg-12 text-center">
+                    <br>
+                    <h2 class="section-heading">HOTzone</h2>
+                    <hr class="primary">
+                    <br>
+                    <br>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-12 text-center">
+            <p>Click this button to manually enter your coordinates.</p>
+            <button id="button2" onclick="myFunction()">Enter Location</button> -->
+        <!--     <button onclick="myLoc()">Enter Location</button>
+            <br>
+            <br>
+            <br>
+        <script>
+            
+            function myLoc() {
+              var lat_loc = prompt("Please enter your location - latitude:");
+              var lon_loc = prompt("Please enter your location - longitude:");
+          }
+
+        </script> -->
+
+ <!--        <div class="col-lg-12 text-center">
+
+            <form method="POST">
+
+
+                <p>Click this button to get your coordinates.</p>
+
+                <button onclick="getLocation()">Get your coordinates</button>
+
+                <p id="demo"></p>
+
+                <script>
+                var x = document.getElementById("demo");
+
+                function getLocation() {
+                  if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(showPosition);
+                  } else { 
+                    x.innerHTML = "Geolocation is not supported by this browser.";
+                  }
+                }
+
+                function showPosition(position) {
+                  x.innerHTML = "Latitude: " + position.coords.latitude + 
+                  "<br>Longitude: " + position.coords.longitude;
+                }
+
+                var lat_loc = position.coords.latitude;
+                var lon_loc = position.coords.longitude;
+                
+                </script>
+                <br>
+                <br>
+
+            </form>
+
+        </div>
+ -->
+<!--         <div class="col-lg-12 text-center">
+            <iframe src="my_map.html" seamless width="1400px" height="700px"></iframe>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+        </div> -->
+
+        <!-- <div id='map' style='width: 1400px; height: 700px; margin-right: auto; margin-left: auto;'>
+
+            <script>
+
+                var mapkey = '{{ACCESS_KEY}}'
+
+                mapboxgl.accessToken = mapkey;
+
+                poly_output = {{map_output|safe}}
+
+                var map = new mapboxgl.Map({
+                    container: 'map',
+                    style: 'mapbox://styles/mapbox/streets-v11',
+                    // style: 'mapbox://styles/mapbox/satellite-v9',
+                    center:[-122.2585, 37.8719],
+                    zoom: 15
+                });
+
+                
+                // var data_csv = $.csv.toArrays('../static/polygon.csv');
+
+                map.on('load', function() {
+                    map.addSource('national-park', {
+                        'type': 'geojson',
+                        'data': {
+                            'type': 'FeatureCollection',
+                            'features': [
+                            {
+                                'type': 'Feature',
+                                'geometry': {
+                                    'type': 'Polygon',
+                                    'coordinates': [ poly_output
+                                    // [
+                                        
+                                        // [-122.2593983152841, 37.87119087974465],
+                                        // [-122.25760168471588, 37.87119087974465],
+                                        // [-122.25760168471588, 37.87260911343006],
+                                        // [-122.2593983152841, 37.87260911343006],
+                                        // [-122.2593983152841, 37.87119087974465]
+                                    // ]
+                                ]
+                            }
+                        },
+                        {
+                            'type': 'Feature',
+                            'geometry': {
+                                'type': 'Point',
+                                'coordinates': [-122.2585, 37.8719]
+                            }
+                        }
+                        ]
+                    }
+                }); 
+
+                    // map.addSource('line', {
+                    //     'type': 'geojson',
+                    //     'data': {
+                    //         'type': 'FeatureCollection',
+                    //         'features': [
+                    //         {
+                    //             'type': 'Feature',
+                    //             'geometry': {
+                    //                 'type': 'Polygon',
+                    //                 'coordinates': [
+                    //                 [
+                    //                     [-122.26748315284117, 37.864808490316214], 
+                    //                     [-122.2495168471588, 37.864808490316214], 
+                    //                     [-122.2495168471588, 37.878990827156095], 
+                    //                     [-122.26748315284117, 37.878990827156095], 
+                    //                     [-122.26748315284117, 37.864808490316214]
+                    //                 ]
+                    //             ]
+                    //         }
+                    //     },
+                    //     ]
+                    // }
+                // });   
+
+                    map.addLayer({  
+                        'id': 'park-boundary',
+                        'type': 'line',
+                        'source': 'national-park',
+                        'paint': {
+                            'line-color': '#FF5733',
+                            'line-width': 5,
+                            'line-opacity': 0.8
+                        },
+                        'filter': ['==', '$type', 'Polygon']
+                    });
+
+                    // map.addLayer({
+                    //     'id': 'park-boundary',
+                    //     'type': 'line',
+                    //     'source': 'line',
+                    //     'paint': {
+                    //         'line-color': '#2A59D5 ',
+                    //         'line-width': 5,
+                    //         'line-opacity': 0.8
+                    //     },
+                    //     'filter': ['==', '$type', 'Polygon']
+                    // });
+
+                    map.addLayer({
+                        'id': 'park-volcanoes',
+                        'type': 'circle',
+                        'source': 'national-park',
+                        'paint': {
+                            'circle-radius': 6,
+                            'circle-color': '#B42222'
+                        },
+                        'filter': ['==', '$type', 'Point']
+                    });
+                });
+  
+            </script>
+        </div> -->
+
+<!--         <div>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>  
+        </div> -->
+
+        <div class="banner-parallax-flex" style="background-image:url('../static/images/wildfire12.jpg');overflow:auto; max-width: 1400px; max-height: 700px; margin: auto">
+        </div>
+
+<a name="us"></a>
+
+        <div class="container">
+            <div class="row">   
+                <div class="col-lg-12 text-center">
+                    <br>
+                    <h2 class="section-heading">Meet Our Team</h2>
+                    <hr class="primary">
+                    <h4>We are graduate students at UC Berkeley Information and Data Science Master Program.
+                    </h4>
+                    <br>
+                    <br>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="pt-3 mt-2">
+                <div class="col-lg-4 col-md-12 col-sm-12">
+                    <div>
+                        <div>
+                            <div class="container-us">
+                                <img src="../static/images/laura.jpg" class="img-us" alt=laura width="200" height="200">
+                            </div>
+                            <p class="text-us title-desc">
+                                <br>Data Scientist<br>
+                            </p>
+                        </div>
+                        <div>
+                            <div class="text-us p-desc">
+                                Laura Chutny
+                                <p align="center">
+                                    <a href="https://www.linkedin.com/in/lchutny/"><img src="../static/images/linkedin_logo.png" alt="linkedIn" width="20" height="20" hspace="15">
+                                    </a>
+                                </p>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-12 col-sm-12">
+                    <div>
+                        <div>
+                            <div class="container-us">
+                                <img src="../static/images/keane.jpeg" class="img-us" alt=keane width="200" height="200">
+                            </div>
+                            <p class="text-us title-desc">
+                                <br>Senior Analyst<br>
+                            </p>
+                        </div>
+                        <div>
+                            <div class="text-us p-desc">
+                                Keane Johnson
+                                <p align="center">
+                                    <a href="https://www.linkedin.com/in/keane-johnson/"><img src="../static/images/linkedin_logo.png" alt="linkedIn" width="20" height="20" hspace="15">
+                                    </a>
+                                </p>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-12 col-sm-12">
+                    <div>
+                        <div>
+                            <div class="container-us">
+                                <img src="../static/images/thanh.jpg" class="img-us" alt=thanh width="200" height="200">
+                            </div>
+                            <p class="text-us title-desc">
+                                <br>Data Scientist<br>
+                            </p>
+                        </div>
+                        <div>
+                            <div class="text-us p-desc">
+                                Thanh Le
+                                <p align="center">
+                                    <a href="https://www.linkedin.com/in/thanh-le/"><img src="../static/images/linkedin_logo.png" alt="linkedIn" width="20" height="20" hspace="15">
+                                    </a>
+                                </p>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+    </div>
+
+    <div class="wrapper-banner" id="banner-id">
+        <img class="banner-img1" src="../static/images/wildfire_banner.jpg" alt="fire1">
+    </div>
+
+<script src="jquery-csv.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</body>
+</html>
