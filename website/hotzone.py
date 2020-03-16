@@ -113,11 +113,15 @@ def index():
 #         #     flash('All the form fields are required. ')
 #         return render_template('hello.html', form=form)
 
-@app.route('/fire_map')
+@app.route('/fire_map', methods=["GET", "POST"])
 def fire_map():
 	geo_list = []
 	add_loc = []
-	add_lat, add_lon = get_lat_loc('2535 channing way, Berkeley, CA')
+	# errors = ""
+	address = "2535 Channing Way, Berkeley, CA"
+	if request.method == "POST":
+		address = str(request.form["address"])
+	add_lat, add_lon = get_lat_loc(address)
 	geo_list = active_fire(add_lat, add_lon)
 	map_output = read_csv()
 	return render_template('/fire_map.html', 
@@ -126,11 +130,13 @@ def fire_map():
 							add_loc = [add_lon, add_lat],
 							geo_list = geo_list)
 
-# @app.route('/fire_map', methods=['POST'])
+# @app.route('/fire_map', methods=["GET", "POST"])
 # def fire_map_post():
-#     text = request.form['text']
-#     processed_text = text.upper()
-#     return processed_text
+	# errors = ""
+	# if request.method == "POST":
+	# 	address = None
+	# 	address = str(request.form["address"])
+# 		return 
 
 if __name__ == '__main__':
 	app.run(debug=True)
