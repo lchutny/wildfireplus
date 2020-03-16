@@ -62,22 +62,31 @@
                 <br>
                 <h2 class="section-heading">HOTzone</h2>
                 <hr class="primary">
-                <br>
-                <br>
             </div>
         </div>
     </div>
 
     <div class="col-lg-12 text-center">
+        <h3>Enter address of interest below</h3>
+        <p>For precision, enter address with details</p>
+        <p>Example: 2535 Channing Way, Berkeley, CA</p>
+        <br>
+        <form method = "POST">
+            <p><input name = "address" /></p>
+            <p><input type = "submit" value = "Submit" /></p>
+        </form>
+        <br>
+        <br>
 
-        <form action="" method="post">
+
+        <!-- <form action="" method="post">
             <div class="input text">
             { { form.name.label }} { { form.name }}
             </div>
             <div class="input submit">
                 <input type="submit" value="Submit">
             </div>
-        </form>
+        </form> -->
 
 
 <!--         <p>Click this button to manually enter your coordinates.</p>
@@ -161,7 +170,7 @@
                 container: 'map',
                 style: 'mapbox://styles/mapbox/streets-v11',
                 // style: 'mapbox://styles/mapbox/satellite-v9',
-                center:[-122.2585, 37.8719],
+                center: add_loc,
                 zoom: 15
             });
 
