@@ -67,7 +67,7 @@
     </div>
 
     <div class="col-lg-12 text-center">
-        <h3>Enter address of interest below</h3>
+        <h3>Enter address of interest</h3>
         <p>For precision, enter address with details</p>
         <p>Example: 2535 Channing Way, Berkeley, CA</p>
         <br>
@@ -77,80 +77,7 @@
         </form>
         <br>
         <br>
-
-
-        <!-- <form action="" method="post">
-            <div class="input text">
-            { { form.name.label }} { { form.name }}
-            </div>
-            <div class="input submit">
-                <input type="submit" value="Submit">
-            </div>
-        </form> -->
-
-
-<!--         <p>Click this button to manually enter your coordinates.</p>
-        <button id="button2" onclick="myFunction()">Enter Location</button> -->
-    <!--     <button onclick="myLoc()">Enter Location</button>
-        <br>
-        <br>
-        <br>
-    <script>
-        
-        function myLoc() {
-          var lat_loc = prompt("Please enter your location - latitude:");
-          var lon_loc = prompt("Please enter your location - longitude:");
-      }
-
-    </script> -->
-
-    <!-- <div class="col-lg-12 text-center">
-
-        <form method="POST">
-
-
-            <p>Click this button to get your coordinates.</p>
-
-            <button onclick="getLocation()">Get your coordinates</button>
-
-            <p id="demo"></p>
-
-            <script>
-            var x = document.getElementById("demo");
-
-            function getLocation() {
-              if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(showPosition);
-              } else { 
-                x.innerHTML = "Geolocation is not supported by this browser.";
-              }
-            }
-
-            function showPosition(position) {
-              x.innerHTML = "Latitude: " + position.coords.latitude + 
-              "<br>Longitude: " + position.coords.longitude;
-            }
-
-            var lat_loc = position.coords.latitude;
-            var lon_loc = position.coords.longitude;
-            
-            </script>
-            <br>
-            <br>
-
-        </form>
-
-    </div> -->
-
-<!--         <div class="col-lg-12 text-center">
-        <iframe src="my_map.html" seamless width="1400px" height="700px"></iframe>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-    </div> -->
+        <p>Explore map by dragging or zooming in/out</p>
 
     <div id='map' style='width: 1400px; height: 700px; margin-right: auto; margin-left: auto;'>
 
@@ -200,13 +127,6 @@
                             ]
                         }
                     },
-                    // {
-                    //     'type': 'Feature',
-                    //     'geometry': {
-                    //         'type': 'Point',
-                    //         'coordinates': [-122.2585, 37.8719]
-                    //     }
-                    // }
                     ]
                 }
             }); 
@@ -223,16 +143,6 @@
                     'filter': ['==', '$type', 'Polygon']
                 });
 
-                // map.addLayer({
-                //     'id': 'park-volcanoes',
-                //     'type': 'circle',
-                //     'source': 'national-park',
-                //     'paint': {
-                //         'circle-radius': 6,
-                //         'circle-color': '#B42222'
-                //     },
-                //     'filter': ['==', '$type', 'Point']
-                // });
             });
 
         </script>
