@@ -160,7 +160,7 @@ def active_fire(lat_origin, lon_origin):
 
 	geo_list = [[a, b] for a, b in zip(lon_geo, lat_geo)]
 
-	# geo_list = [[-122.25760168471588, 37.87119087974465],[-122.25760168471588, 37.87260911343006]]
+	# geo_list = [[-122.25760168471588, 37.87119087974465]]
 	return geo_list
 
 
