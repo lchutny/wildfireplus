@@ -14,6 +14,7 @@ from csv import reader
 from mapbox import Geocoder
 from flask import Flask, request, render_template
 from math import radians, degrees, sin, cos, asin, acos, sqrt
+from pyproj import Proj
 
 # initialize Flask
 app = Flask(__name__)
@@ -66,23 +67,23 @@ def convert_point(lat,lon):
     Output: Tuple of (x,y) in CRS coordinates
     """
 
-    # Declare point
-    point = Point(lat,lon)
-
+    # Declare point (longitude (or x) always comes first, then latitude (y))
+    point = Point(lon,lat)
+    
     # Set Source CRS (Mapbox or Google Maps)
     src_crs = "EPSG:4326"
-
+    
     # create dataframe from input lat/long
     gdf=gpd.GeoDataFrame(index=[0],crs = src_crs, geometry=[point])
-
+        
     # Change CRS to match Wildfire CRS (3857)
     gdf_tf = gdf.to_crs("epsg:3857")
-
+    
     # pull x and y value out from the POINT attribute, then get
     # the value in the data series at row[0]
     x = gdf_tf.geometry.x.at[0]
     y = gdf_tf.geometry.y.at[0]
-
+        
     return (x,y)
 
 
@@ -183,17 +184,21 @@ def fire_map():
 	
 	geo_list = active_fire(add_lat, add_lon)
 
-	for i in range(0, len(geo_list)):
-		geo_lat = geo_list[i][1]
-		geo_lon = geo_list[i][0]
-		crs = convert_point(geo_lat, geo_lon)
+	if len(geo_list) != 0:
+		for i in range(0, len(geo_list)):
+			geo_lat = geo_list[i][1]
+			geo_lon = geo_list[i][0]
+			crs = convert_point(geo_lat, geo_lon)
+	else:
+		result = "There is no active fire near your location."
 
 	map_output = read_csv()
 	return render_template('/fire_map.html', 
 							ACCESS_KEY = MAPBOX_ACCESS_KEY, 
 							map_output = map_output, 
 							add_loc = [add_lon, add_lat],
-							geo_list = geo_list)
+							geo_list = geo_list,
+							no_fire = result)
 
 
 if __name__ == '__main__':

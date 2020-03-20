@@ -94,6 +94,8 @@
 
             add_loc = {{add_loc|safe}}
 
+            // result = {{result|safe}}
+
             var map = new mapboxgl.Map({
                 container: 'map',
                 style: 'mapbox://styles/mapbox/streets-v11',
@@ -113,6 +115,10 @@
                     .setLngLat(geo_list[i]) // Marker [lng, lat] coordinates
                     .addTo(map); // Add the marker to the map
                 }
+
+            // if (geo_list.length == 0) {
+            //     alert(result);
+            // }
 
             map.on('load', function() {
                 map.addSource('national-park', {
