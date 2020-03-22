@@ -9,7 +9,7 @@ def convert_point(lat,long):
     from shapely.geometry import Point
 
     # Declare point
-    point = Point(lat,long)
+    point = Point(long,lat)
 
     # Set Source CRS (Mapbox or Google Maps)
     src_crs = "EPSG:4326"
