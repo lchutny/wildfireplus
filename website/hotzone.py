@@ -161,7 +161,8 @@ def active_fire(lat_origin, lon_origin):
 
 	geo_list = [[a, b] for a, b in zip(lon_geo, lat_geo)]
 
-	# geo_list = [[-122.25760168471588, 37.87119087974465]]
+	geo_list = [[-122.258453, 37.908453]]
+
 	return geo_list
 
 
@@ -184,21 +185,18 @@ def fire_map():
 	
 	geo_list = active_fire(add_lat, add_lon)
 
-	if len(geo_list) != 0:
-		for i in range(0, len(geo_list)):
-			geo_lat = geo_list[i][1]
-			geo_lon = geo_list[i][0]
-			crs = convert_point(geo_lat, geo_lon)
-	else:
-		result = "There is no active fire near your location."
+	for i in range(0, len(geo_list)):
+		geo_lat = geo_list[i][1]
+		geo_lon = geo_list[i][0]
+		crs = convert_point(geo_lat, geo_lon)
 
 	map_output = read_csv()
+
 	return render_template('/fire_map.html', 
 							ACCESS_KEY = MAPBOX_ACCESS_KEY, 
 							map_output = map_output, 
 							add_loc = [add_lon, add_lat],
-							geo_list = geo_list,
-							no_fire = result)
+							geo_list = geo_list)
 
 
 if __name__ == '__main__':
