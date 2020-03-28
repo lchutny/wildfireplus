@@ -24,8 +24,8 @@ def convert_polygon(fire_polygon):
     # pull data from dataframe
     polyout = gfp2.iloc[0]['geometry']
 
-    # create list of tuples, but longitude is first
+    # create list of tuples, longitude is first
     l = list(map(tuple,np.asarray(polyout.exterior.coords)))
-    l = list(map(lambda m: (m[1],m[0]), l))
+    l = list(map(lambda m: (m[0],m[1]), l))
 
     return l
