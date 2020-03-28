@@ -6,3 +6,4 @@
 *.output
 *.zip
 /data
+/weather_data
