@@ -140,30 +140,53 @@ def active_fire(lat_origin, lon_origin):
 	Output: List of active fires within certain miles of origin
 	"""
 
-	# read JSON on active fire
-	url = 'https://www.fire.ca.gov/umbraco/api/IncidentApi/List?inactive=true'
-	geo_data = requests.get(url).json()
-
 	# set variables
 	lat_geo = []
 	lon_geo = []
-	geo_list = []
+	geo_center = []
 
-	# loop through list provided by Cal Fire and find active fire within certain miles of origin
-	for i in range(0,len(geo_data)):
-	    if geo_data[i]['IsActive'] == "Y":
-	        fire_lat = geo_data[i]['Latitude']
-	        fire_lon = geo_data[i]['Longitude']
-	        dist = great_circle(lat_origin, lon_origin, fire_lat, fire_lon)
-	        if dist <= 100:
-	        	lat_geo.append(fire_lat)
-	        	lon_geo.append(fire_lon)
+	# # read JSON on active fire
+	# url = 'https://www.fire.ca.gov/umbraco/api/IncidentApi/List?inactive=true'
+	# geo_data = requests.get(url).json()
 
-	geo_list = [[a, b] for a, b in zip(lon_geo, lat_geo)]
+	# # loop through list provided by Cal Fire and find active fire within certain miles of origin
+	# for i in range(0,len(geo_data)):
+	#     if geo_data[i]['IsActive'] == "Y":
+	#         fire_lat = geo_data[i]['Latitude']
+	#         fire_lon = geo_data[i]['Longitude']
+	#         dist = great_circle(lat_origin, lon_origin, fire_lat, fire_lon)
+	#         if dist <= 100:
+	#         	lat_geo.append(fire_lat)
+	#         	lon_geo.append(fire_lon)
 
-	geo_list = [[-122.258453, 37.908453]]
+	# geo_center = [[a, b] for a, b in zip(lon_geo, lat_geo)]
 
-	return geo_list
+	# geo_center = [[-121.9230432, 36.52439536]]
+
+
+	# read JSON on active fire
+	url = 'https://opendata.arcgis.com/datasets/5da472c6d27b4b67970acc7b5044c862_0.geojson'
+	geo_data = requests.get(url).json()	
+
+	for i in range(0,len(geo_data["features"])):
+	    
+	    geo_poly = geo_data["features"][i]["geometry"]["coordinates"][0]
+
+	    for j in range(0, len(geo_poly)):
+
+	    	fire_lon = geo_poly[j][0]
+	    	fire_lat = geo_poly[j][1]
+
+	    	dist = great_circle(lat_origin, lon_origin, fire_lat, fire_lon)
+
+	    	if dist <= 100:
+	        	geo_center = [fire_lon, fire_lat]
+	        	break
+
+	    if len(geo_center) > 0:
+	        break
+
+	return geo_center, geo_poly
 
 
 @app.route('/')
@@ -174,7 +197,7 @@ def index():
 @app.route('/fire_map', methods=["GET", "POST"])
 def fire_map():
 
-	geo_list = []
+	geo_center = []
 	add_loc = []
 
 	address = "Berkeley, CA"
@@ -183,11 +206,11 @@ def fire_map():
 	
 	add_lat, add_lon = get_lat_loc(address)
 	
-	geo_list = active_fire(add_lat, add_lon)
+	geo_center = active_fire(add_lat, add_lon)
 
-	for i in range(0, len(geo_list)):
-		geo_lat = geo_list[i][1]
-		geo_lon = geo_list[i][0]
+	for i in range(0, len(geo_center)):
+		geo_lat = geo_center[i][1]
+		geo_lon = geo_center[i][0]
 		crs = convert_point(geo_lat, geo_lon)
 
 	map_output = read_csv()
@@ -196,7 +219,7 @@ def fire_map():
 							ACCESS_KEY = MAPBOX_ACCESS_KEY, 
 							map_output = map_output, 
 							add_loc = [add_lon, add_lat],
-							geo_list = geo_list)
+							geo_center = geo_center)
 
 
 if __name__ == '__main__':

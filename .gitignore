@@ -6,4 +6,4 @@
 *.output
 *.zip
 /data
-/webapp/virt
+/weather_data

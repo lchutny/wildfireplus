@@ -90,7 +90,7 @@
 
             poly_output = {{map_output|safe}}
 
-            geo_list = {{geo_list|safe}}
+            geo_center = {{geo_center|safe}}
 
             add_loc = {{add_loc|safe}}
 
@@ -110,13 +110,13 @@
 
             var i;
 
-            for (i = 0; i < geo_list.length; i++) {
+            for (i = 0; i < geo_center.length; i++) {
                 var marker = new mapboxgl.Marker({color: 'red'}) // Initialize a new marker
-                    .setLngLat(geo_list[i]) // Marker [lng, lat] coordinates
+                    .setLngLat(geo_center[i]) // Marker [lng, lat] coordinates
                     .addTo(map); // Add the marker to the map
                 }
 
-            // if (geo_list.length == 0) {
+            // if (geo_center.length == 0) {
             //     alert(result);
             // }
 
