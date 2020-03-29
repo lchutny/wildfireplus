@@ -140,37 +140,53 @@ def active_fire(lat_origin, lon_origin):
 	Output: List of active fires within certain miles of origin
 	"""
 
-	# read JSON on active fire
-	# url = 'https://www.fire.ca.gov/umbraco/api/IncidentApi/List?inactive=true'
-	# geo_data = requests.get(url).json()
-
 	# set variables
 	lat_geo = []
 	lon_geo = []
 	geo_center = []
 
-	# loop through list provided by Cal Fire and find active fire within certain miles of origin
-	for i in range(0,len(geo_data)):
-	    if geo_data[i]['IsActive'] == "Y":
-	        fire_lat = geo_data[i]['Latitude']
-	        fire_lon = geo_data[i]['Longitude']
-	        dist = great_circle(lat_origin, lon_origin, fire_lat, fire_lon)
-	        if dist <= 100:
-	        	lat_geo.append(fire_lat)
-	        	lon_geo.append(fire_lon)
+	# # read JSON on active fire
+	# url = 'https://www.fire.ca.gov/umbraco/api/IncidentApi/List?inactive=true'
+	# geo_data = requests.get(url).json()
 
-	geo_center = [[a, b] for a, b in zip(lon_geo, lat_geo)]
+	# # loop through list provided by Cal Fire and find active fire within certain miles of origin
+	# for i in range(0,len(geo_data)):
+	#     if geo_data[i]['IsActive'] == "Y":
+	#         fire_lat = geo_data[i]['Latitude']
+	#         fire_lon = geo_data[i]['Longitude']
+	#         dist = great_circle(lat_origin, lon_origin, fire_lat, fire_lon)
+	#         if dist <= 100:
+	#         	lat_geo.append(fire_lat)
+	#         	lon_geo.append(fire_lon)
 
-	geo_center = [[-121.9230432, 36.52439536]]
+	# geo_center = [[a, b] for a, b in zip(lon_geo, lat_geo)]
+
+	# geo_center = [[-121.9230432, 36.52439536]]
 
 
 	# read JSON on active fire
 	url = 'https://opendata.arcgis.com/datasets/5da472c6d27b4b67970acc7b5044c862_0.geojson'
 	geo_data = requests.get(url).json()	
 
-	
+	for i in range(0,len(geo_data["features"])):
+	    
+	    geo_poly = geo_data["features"][i]["geometry"]["coordinates"][0]
 
-	return geo_center
+	    for j in range(0, len(geo_poly)):
+
+	    	fire_lon = geo_poly[j][0]
+	    	fire_lat = geo_poly[j][1]
+
+	    	dist = great_circle(lat_origin, lon_origin, fire_lat, fire_lon)
+
+	    	if dist <= 100:
+	        	geo_center = [fire_lon, fire_lat]
+	        	break
+
+	    if len(geo_center) > 0:
+	        break
+
+	return geo_center, geo_poly
 
 
 @app.route('/')
