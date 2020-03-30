@@ -132,6 +132,8 @@ def get_lat_loc(address):
 	add_lon = address["features"][0]["center"][0]
 	return add_lat, add_lon
 
+def points(poly):
+    return list(map(tuple,np.asarray(poly.exterior.coords)))
 
 def active_fire(lat_origin, lon_origin):
 	"""
@@ -163,32 +165,63 @@ def active_fire(lat_origin, lon_origin):
 
 	geo_center = [[-121.9230432, 36.52439536]]
 
+	return geo_center
 
 	# # read JSON on active fire
 	# url = 'https://opendata.arcgis.com/datasets/5da472c6d27b4b67970acc7b5044c862_0.geojson'
-	# geo_data = requests.get(url).json()	
+	# # geo_data = requests.get(url).json()	
+	# geo_data = gpd.read_file(url)
 
-	# for i in range(0,len(geo_data["features"])):
-	    
-	#     geo_poly = geo_data["features"][i]["geometry"]["coordinates"][0]
+	# poly_list = geo_data.geometry
 
-	#     for j in range(0, len(geo_poly)):
+	# for i in range(0,len(poly_list)):
 
-	#     	fire_lon = geo_poly[j][0]
-	#     	fire_lat = geo_poly[j][1]
+	# 	if poly_list[i].geom_type == 'MultiPolygon':
 
-	#     	dist = great_circle(lat_origin, lon_origin, fire_lat, fire_lon)
+	# 		for j in range(0, len(poly_list[i])):
 
-	#     	if dist <= 100:
-	#         	geo_center = [fire_lon, fire_lat]
-	#         	break
+	# 			geo_poly = points(poly_list[i][j])
 
-	#     if len(geo_center) > 0:
-	#         break
+	# 			for k in range(0, len(geo_poly)):
+
+	# 				fire_lon = geo_poly[k][0]
+	# 				fire_lat = geo_poly[k][1]
+
+	# 				dist = great_circle(lat_origin, lon_origin, fire_lat, fire_lon)
+
+	# 				if dist <= 100:
+	# 					geo_center = [fire_lon, fire_lat]
+	# 					break
+
+	# 			if len(geo_center) > 0:
+	# 				break
+
+	# 		if len(geo_center) > 0:
+	# 			break
+
+	# 	else:
+
+	# 		geo_poly = points(poly_list[i])
+
+	# 		for j in range(0, len(geo_poly)):
+
+	# 			fire_lon = geo_poly[j][0]
+	# 			fire_lat = geo_poly[j][1]
+
+	# 			dist = great_circle(lat_origin, lon_origin, fire_lat, fire_lon)
+
+	# 			if dist <= 100:
+	# 				geo_center = [fire_lon, fire_lat]
+	# 				break
+
+	# 		if dist <= 100:
+	# 			geo_center = [fire_lon, fire_lat]
+	# 			break
+
+	# 	if len(geo_center) > 0:
+	# 		break
 
 	# return geo_center, geo_poly
-
-	return geo_center
 
 @app.route('/')
 def index():
