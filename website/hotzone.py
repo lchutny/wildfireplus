@@ -147,81 +147,83 @@ def active_fire(lat_origin, lon_origin):
 	lon_geo = []
 	geo_center = []
 
-	# read JSON on active fire
-	url = 'https://www.fire.ca.gov/umbraco/api/IncidentApi/List?inactive=true'
-	geo_data = requests.get(url).json()
-
-	# loop through list provided by Cal Fire and find active fire within certain miles of origin
-	for i in range(0,len(geo_data)):
-	    if geo_data[i]['IsActive'] == "Y":
-	        fire_lat = geo_data[i]['Latitude']
-	        fire_lon = geo_data[i]['Longitude']
-	        dist = great_circle(lat_origin, lon_origin, fire_lat, fire_lon)
-	        if dist <= 100:
-	        	lat_geo.append(fire_lat)
-	        	lon_geo.append(fire_lon)
-
-	geo_center = [[a, b] for a, b in zip(lon_geo, lat_geo)]
-
-	geo_center = [[-121.9230432, 36.52439536]]
-
-	return geo_center
-
 	# # read JSON on active fire
-	# url = 'https://opendata.arcgis.com/datasets/5da472c6d27b4b67970acc7b5044c862_0.geojson'
-	# # geo_data = requests.get(url).json()	
-	# geo_data = gpd.read_file(url)
+	# url = 'https://www.fire.ca.gov/umbraco/api/IncidentApi/List?inactive=true'
+	# geo_data = requests.get(url).json()
 
-	# poly_list = geo_data.geometry
+	# # loop through list provided by Cal Fire and find active fire within certain miles of origin
+	# for i in range(0,len(geo_data)):
+	#     if geo_data[i]['IsActive'] == "Y":
+	#         fire_lat = geo_data[i]['Latitude']
+	#         fire_lon = geo_data[i]['Longitude']
+	#         dist = great_circle(lat_origin, lon_origin, fire_lat, fire_lon)
+	#         if dist <= 100:
+	#         	lat_geo.append(fire_lat)
+	#         	lon_geo.append(fire_lon)
 
-	# for i in range(0,len(poly_list)):
+	# geo_center = [[a, b] for a, b in zip(lon_geo, lat_geo)]
 
-	# 	if poly_list[i].geom_type == 'MultiPolygon':
+	# geo_center = [[-121.9230432, 36.52439536]]
 
-	# 		for j in range(0, len(poly_list[i])):
+	# return geo_center
 
-	# 			geo_poly = points(poly_list[i][j])
+	# read JSON on active fire
+	url = 'https://opendata.arcgis.com/datasets/5da472c6d27b4b67970acc7b5044c862_0.geojson'
+	# geo_data = requests.get(url).json()	
+	geo_data = gpd.read_file(url)
 
-	# 			for k in range(0, len(geo_poly)):
+	poly_list = geo_data.geometry
 
-	# 				fire_lon = geo_poly[k][0]
-	# 				fire_lat = geo_poly[k][1]
+	for i in range(0,len(poly_list)):
 
-	# 				dist = great_circle(lat_origin, lon_origin, fire_lat, fire_lon)
+		if len(geo_center) > 0:
+			break
 
-	# 				if dist <= 100:
-	# 					geo_center = [fire_lon, fire_lat]
-	# 					break
+		if poly_list[i].geom_type == 'MultiPolygon':
 
-	# 			if len(geo_center) > 0:
-	# 				break
+			for j in range(0, len(poly_list[i])):
 
-	# 		if len(geo_center) > 0:
-	# 			break
+				geo_poly = points(poly_list[i][j])
 
-	# 	else:
+				for k in range(0, len(geo_poly)):
 
-	# 		geo_poly = points(poly_list[i])
+					fire_lon = geo_poly[k][0]
+					fire_lat = geo_poly[k][1]
 
-	# 		for j in range(0, len(geo_poly)):
+					dist = great_circle(lat_origin, lon_origin, fire_lat, fire_lon)
 
-	# 			fire_lon = geo_poly[j][0]
-	# 			fire_lat = geo_poly[j][1]
+					if dist <= 100:
+						geo_center = [fire_lon, fire_lat]
+						break
 
-	# 			dist = great_circle(lat_origin, lon_origin, fire_lat, fire_lon)
+				if len(geo_center) > 0:
+					break
 
-	# 			if dist <= 100:
-	# 				geo_center = [fire_lon, fire_lat]
-	# 				break
+			if len(geo_center) > 0:
+				break
 
-	# 		if dist <= 100:
-	# 			geo_center = [fire_lon, fire_lat]
-	# 			break
+		else:
 
-	# 	if len(geo_center) > 0:
-	# 		break
+			geo_poly = points(poly_list[i])
 
-	# return geo_center, geo_poly
+			for j in range(0, len(geo_poly)):
+
+				fire_lon = geo_poly[j][0]
+				fire_lat = geo_poly[j][1]
+
+				dist = great_circle(lat_origin, lon_origin, fire_lat, fire_lon)
+
+				if dist <= 100:
+					geo_center = [fire_lon, fire_lat]
+					break
+
+			if len(geo_center) > 0:
+				break
+
+		if len(geo_center) > 0:
+			break
+
+	return geo_center, geo_poly
 
 @app.route('/')
 def index():
@@ -240,21 +242,23 @@ def fire_map():
 	
 	add_lat, add_lon = get_lat_loc(address)
 	
-	geo_center = active_fire(add_lat, add_lon)
-
-	for i in range(0, len(geo_center)):
-		geo_lat = geo_center[i][1]
-		geo_lon = geo_center[i][0]
-		crs = convert_point(geo_lat, geo_lon)
+	geo_center, geo_poly = active_fire(add_lat, add_lon)
 
 	map_output = read_csv()
+
+	cnn_poly = convert_polygon(geo_poly)
+
+	# for i in range(0, len(geo_center)):
+	# 	geo_lat = geo_center[i][1]
+	# 	geo_lon = geo_center[i][0]
+	# 	crs = convert_point(geo_lat, geo_lon)
 
 	return render_template('/fire_map.html', 
 							ACCESS_KEY = MAPBOX_ACCESS_KEY, 
 							map_output = map_output, 
 							add_loc = [add_lon, add_lat],
-							geo_center = geo_center)
-
+							geo_center = geo_center,
+							cnn_poly = cnn_poly)
 
 if __name__ == '__main__':
 	app.run(debug=True)
