@@ -258,7 +258,7 @@ def fire_map():
 							map_output = map_output, 
 							add_loc = [add_lon, add_lat],
 							geo_center = geo_center,
-							cnn_poly = cnn_poly)
+							geo_poly = geo_poly)
 
 if __name__ == '__main__':
 	app.run(debug=True)
