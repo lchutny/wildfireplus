@@ -60,6 +60,20 @@ def read_csv():
 	return map_output
 
 
+def write_csv(poly):
+	"""
+	This function writes the active fire intial polygon to csv to be used for the ML model to calculate 
+	spread on the next day.
+	"""
+	f = open("static/intial_polygon.csv", "w")
+	f.truncate()
+	f.close()
+
+	with open("static/intial_polygon.csv", "w") as f:
+		writer = csv.writer(f)
+		writer.writerows(poly)
+
+
 def convert_point(lat,lon):
     """
     Convert Coordinate Reference systems from map lat/lon to fire raster CRS
@@ -222,6 +236,9 @@ def active_fire(lat_origin, lon_origin):
 
 		if len(geo_center) > 0:
 			break
+		else:
+			geo_poly =[]
+			break
 
 	return geo_center, geo_poly
 
@@ -235,6 +252,7 @@ def fire_map():
 
 	geo_center = []
 	add_loc = []
+	cnn_poly = []
 
 	address = "Berkeley, CA"
 	if request.method == "POST":
@@ -246,7 +264,11 @@ def fire_map():
 
 	map_output = read_csv()
 
-	cnn_poly = convert_polygon(geo_poly)
+	if len(geo_center) > 0:
+		cnn_poly = convert_polygon(geo_poly)
+		write_csv(cnn_poly)
+	else:
+		phrase = "no active fire"
 
 	# for i in range(0, len(geo_center)):
 	# 	geo_lat = geo_center[i][1]
