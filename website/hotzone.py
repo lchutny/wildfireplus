@@ -252,7 +252,6 @@ def fire_map():
 
 	geo_center = []
 	add_loc = []
-	cnn_poly = []
 
 	address = "Berkeley, CA"
 	if request.method == "POST":
@@ -267,8 +266,8 @@ def fire_map():
 	if len(geo_center) > 0:
 		cnn_poly = convert_polygon(geo_poly)
 		write_csv(cnn_poly)
-	else:
-		phrase = "no active fire"
+	# else:
+	# 	phrase = "no active fire"
 
 	# for i in range(0, len(geo_center)):
 	# 	geo_lat = geo_center[i][1]
