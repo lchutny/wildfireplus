@@ -29,6 +29,8 @@
 
 <style>
     
+    body {overflow: hidden;}
+    
     body * {
         -webkit-touch-callout: none;
         -webkit-user-select: none;
@@ -41,7 +43,7 @@
         position: static;
         top: 0;
         bottom: 0;
-        width: 100%;
+        width: 50%;
     }
 
 </style>
@@ -97,68 +99,16 @@
         </form>
         <br>
         <br>
-        <p>Explore map by dragging or zooming in/out with mouse/mousepad, or click on map and use - and + to zoom in/out with keyboard</p>
-        <br>
-        <br>
-        <br>
-        <br>
+        <p>Explore map by dragging or zooming in/out</p>
 
-    <!-- <div id='map' style='width: 1800px; height: 1400px; margin-right: auto; margin-left: auto;'> -->
+    <div id="comparison-container">
 
-<!--         <div id="comparison-container">
+        <div id="before" class="map"></div>
+        
+        <div id="after" class="map"></div>
+    </div>
 
-            <div id="before" class="map"></div>
-            
-            <div id="after" class="map"></div>
-        </div> -->
-
-        <!-- <script type="text/javascript">
-
-            var mapkey = '{{ACCESS_KEY}}'
-
-            mapboxgl.accessToken = mapkey;
-
-            var before = new mapboxgl.Map({
-                container: 'before',
-                style: 'mapbox://styles/mapbox/light-v10',
-                center: [0, 0],
-                zoom: 0
-            });
-
-            var after = new mapboxgl.Map({
-                container: 'after',
-                style: 'mapbox://styles/mapbox/dark-v10',
-                center: [0, 0],
-                zoom: 0
-            });
-
-            // A selector or reference to HTML element
-            var container = '#comparison-container';
-
-            new mapboxgl.Compare(before, after, container, {
-            mousemove: true, // Optional. Set to true to enable swiping during cursor movement.
-            orientation: 'horizontal' // Optional. Sets the orientation of swiper to horizontal or vertical, defaults to vertica
-            });
-
-            compare = new mapboxgl.Compare(before, after, container, {
-            mousemove: true, // Optional. Set to true to enable swiping during cursor movement.
-            orientation: 'horizontal' // Optional. Sets the orientation of swiper to horizontal or vertical, defaults to vertica
-            });
-
-            //Get Current position - this will return the slider's current position, in pixels
-            compare.currentPosition;
-
-            //Set Position - this will set the slider at the specified (x) number of pixels from the left-edge or top-edge of viewport based on swiper orientation
-            compare.setSlider(15);
-
-            //Listen to slider movement - and return current position on each slideend
-            compare.on('slideend', (e) => {
-              console.log(e.currentPosition);
-            });
-
-        </script> -->
-
-    <div id='map' style='width: 1800px; height: 700px; margin-right: auto; margin-left: auto;'>
+    <!-- <div id='map' style='width: 1400px; height: 700px; margin-right: auto; margin-left: auto;'> -->
 
         <script>
 
@@ -174,16 +124,48 @@
 
             geo_poly = {{geo_poly|safe}}
 
-            geo_fire = {{geo_fire|safe}}
-
             // result = {{result|safe}}
 
-            var map = new mapboxgl.Map({
-                container: 'map',
+            var beforeMap = new mapboxgl.Map({
+                container: 'before',
+                // style: 'mapbox://styles/mapbox/light-v10',
                 style: 'mapbox://styles/mapbox/streets-v11',
-                // style: 'mapbox://styles/mapbox/satellite-v9',
                 center: add_loc,
-                zoom: 3.5
+                zoom: 10
+            });
+
+            var afterMap = new mapboxgl.Map({
+                container: 'after',
+                style: 'mapbox://styles/mapbox/dark-v10',
+                center: add_loc,
+                zoom: 10
+            });
+
+            // A selector or reference to HTML element
+            var container = '#comparison-container';
+
+            new mapboxgl.Compare(before, after, container, {
+            mousemove: true, // Optional. Set to true to enable swiping during cursor movement.
+            orientation: 'vertical' // Optional. Sets the orientation of swiper to horizontal or vertical, defaults to vertical
+            });
+
+            // var map = new mapboxgl.Map({
+            //     container: 'map',
+            //     style: 'mapbox://styles/mapbox/streets-v11',
+            //     // style: 'mapbox://styles/mapbox/satellite-v9',
+            //     center: add_loc,
+            //     zoom: 10
+            // });
+
+            //Get Current position - this will return the slider's current position, in pixels
+            compare.currentPosition;
+
+            //Set Position - this will set the slider at the specified (x) number of pixels from the left-edge or top-edge of viewport based on swiper orientation
+            compare.setSlider(x);
+
+            //Listen to slider movement - and return current position on each slideend
+            compare.on('slideend', (e) => {
+                console.log(e.currentPosition);
             });
 
             var marker = new mapboxgl.Marker() // Initialize a new marker
@@ -192,10 +174,10 @@
 
             var i;
 
-            for (i = 0; i < geo_fire.length; i++) {
+            for (i = 0; i < geo_center.length; i++) {
                 var marker = new mapboxgl.Marker({color: 'red'}
                 ) // Initialize a new marker
-                    .setLngLat(geo_fire[i]) // Marker [lng, lat] coordinates
+                    .setLngLat(geo_center[i]) // Marker [lng, lat] coordinates
                     .addTo(map); // Add the marker to the map
                 }
 
@@ -258,18 +240,15 @@
            
 
         </script>
-    </div>
+    <!-- </div> -->
 
     <div>
         <br>
         <br>
-        <p> Thank you for visiting!</p>
         <br>
         <br>
-        <br> 
         <br>
-        <br>
-        <br>          
+        <br>  
     </div>
 
 

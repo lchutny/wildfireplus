@@ -52,27 +52,32 @@
 <a name="proj"></a>
 
     <div class="wrapper-white-bg" id="white-bg">
-        <div class="container">
-            <div class="row justify-content-md-center">
+        <div class="col-lg-1">
+        </div>
+        <div class="col-lg-10">
+            <div class="row justify-content-lg-center">
                 <div >
                     <br>
                     <br>
                     <br>
-                    <img src="../static/images/fire_icon.jpg" alt="logo" class="img-responsive pull-left alignleft" width="200" height="200">
+                    <img src="../static/images/fire_icon.jpg" alt="logo" class="img-responsive pull-left alignleft" width="300" height="300">
                     <h2 class="lead">
                     <br>
                     <br>
-                    <p>Millions of acres burn annually in wildfires across the globe.  As population grows and spreads to all lands, as climate change challenges the environment, and as wildfires grow in intensity and frequency, every second counts.
-                    <br>   
+                    <p style="font-size:1.25vw">Millions of acres burn annually in wildfires across the globe. As population grows and people migrates to all lands, as climate change challenges the environment, and as wildfires grow in intensity and frequency, every second counts.
                     <br>
-                    HOTzone is an attempt to predict the probability and the perimeter spread of an existing fire, to provide an early warning.
+                    <br>
+                    Wildfires pose threats to all life forms and properties. Climate change and population growth have combined to put people and infrastructure at high risk of wildfire. The 2019 Kincade Fire in California’s Sonoma County burned an area twice the size of San Francisco, and the November 2018 Camp Fire near Sacramento, California caused 85 fatalities and an estimated $16.5 billion in damage.
+                    <br>
+                    <br>
+                    There isn’t any known application catered for general public use, to allow users to check for predicted wildfire condition near their location of interest. The public usually has to wait for public entity or government to inform them of the wildfire condition. HOTzone is an application created in attempt to bridge this gap. It combines historical fire data, weather data, machine learning, and a user-friendly web interface to predict the probability of active wildfire spread near a user-provided location, to provide an early warning.
                     </p>
                     <br>   
                     <br>
                     <br>
                     </h2> 
                 </div>  
-                <div class="banner-parallax-flex" style="background-image:url('../static/images/wildfire2.jpg');overflow:auto; max-width: 1400px; max-height: 700px; margin: auto">
+                <div class="banner-parallax-flex" style="background-image:url('../static/images/wildfire2.jpg');overflow:auto; max-width: 1800px; max-height: 800px; margin: auto">
                 </div>
             </div>
         </div>
@@ -155,7 +160,7 @@
             </div>
         </div>  
 
-        <div class="banner-parallax-flex" style="background-image:url('../static/images/wildfire19.jpg');overflow:auto; max-width: 1400px; max-height: 700px; margin: auto">
+        <div class="banner-parallax-flex" style="background-image:url('../static/images/wildfire19.jpg');overflow:auto; max-width: 1800px; max-height: 800px; margin: auto">
         </div>
 
 <a name="expert"></a>
@@ -171,15 +176,69 @@
             </div>
         </div>
 
-        <div>
-            
+        <div class="col-lg-1">
+        </div>
 
+        <div class="col-lg-10" style="font-size:1vw">
+        <h2 style="color:#2045e8;">Papers and Discussion</h2>
+        <br>
+        <p>Much of the work on fire prediction centers around predicting the final fire perimeter, as well as to predict risk that an area will experience a fire if one is ignited. Early work to predict final fire perimeters using machine learning started in approximately 2010 using a dataset from Montesinho, Portugal and featured in a kaggle competition (Cortez & Morais, n.d.). This early work on perimeter modeling determined that the best predictions were obtained using a Support Vector Machine (SVM) with 4 meteorological inputs (temperature, relative humidity, rain and wind). The predicted value of the burned area was accurately predicted to within 2 hectares approximately 61% of the time.
+        <br>
+        <br>
+        Other studies also looked at the ability to predict final burned area (Coffield et al., 2019), using weather inputs as well as vegetation type as inputs. A reanalysis of global fire data from 1980-2018 created updated climate predictors for daily fire danger forecasts (Vitolo et al., 2019). 
+        <br>
+        <br>
+        The state of the art in predicting wildfire progression using machine learning are AI and deep learning methods which predict the areas around a burning wildfire which have the highest risk of burning. A robust approach is presented by Subramanian and Crowley (Subramanian & Crowley, 2018) using a Monte Carlo Tree Search method. The most recent method, FireCast, was presented in 2019 (Radke et al., 2019) and utilises a convolutional neural network with inputs of historical fire data, weather data and satellite data on vegetation, elevation and aspect. Input data is on a 30m x 30m grid. The Radke et. al. approach achieved an F-score of 6.4% compared to a random prediction of 1.0%.
+        <br>
+        <br>
+        Extremely detailed physics based fire forecasting models for on-the-ground fire fighting use have been developed by corporations like Pacific Gas and Electric (2020-Wildfire-Safety-Plan.pdf, 2020), by independent consultants to government (Lautenberger, 2013) or by government agencies like Natural Resources Canada (Tymstra & Northern Forestry Centre (Canada), 2010). These models are extremely compute intensive and allow for hour or minute level predictions of fire growth as well as scenario modeling to plan fire response. See the discussion below regarding our interview with Ken Bisgrove and Gary Mandrusiak in their use of the Prometheus model in fire-fighting and suppression activities.
+        <br>
+        <br>
+        </p>
+        <h2 style="color:#2045e8;">Interviews</h2>
+        <h4>In the course of our research, we conducted interviews with experts in the fields of earth and fire science.</h4>
+        <br>
+        <h3>Dr. Trevor Keenan, Lawrence Berkeley National Laboratory and University of California Berkeley</h3>
+        <br>
+        <p>Dr. Keenan’s work focuses on: Ecosystem Science where he models carbon fluxes as timeseries data using a single layer neural net. This approach can explain approximately 80% of the variability for short term changes, but is much less accurate for longer term (yearly) changes.
+        <br>
+        <br>
+        His suggestions for the fire prediction project included:
+        <ul>
+            <li>Using the “vegetation optical depth” (VOD) for sensing biomass as a proxy for moisture in the system. This VOD is obtained from microwave frequency satellite images in the L-band. This could be combined with the NDVI concept to get a more accurate picture of the fuel for a fire.</li>
+            <li>Earliest possible identification of a fire (e.g. by differentiating a smoke plume from clouds using satellite imagery from Planet Labs) would like be an excellent improvement in order to get an early ‘ignition point’.</li>
+            <li>Similarly, Planet Labs has very high resolution and frequent satellite images, which could provide more detailed information about recent fires for use in future versions of the model.</li>
+        </ul>
+        </p>
+        <br>
+        <h3>Ken Bisgrove and Gary Mandrusiak</h3>
+        <br>
+        <p>Ken and Gary were heavily involved in fighting the massive forest fires that took over the Fort MacMurray area of Northern Alberta in 2016 (“2016 Fort McMurray wildfire,” 2020). Ken works for Suncor Energy and Gary is a Wildfire Management Planning consultant.
+        <br>
+        <br>
+        The team relied on a piece of software that was written to predict wildfire behaviour in the short-term for immediate use in planning a fire-fighting response, called Prometheus (FireGrowthModel.ca—Prometheus, n.d.). This software “computes spatially-explicit fire behaviour and spread outputs given heterogeneous fuel, topography and weather conditions” and allows fire experts to deterministically predict outcomes of various scenarios of fire suppression activity, fire fighting activity and weather conditions. It was developed to help fire managers ‘understand the probably consequences of their decisions’ (Tymstra & Northern Forestry Centre (Canada), 2010). It allows the fire managers to run a simulated fire and adjust various conditions as needed.
+        <br>
+        <br>
+        The underlying model(s) in Prometheus require inputs on fuel type (e.g. vegetation type), land features (slope, aspect and elevation) and hourly weather data. Equations solved during a model run describe fire spread based on solving a system of partial differential equations. The outputs from the model are polygons describing the perimeter of the fire at each time step and the speed of travel. This model, while highly detailed, is computationally expensive and requires a high level of expertise to run. Accuracy of the model was within 1-2 km of the actual spread approximately 50% of the time.  
+        <br>
+        <br>
+        The predictions of the model are extremely sensitive to the quality of the input weather. For the Fort MacMurray fire (officially called the ‘Horse River Wildfire’), the team used the ‘best’ of 6 available forecasts.
+        <br>
+        <br>
+        Additionally, the model is very sensitive to the type of fuel on the ground, and the inventory of that fuel is not always accurate to the degree required for accurate fire simulations.
+        <br>
+        <br>
+        Other inaccuracies spring from inaccurate ignition points - an accurate start coordinate is important and even a 1 km error in ignition location could alter the fuel type enough that the simulation is inaccurate. Existing fire perimeters for existing fires are difficult to find, and the best data was found to come from satellites, although granularity was hampered by infrequent satellite passes and operational error in converting time.
+        <br>
+        <br>
+        Future work to improve Prometheus includes the addition of higher level winds (e.g. upper level jets) and the effect of weather generated by the fire itself (pyrocumulus). Another area of research is how to predict and include the additional ‘spot fires’ - those fires which are ignited ahead of the main fire from sparks thrown by the fire.
         <br>
         <br>
         <br>
-        <br>
+        </p>
+    </div>
 
-        <div class="banner-parallax-flex" style="background-image:url('../static/images/wildfire14.jpg');overflow:auto; max-width: 1400px; max-height: 700px; margin: auto">
+        <div class="banner-parallax-flex" style="background-image:url('../static/images/wildfire14.jpg');overflow:auto; max-width: 1800px; max-height: 800px; margin: auto">
         </div>
 
 <a name="alg"></a>
@@ -203,7 +262,7 @@
         <br>
         <br>
 
-        <div class="banner-parallax-flex" style="background-image:url('../static/images/wildfire28.jpg');overflow:auto; max-width: 1400px; max-height: 700px; margin: auto">
+        <div class="banner-parallax-flex" style="background-image:url('../static/images/wildfire28.jpg');overflow:auto; max-width: 1800px; max-height: 800px; margin: auto">
         </div>
 
 <a name="data"></a>
@@ -230,7 +289,7 @@
         <br>
         <br>
 
-        <div class="banner-parallax-flex" style="background-image:url('../static/images/wildfire12.jpg');overflow:auto; max-width: 1400px; max-height: 700px; margin: auto">
+        <div class="banner-parallax-flex" style="background-image:url('../static/images/wildfire12.jpg');overflow:auto; max-width: 1800px; max-height: 800px; margin: auto">
         </div>
 
 <a name="us"></a>
