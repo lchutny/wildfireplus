@@ -14,7 +14,7 @@ from csv import reader
 from mapbox import Geocoder
 from flask import Flask, request, render_template
 from math import radians, degrees, sin, cos, asin, acos, sqrt
-from pyproj import Proj
+# from pyproj import Proj
 
 # initialize Flask
 app = Flask(__name__)
@@ -60,16 +60,17 @@ def read_csv():
 	return map_output
 
 
-def write_csv(poly):
+def write_csv(poly, filename):
 	"""
 	This function writes the active fire intial polygon to csv to be used for the ML model to calculate 
 	spread on the next day.
 	"""
-	f = open("static/intial_polygon.csv", "w")
-	f.truncate()
-	f.close()
+	# f = open("/static/intial_polygon.csv", "w")
+	# f.truncate()
+	# f.close()
+	filename = filename
 
-	with open("static/intial_polygon.csv", "w") as f:
+	with open(filename, "w") as f:
 		writer = csv.writer(f)
 		writer.writerows(poly)
 
@@ -160,6 +161,7 @@ def active_fire(lat_origin, lon_origin):
 	lat_geo = []
 	lon_geo = []
 	geo_center = []
+	geo_fire = []
 
 	# # read JSON on active fire
 	# url = 'https://www.fire.ca.gov/umbraco/api/IncidentApi/List?inactive=true'
@@ -187,6 +189,34 @@ def active_fire(lat_origin, lon_origin):
 	geo_data = gpd.read_file(url)
 
 	poly_list = geo_data.geometry
+
+	# grab the first coordinates of all polygons to create list of active fires
+
+	for m in range(0,len(poly_list)):
+
+		if poly_list[m].geom_type == 'MultiPolygon':
+
+			geo_poly = points(poly_list[m][0])
+
+			fire_lon = geo_poly[0][0]
+			fire_lat = geo_poly[0][1]
+
+			lat_geo.append(fire_lat)
+			lon_geo.append(fire_lon)
+
+		else:
+
+			geo_poly = points(poly_list[m])
+
+			fire_lon = geo_poly[0][0]
+			fire_lat = geo_poly[0][1]
+
+			lat_geo.append(fire_lat)
+			lon_geo.append(fire_lon)
+
+	geo_fire = [[a, b] for a, b in zip(lon_geo, lat_geo)]
+
+	geo_poly = []
 
 	for i in range(0,len(poly_list)):
 
@@ -240,7 +270,7 @@ def active_fire(lat_origin, lon_origin):
 			geo_poly =[]
 			break
 
-	return geo_center, geo_poly
+	return geo_center, geo_poly, geo_fire
 
 @app.route('/')
 def index():
@@ -253,19 +283,20 @@ def fire_map():
 	geo_center = []
 	add_loc = []
 
-	address = "Berkeley, CA"
+
+	address = "Springfield, Colorado"
 	if request.method == "POST":
 		address = str(request.form["address"])
 	
 	add_lat, add_lon = get_lat_loc(address)
 	
-	geo_center, geo_poly = active_fire(add_lat, add_lon)
+	geo_center, geo_poly, geo_fire = active_fire(add_lat, add_lon)
 
 	map_output = read_csv()
 
 	if len(geo_center) > 0:
 		cnn_poly = convert_polygon(geo_poly)
-		write_csv(cnn_poly)
+		write_csv(cnn_poly,"static/initial_polygon.csv")
 	# else:
 	# 	phrase = "no active fire"
 
@@ -279,7 +310,8 @@ def fire_map():
 							map_output = map_output, 
 							add_loc = [add_lon, add_lat],
 							geo_center = geo_center,
-							geo_poly = geo_poly)
+							geo_poly = geo_poly,
+							geo_fire = geo_fire)
 
 if __name__ == '__main__':
 	app.run(debug=True)
