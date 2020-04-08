@@ -21,7 +21,7 @@
     <!-- This is for Flask -->
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="../static/style.css">
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
 
 </head>
 
@@ -59,7 +59,7 @@
                 <ul class="nav navbar-nav navbar-center">
                     <li >
                         <a href="/">
-                        <img src="../static/images/home.png" alt="home" width="20" height="20" hspace="5">
+                        <img src="/static/images/home.png" alt="home" width="20" height="20" hspace="5">
                         </a>
                     </li>   
                     <li><a href="/#proj">About the Project</a></li>
@@ -197,7 +197,11 @@
                 ) // Initialize a new marker
                     .setLngLat(geo_fire[i]) // Marker [lng, lat] coordinates
                     .addTo(map); // Add the marker to the map
-                }
+                };
+
+            var legend = new mapboxgl.legendControl({ position: 'topright' })
+            .addLegend('<strong>My walk from the White House to the hill!</strong>')
+            .addTo(map);
 
             // if (geo_center.length == 0) {
             //     alert(result);

@@ -60,16 +60,17 @@ def read_csv():
 	return map_output
 
 
-def write_csv(poly):
+def write_csv(poly, filename):
 	"""
 	This function writes the active fire intial polygon to csv to be used for the ML model to calculate 
 	spread on the next day.
 	"""
-	f = open("static/intial_polygon.csv", "w")
-	f.truncate()
-	f.close()
+	# f = open("/static/intial_polygon.csv", "w")
+	# f.truncate()
+	# f.close()
+	filename = filename
 
-	with open("static/intial_polygon.csv", "w") as f:
+	with open(filename, "w") as f:
 		writer = csv.writer(f)
 		writer.writerows(poly)
 
@@ -295,7 +296,7 @@ def fire_map():
 
 	if len(geo_center) > 0:
 		cnn_poly = convert_polygon(geo_poly)
-		write_csv(cnn_poly)
+		write_csv(cnn_poly,"static/initial_polygon.csv")
 	# else:
 	# 	phrase = "no active fire"
 
