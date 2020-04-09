@@ -9,6 +9,7 @@ import requests
 import numpy as np
 import geopandas as gpd
 from shapely import geometry
+from shapely.geometry import Polygon
 from shapely.geometry import Point
 from csv import reader
 from mapbox import Geocoder
@@ -45,7 +46,7 @@ def read_csv():
 	lon_input = []
 
 	# read CSV file but skipped header line in read
-	with open('static/polygon.csv', 'r') as read_line:
+	with open('/static/polygon.csv', 'r') as read_line:
 	    csv_reader = reader(read_line)
 	    header = next(csv_reader)
 	    # Check file as empty
@@ -133,7 +134,7 @@ def convert_polygon(fire_polygon):
     return l
     
 
-def get_lat_loc(address):
+def get_loc(address):
 	"""
 	Convert a string of address to latitude and longitude 
 	Input: String 
@@ -147,41 +148,38 @@ def get_lat_loc(address):
 	add_lon = address["features"][0]["center"][0]
 	return add_lat, add_lon
 
+def chk_polygon(pt_lon, pt_lat):
+	"""
+	This function checks to see if address entered is within the polygon of data the model is trained on
+	Input: string
+	Output: boolean
+	"""
+
+	# the coordinates of the polygon
+	coords = [(-123.5,39), (-119.5,39), (-119.5,36), (-123.5,36),(-123.5,39)]
+	poly_bound = Polygon(coords)
+
+	# check ot see if provided coordinate is within the boundary of the polygon
+	point_interest = Point(pt_lon, pt_lat)
+	result = point_interest.within(poly_bound)
+
+	return result
+	
+
 def points(poly):
     return list(map(tuple,np.asarray(poly.exterior.coords)))
 
-def active_fire(lat_origin, lon_origin):
+def active_fire():
 	"""
-	Function to find coordinates of active fires of given origin
-	Input: latitude, longitude of input address (origin)
-	Output: List of active fires within certain miles of origin
+	Function to find coordinates of all current active fires from url
+	Input: N/A
+	Output: List of tuples of active fires
 	"""
 
 	# set variables
 	lat_geo = []
 	lon_geo = []
-	geo_center = []
 	geo_fire = []
-
-	# # read JSON on active fire
-	# url = 'https://www.fire.ca.gov/umbraco/api/IncidentApi/List?inactive=true'
-	# geo_data = requests.get(url).json()
-
-	# # loop through list provided by Cal Fire and find active fire within certain miles of origin
-	# for i in range(0,len(geo_data)):
-	#     if geo_data[i]['IsActive'] == "Y":
-	#         fire_lat = geo_data[i]['Latitude']
-	#         fire_lon = geo_data[i]['Longitude']
-	#         dist = great_circle(lat_origin, lon_origin, fire_lat, fire_lon)
-	#         if dist <= 100:
-	#         	lat_geo.append(fire_lat)
-	#         	lon_geo.append(fire_lon)
-
-	# geo_center = [[a, b] for a, b in zip(lon_geo, lat_geo)]
-
-	# geo_center = [[-121.9230432, 36.52439536]]
-
-	# return geo_center
 
 	# read JSON on active fire
 	url = 'https://opendata.arcgis.com/datasets/5da472c6d27b4b67970acc7b5044c862_0.geojson'
@@ -215,6 +213,46 @@ def active_fire(lat_origin, lon_origin):
 			lon_geo.append(fire_lon)
 
 	geo_fire = [[a, b] for a, b in zip(lon_geo, lat_geo)]
+
+	return geo_fire
+
+
+def chk_fire(lon_origin, lat_origin):
+	"""
+	Function to find coordinates of active fires of given origin
+	Input: latitude, longitude of input address (origin)
+	Output: List of active fires within certain miles of origin
+	"""
+
+	# set variables
+	geo_center = []
+
+	# # read JSON on active fire
+	# url = 'https://www.fire.ca.gov/umbraco/api/IncidentApi/List?inactive=true'
+	# geo_data = requests.get(url).json()
+
+	# # loop through list provided by Cal Fire and find active fire within certain miles of origin
+	# for i in range(0,len(geo_data)):
+	#     if geo_data[i]['IsActive'] == "Y":
+	#         fire_lat = geo_data[i]['Latitude']
+	#         fire_lon = geo_data[i]['Longitude']
+	#         dist = great_circle(lat_origin, lon_origin, fire_lat, fire_lon)
+	#         if dist <= 100:
+	#         	lat_geo.append(fire_lat)
+	#         	lon_geo.append(fire_lon)
+
+	# geo_center = [[a, b] for a, b in zip(lon_geo, lat_geo)]
+
+	# geo_center = [[-121.9230432, 36.52439536]]
+
+	# return geo_center
+
+	# read JSON on active fire
+	url = 'https://opendata.arcgis.com/datasets/5da472c6d27b4b67970acc7b5044c862_0.geojson'
+	# geo_data = requests.get(url).json()	
+	geo_data = gpd.read_file(url)
+
+	poly_list = geo_data.geometry
 
 	geo_poly = []
 
@@ -270,7 +308,8 @@ def active_fire(lat_origin, lon_origin):
 			geo_poly =[]
 			break
 
-	return geo_center, geo_poly, geo_fire
+	return geo_center, geo_poly
+
 
 @app.route('/')
 def index():
@@ -278,27 +317,56 @@ def index():
 
 
 @app.route('/fire_map', methods=["GET", "POST"])
+# @app.route('http://dream.ischool.berkeley.edu/~thanh/hotzone/fire_map', methods=["GET", "POST"])
 def fire_map():
 
 	geo_center = []
 	add_loc = []
+	map_output = []
+	geo_fire = []
 
+	geo_fire = active_fire()
 
-	address = "Springfield, Colorado"
+	poly_shape = [[-121.923043159997,36.5243953595764],[-121.895555446772,36.5243953595764],[-121.927624445535,36.5207136879198],[-121.886392875697,36.5207136879198],[-121.927624445535,36.5170318410666],[-121.886392875697,36.5170318410666],[-121.932205731072,36.5133498190239],[-121.872649019084,36.5133498190239],[-121.932205731072,36.5096676217985],[-121.872649019084,36.5096676217985],[-121.932205731072,36.5059852493972],[-121.868067733547,36.5059852493972],[-121.932205731072,36.5023027018269],[-121.868067733547,36.5023027018269],[-121.93678701661,36.4986199790946],[-121.868067733547,36.4986199790946],[-121.93678701661,36.494937081207],[-121.868067733547,36.494937081207],[-121.932205731072,36.4912540081711],[-121.868067733547,36.4912540081711],[-121.932205731072,36.4875707599937],[-121.868067733547,36.4875707599937],[-121.932205731072,36.4838873366818],[-121.858905162472,36.4838873366818],[-121.932205731072,36.4802037382423],[-121.868067733547,36.4802037382423],[-121.932205731072,36.476519964682],[-121.858905162472,36.476519964682],[-121.932205731072,36.4728360160079],[-121.854323876934,36.4728360160079],[-121.932205731072,36.4691518922269],[-121.822254878171,36.4691518922269],[-121.932205731072,36.4654675933458],[-121.813092307096,36.4654675933458],[-121.927624445535,36.4617831193716],[-121.808511021559,36.4617831193716],[-121.932205731072,36.4580984703112],[-121.808511021559,36.4580984703112],[-121.932205731072,36.4544136461716],[-121.803929736021,36.4544136461716],[-121.93678701661,36.4507286469595],[-121.794767164946,36.4507286469595],[-121.950530873222,36.4470434726821],[-121.895555446772,36.4470434726821],[-121.890974161234,36.4470434726821],[-121.886392875697,36.4470434726821],[-121.881811590159,36.4470434726821],[-121.794767164946,36.4470434726821],[-121.950530873222,36.4433581233461],[-121.886392875697,36.4433581233461],[-121.881811590159,36.4433581233461],[-121.790185879409,36.4433581233461],[-121.950530873222,36.4396725989586],[-121.895555446772,36.4396725989586],[-121.881811590159,36.4396725989586],[-121.790185879409,36.4396725989586],[-121.950530873222,36.4359868995264],[-121.785604593871,36.4359868995264],[-121.950530873222,36.4323010250566],[-121.785604593871,36.4323010250566],[-121.950530873222,36.428614975556],[-121.781023308334,36.428614975556],[-121.950530873222,36.4249287510315],[-121.895555446772,36.4249287510315],[-121.872649019084,36.4249287510315],[-121.781023308334,36.4249287510315],[-121.950530873222,36.4212423514902],[-121.895555446772,36.4212423514902],[-121.872649019084,36.4212423514902],[-121.776442022796,36.4212423514902],[-121.950530873222,36.417555776939],[-121.895555446772,36.417555776939],[-121.872649019084,36.417555776939],[-121.776442022796,36.417555776939],[-121.941368302147,36.4138690273849],[-121.900136732309,36.4138690273849],[-121.863486448009,36.4138690273849],[-121.776442022796,36.4138690273849],[-121.932205731072,36.4101821028348],[-121.904718017847,36.4101821028348],[-121.863486448009,36.4101821028348],[-121.776442022796,36.4101821028348],[-121.932205731072,36.4064950032956],[-121.909299303385,36.4064950032956],[-121.863486448009,36.4064950032956],[-121.776442022796,36.4064950032956],[-121.932205731072,36.4028077287743],[-121.909299303385,36.4028077287743],[-121.863486448009,36.4028077287743],[-121.776442022796,36.4028077287743],[-121.923043159997,36.399120279278],[-121.91846187446,36.399120279278],[-121.863486448009,36.399120279278],[-121.776442022796,36.399120279278],[-121.863486448009,36.3954326548135],[-121.776442022796,36.3954326548135],[-121.863486448009,36.3917448553878],[-121.781023308334,36.3917448553878],[-121.863486448009,36.388056881008],[-121.781023308334,36.388056881008],[-121.863486448009,36.3843687316809],[-121.785604593871,36.3843687316809],[-121.863486448009,36.3806804074137],[-121.790185879409,36.3806804074137],[-121.858905162472,36.3769919082132],[-121.794767164946,36.3769919082132],[-121.858905162472,36.3733032340865],[-121.794767164946,36.3733032340865],[-121.858905162472,36.3696143850405],[-121.799348450484,36.3696143850405],[-121.858905162472,36.3659253610823],[-121.799348450484,36.3659253610823],[-121.849742591397,36.3622361622188],[-121.813092307096,36.3622361622188],[-121.831417449246,36.3585467884571],[-121.826836163709,36.3585467884571],[-121.923043159997,36.5243953595764]]
+
+	# POST address entered by user
+	address = "Berkeley, CA"
 	if request.method == "POST":
 		address = str(request.form["address"])
 	
-	add_lat, add_lon = get_lat_loc(address)
+	# call function (get_loc) to convert address into longitude and latitude
+	add_lat, add_lon = get_loc(address)
 	
-	geo_center, geo_poly, geo_fire = active_fire(add_lat, add_lon)
+	# check to see if address entered is within the polygon the model is trained on
+	if chk_polygon(add_lon, add_lat):
 
-	map_output = read_csv()
+		# if within polygon, call active_fire function with the coordinates and find if there is an active fire nearby address of interest
+		geo_center, geo_poly = chk_fire(add_lon, add_lat)
 
-	if len(geo_center) > 0:
-		cnn_poly = convert_polygon(geo_poly)
-		write_csv(cnn_poly,"static/initial_polygon.csv")
-	# else:
-	# 	phrase = "no active fire"
+		# check to see if function above returns any active fire, if exist, convert the polygon to crs coordinate for model to use
+		if len(geo_center) > 0:
+
+			cnn_poly = convert_polygon(geo_poly)
+			# write_csv(cnn_poly,"static/initial_polygon.csv")
+
+			# this called the cnn_model to get the final 
+			map_output = cnn_model(geo_poly)
+
+		# uncomment this code if true deployment
+		# else:
+
+		# 	phrase = "There is no active fire within 100 miles of this location."
+
+		# this is for our demo if there happened to be no active fire nearby
+		else:
+
+			map_output = poly_shape
+
+			# map_output = read_csv()
+
+	else:
+
+		text = "The address of interest is currently outside the boundary of our trained model. We are working on the expansion."
 
 	# for i in range(0, len(geo_center)):
 	# 	geo_lat = geo_center[i][1]
@@ -309,8 +377,6 @@ def fire_map():
 							ACCESS_KEY = MAPBOX_ACCESS_KEY, 
 							map_output = map_output, 
 							add_loc = [add_lon, add_lat],
-							geo_center = geo_center,
-							geo_poly = geo_poly,
 							geo_fire = geo_fire)
 
 if __name__ == '__main__':

@@ -102,6 +102,7 @@
         <br>
         <br>
         <br>
+    </div>
 
     <!-- <div id='map' style='width: 1800px; height: 1400px; margin-right: auto; margin-left: auto;'> -->
 
@@ -172,8 +173,6 @@
 
             add_loc = {{add_loc|safe}}
 
-            geo_poly = {{geo_poly|safe}}
-
             geo_fire = {{geo_fire|safe}}
 
             // result = {{result|safe}}
@@ -183,7 +182,7 @@
                 style: 'mapbox://styles/mapbox/streets-v11',
                 // style: 'mapbox://styles/mapbox/satellite-v9',
                 center: add_loc,
-                zoom: 3.5
+                zoom: 10
             });
 
             var marker = new mapboxgl.Marker() // Initialize a new marker
@@ -199,9 +198,9 @@
                     .addTo(map); // Add the marker to the map
                 };
 
-            var legend = new mapboxgl.legendControl({ position: 'topright' })
-            .addLegend('<strong>My walk from the White House to the hill!</strong>')
-            .addTo(map);
+            // var legend = new mapboxgl.legendControl({ position: 'topright' })
+            // .addLegend('<strong>My walk from the White House to the hill!</strong>')
+            // .addTo(map);
 
             // if (geo_center.length == 0) {
             //     alert(result);
