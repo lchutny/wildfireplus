@@ -21,7 +21,7 @@
     <!-- This is for Flask -->
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="/static/style.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 
 </head>
 
@@ -59,7 +59,7 @@
                 <ul class="nav navbar-nav navbar-center">
                     <li >
                         <a href="/">
-                        <img src="/static/images/home.png" alt="home" width="20" height="20" hspace="5">
+                        <img src="static/images/home.png" alt="home" width="20" height="20" hspace="5">
                         </a>
                     </li>   
                     <li><a href="/#proj">About the Project</a></li>
@@ -102,6 +102,7 @@
         <br>
         <br>
         <br>
+    </div>
 
     <!-- <div id='map' style='width: 1800px; height: 1400px; margin-right: auto; margin-left: auto;'> -->
 
@@ -172,18 +173,26 @@
 
             add_loc = {{add_loc|safe}}
 
-            geo_poly = {{geo_poly|safe}}
-
             geo_fire = {{geo_fire|safe}}
 
-            // result = {{result|safe}}
+            no_fire = {{no_fire|safe}}
+
+            outside_bound = {{outside_bound|safe}}
+
+            if ( outside_bound ) {
+                alert("We apologize for the inconvenience.  The address of interest is currently outside the geographical boundary of our trained machine learning model.  Due to potential differences in terrains and other geographical factors, we are not able to accurately predict active fire spread beyond this boundary.  We are working on expanding, please check back soon.");
+            }
+
+            if ( no_fire ) {
+                alert("Based on the address you have entered, we find no active fire within 100 miles of this location.");
+            }
 
             var map = new mapboxgl.Map({
                 container: 'map',
                 style: 'mapbox://styles/mapbox/streets-v11',
                 // style: 'mapbox://styles/mapbox/satellite-v9',
                 center: add_loc,
-                zoom: 3.5
+                zoom: 10
             });
 
             var marker = new mapboxgl.Marker() // Initialize a new marker
@@ -199,9 +208,9 @@
                     .addTo(map); // Add the marker to the map
                 };
 
-            var legend = new mapboxgl.legendControl({ position: 'topright' })
-            .addLegend('<strong>My walk from the White House to the hill!</strong>')
-            .addTo(map);
+            // var legend = new mapboxgl.legendControl({ position: 'topright' })
+            // .addLegend('<strong>My walk from the White House to the hill!</strong>')
+            // .addTo(map);
 
             // if (geo_center.length == 0) {
             //     alert(result);
@@ -262,6 +271,24 @@
            
 
         </script>
+    </div>
+
+    <div class="container">
+        <div class="row">   
+            <div class="col-lg-12 text-center">
+                <br>
+                <br>
+                <h2 class="section-heading">List of current Active Fires in the United States</h2>
+                <br>
+                <br>
+            </div>
+        </div>
+    </div>
+
+    <div class=page align="center">
+        {% for table in fire_table %}
+            {{ table|safe }}
+        {% endfor %}
     </div>
 
     <div>
