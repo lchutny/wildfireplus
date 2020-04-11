@@ -4,6 +4,7 @@ import json
 import csv
 import mapbox
 import urllib
+# import gmplot
 import requests
 import re
 import numpy as np
@@ -64,7 +65,7 @@ def read_csv():
 
 def write_csv(poly, filename):
 	"""
-	This function writes the active fire intial polygon to csv to be used for the ML model to calculate
+	This function writes the active fire intial polygon to csv to be used for the ML model to calculate 
 	spread on the next day.
 	"""
 	# f = open("/static/intial_polygon.csv", "w")
@@ -86,59 +87,59 @@ def convert_point(lat,lon):
 
     # Declare point (longitude (or x) always comes first, then latitude (y))
     point = Point(lon,lat)
-
+    
     # Set Source CRS (Mapbox or Google Maps)
     src_crs = "EPSG:4326"
-
+    
     # create dataframe from input lat/long
     gdf=gpd.GeoDataFrame(index=[0],crs = src_crs, geometry=[point])
-
+        
     # Change CRS to match Wildfire CRS (3857)
     gdf_tf = gdf.to_crs("epsg:3857")
-
+    
     # pull x and y value out from the POINT attribute, then get
     # the value in the data series at row[0]
     x = gdf_tf.geometry.x.at[0]
     y = gdf_tf.geometry.y.at[0]
-
+        
     return (x,y)
 
 
 def convert_polygon(fire_polygon):
-    """Convert Coord ref system (CRS) from fire data (EPSG 3857) to map
+    """Convert Coord ref system (CRS) from fire data (EPSG 3857) to map 
     lat/long (EPSG 4326), polygon starts and ends on same point (to close it)
-
+    
     Input: list containing tuples of x,y points in fire CRS that describe a polygon
     Output: list containing tuples of lat/long points that describe the polygon
     """
-
+    
     # create polygon
     poly = geometry.Polygon([(p[0], p[1]) for p in fire_polygon])
-
+    
     #CRS
     src_crs = "EPSG:3857"
     dst_crs = "EPSG:4326"
-
+    
     # Create Geo DataFrame
     gfp = gpd.GeoDataFrame(index=[0],crs=src_crs,geometry=[poly])
-
+    
     # Convert CRS
     gfp2 = gfp.to_crs(dst_crs)
-
+    
     # pull data from dataframe
     polyout = gfp2.iloc[0]['geometry']
-
+    
     # create list of tuples, but longitude is first
     l = list(map(tuple,np.asarray(polyout.exterior.coords)))
     l = list(map(lambda m: (m[1],m[0]), l))
-
+    
     return l
-
+    
 
 def get_loc(address):
 	"""
-	Convert a string of address to latitude and longitude
-	Input: String
+	Convert a string of address to latitude and longitude 
+	Input: String 
 	Output: latitude, longitude coordinate
 	"""
 
@@ -165,7 +166,7 @@ def chk_polygon(pt_lon, pt_lat):
 	result = point_interest.within(poly_bound)
 
 	return result
-
+	
 
 def points(poly):
     return list(map(tuple,np.asarray(poly.exterior.coords)))
@@ -187,7 +188,7 @@ def active_fire():
 
 	# read JSON on active fire
 	url = 'https://opendata.arcgis.com/datasets/5da472c6d27b4b67970acc7b5044c862_0.geojson'
-	# geo_data = requests.get(url).json()
+	# geo_data = requests.get(url).json()	
 	geo_data = gpd.read_file(url)
 
 	poly_list = geo_data.geometry
@@ -218,7 +219,7 @@ def active_fire():
 
 	geo_fire = [[a, b] for a, b in zip(lon_geo, lat_geo)]
 
-	#
+	# 
 	fire_names = geo_data.IncidentName
 	acres = geo_data.GISAcres
 
@@ -259,7 +260,7 @@ def active_fire():
 
 	for a in range(0,len(acres)):
 		fireacre.append(acres[a])
-
+		
 	firestate = pd.Series(state_output)
 
 	fireloc = pd.Series(loc_output)
@@ -268,7 +269,7 @@ def active_fire():
 
 	fireacre = pd.Series(fireacre)
 
-	df = {"State": firestate, "Current Active Fire Name": firename, "Approximate Fire Location": fireloc, "Acre Burned": fireacre }
+	df = {"State": firestate, "Current Active Fire Name": firename, "Approximate Fire Location": fireloc, "Acre Burned": fireacre } 
 
 	fire_table = pd.DataFrame(df)
 
@@ -311,7 +312,7 @@ def chk_fire(lon_origin, lat_origin):
 
 	# read JSON on active fire
 	url = 'https://opendata.arcgis.com/datasets/5da472c6d27b4b67970acc7b5044c862_0.geojson'
-	# geo_data = requests.get(url).json()
+	# geo_data = requests.get(url).json()	
 	geo_data = gpd.read_file(url)
 
 	poly_list = geo_data.geometry
@@ -400,10 +401,10 @@ def fire_map():
 	address = "Berkeley, CA" # set initial address to Berkeley
 	if request.method == "POST":
 		address = str(request.form["address"])
-
+	
 	# call function (get_loc) to convert address into longitude and latitude
 	add_lat, add_lon = get_loc(address)
-
+	
 	# check to see if address entered is within the polygon the model is trained on
 	if chk_polygon(add_lon, add_lat):
 
@@ -440,10 +441,10 @@ def fire_map():
 	# 	geo_lon = geo_center[i][0]
 	# 	crs = convert_point(geo_lat, geo_lon)
 
-	return render_template('/fire_map.html',
+	return render_template('/fire_map.html', 
 							fire_table = [fire_table.to_html (classes = "ftable", justify = "center", index_names = "false")],
-							ACCESS_KEY = MAPBOX_ACCESS_KEY,
-							map_output = map_output,
+							ACCESS_KEY = MAPBOX_ACCESS_KEY, 
+							map_output = map_output, 
 							add_loc = [add_lon, add_lat],
 							geo_fire = geo_fire,
 							no_fire = no_fire,
