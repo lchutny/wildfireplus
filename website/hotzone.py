@@ -6,6 +6,7 @@ import mapbox
 import urllib
 import gmplot
 import requests
+import re
 import numpy as np
 import pandas as pd
 import geopandas as gpd
@@ -182,6 +183,9 @@ def active_fire():
 	lon_geo = []
 	geo_fire = []
 
+	# list of the States in USA
+	states = ['Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota','South Dakota','Ohio','Oklahoma','Oregon','Pennsylvania','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virginia','Washington','West Virginia','Wisconsin','Wyoming']
+
 	# read JSON on active fire
 	url = 'https://opendata.arcgis.com/datasets/5da472c6d27b4b67970acc7b5044c862_0.geojson'
 	# geo_data = requests.get(url).json()	
@@ -222,6 +226,7 @@ def active_fire():
 	geocoder = mapbox.Geocoder(access_token = MAPBOX_ACCESS_KEY)
 
 	loc_output = []
+	state_output = []
 
 	for l in range(0,len(geo_fire)):
 
@@ -236,6 +241,16 @@ def active_fire():
 
 		loc_output.append(loc_name)
 
+		result = loc_name.split(",")
+
+		for s in range(0,len(result)):
+			res = result[s]
+			res1 = re.sub(r'[0-9]+', '',res)
+			res2 = res1.strip()
+			if res2 in states:
+				state_output.append(res2)
+				break
+
 	firename = []
 
 	for f in range(0,len(fire_names)):
@@ -245,6 +260,8 @@ def active_fire():
 
 	for a in range(0,len(acres)):
 		fireacre.append(acres[a])
+		
+	firestate = pd.Series(state_output)
 
 	fireloc = pd.Series(loc_output)
 
@@ -252,9 +269,13 @@ def active_fire():
 
 	fireacre = pd.Series(fireacre)
 
-	df = {" Current Active Fire Name ": firename, " Fire Location": fireloc, " Acre Burned ": fireacre } 
+	df = {"State": firestate, "Current Active Fire Name": firename, "Approximate Fire Location": fireloc, "Acre Burned": fireacre } 
 
 	fire_table = pd.DataFrame(df)
+
+	fire_table = fire_table.sort_values(by=["State"])
+
+	fire_table = fire_table.reset_index(drop=True)
 
 	return geo_fire, fire_table
 
@@ -421,7 +442,7 @@ def fire_map():
 	# 	crs = convert_point(geo_lat, geo_lon)
 
 	return render_template('/fire_map.html', 
-							fire_table = [fire_table.to_html (classes = "ftable")],
+							fire_table = [fire_table.to_html (classes = "ftable", justify = "center", index_names = "false")],
 							ACCESS_KEY = MAPBOX_ACCESS_KEY, 
 							map_output = map_output, 
 							add_loc = [add_lon, add_lat],

@@ -99,9 +99,6 @@
         <br>
         <p>Explore map by dragging or zooming in/out with mouse/mousepad, or click on map and use - and + to zoom in/out with keyboard</p>
         <br>
-        <br>
-        <br>
-        <br>
     </div>
 
     <!-- <div id='map' style='width: 1800px; height: 1400px; margin-right: auto; margin-left: auto;'> -->
@@ -180,7 +177,7 @@
             outside_bound = {{outside_bound|safe}}
 
             if ( outside_bound ) {
-                alert("We apologize for the inconvenience.  The address of interest is currently outside the geographical boundary of our trained machine learning model.  Due to potential differences in terrains and other geographical factors, we are not able to accurately predict active fire spread beyond this boundary.  We are working on expanding, please check back soon.");
+                alert("We apologize for the inconvenience.  The address of interest is currently outside the geographical boundary of our trained machine learning model.  Due to potential differences in terrains and other geographical factors, we are not able to accurately predict active fire spread beyond this boundary.  We are working on expanding, please check back soon.  Thank you.");
             }
 
             if ( no_fire ) {
@@ -279,6 +276,7 @@
                 <br>
                 <br>
                 <h2 class="section-heading">List of current Active Fires in the United States</h2>
+                <h5>http://data-nifc.opendata.arcgis.com/</h5>
                 <br>
                 <br>
             </div>
@@ -291,16 +289,15 @@
         {% endfor %}
     </div>
 
-    <div>
+    <div class="col-lg-12 text-center">
         <br>
         <br>
-        <p> Thank you for visiting!</p>
+        <h1>Thank you for visiting!</h1>
         <br>
         <br>
         <br> 
         <br>
-        <br>
-        <br>          
+        <br>       
     </div>
 
 
