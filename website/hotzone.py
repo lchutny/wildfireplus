@@ -269,7 +269,7 @@ def active_fire():
 
 	fireacre = pd.Series(fireacre)
 
-	df = {"State": firestate, "Current Active Fire Name": firename, "Approximate Fire Location": fireloc, "Acre Burned": fireacre } 
+	df = {"State": firestate, "Active Fire Name": firename, "Approximate Fire Location": fireloc, "Acre Burned": fireacre } 
 
 	fire_table = pd.DataFrame(df)
 
