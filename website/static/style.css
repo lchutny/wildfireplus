@@ -238,6 +238,11 @@ tr:hover { background-color: #ffff99;}
 
 /* navbar style */
 
+.nav-vl {
+  border-left: 6px solid green;
+  height: 80%;
+}
+
 .navbar-default {
   background-color: #000000;
   border-color: #000000;
