@@ -83,6 +83,8 @@
                 <br>
                 <h2 class="section-heading">HOTzone</h2>
                 <hr class="primary">
+                <h4>Instruction: Please enter an address below to see if there is an active fire within 100 miles of that location and see its potentially spread in 24 hours.</h4>
+                <br>
                 <h5>Note: Current fire spread prediction is limited to within 100 miles of Berkeley, CA.  The team is working on expanding the model beyond this area.</h5>
                 <h5>However, a list of current active fires in the United States are provided below for reference.</h5>
             </div>
@@ -167,7 +169,7 @@
 
             mapboxgl.accessToken = mapkey;
 
-            poly_output = {{map_output|safe}}
+            poly_output_day1 = {{map_output_day1|safe}}
 
             geo_center = {{geo_center|safe}}
 
@@ -247,7 +249,7 @@
                             'type': 'Feature',
                             'geometry': {
                                 'type': 'Polygon',
-                                'coordinates': [ poly_output
+                                'coordinates': [ poly_output_day1
                             ]
                         }
                     },
