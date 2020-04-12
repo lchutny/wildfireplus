@@ -277,6 +277,8 @@ def active_fire():
 
 	fire_table = fire_table.reset_index(drop=True)
 
+	fire_table.index = fire_table.index + 1
+
 	return geo_fire, fire_table
 
 
