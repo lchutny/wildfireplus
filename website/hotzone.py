@@ -1,14 +1,21 @@
-# import all necessary libraries
+# import all necessary libraries / packages
 import ast
 import json
 import csv
 import mapbox
 import urllib
-# import gmplot
 import requests
 import re
+import boto3
+import datetime
+import io
+import os
+import pickle
+import itertools
+import keras
 import numpy as np
 import pandas as pd
+import rasterio as rio
 import geopandas as gpd
 from shapely import geometry
 from shapely.geometry import Polygon
@@ -17,7 +24,7 @@ from csv import reader
 from mapbox import Geocoder
 from flask import Flask, request, render_template
 from math import radians, degrees, sin, cos, asin, acos, sqrt
-# from pyproj import Proj
+
 
 # initialize Flask
 app = Flask(__name__)
@@ -150,6 +157,7 @@ def get_loc(address):
 	add_lon = address["features"][0]["center"][0]
 	return add_lat, add_lon
 
+
 def chk_polygon(pt_lon, pt_lat):
 	"""
 	This function checks to see if address entered is within the polygon of data the model is trained on
@@ -170,6 +178,7 @@ def chk_polygon(pt_lon, pt_lat):
 
 def points(poly):
     return list(map(tuple,np.asarray(poly.exterior.coords)))
+
 
 def active_fire():
 	"""
@@ -373,8 +382,310 @@ def chk_fire(lon_origin, lat_origin):
 			geo_poly =[]
 			break
 
+	# convert to format for prediction
+	geo_poly = [tuple(l) for l in geo_poly] 
+
 	return geo_center, geo_poly
 
+
+# codes for CNN prediction
+
+# s3 config
+s3_client = boto3.client('s3')
+bucket_name = 'hotzone'
+
+
+def pull_data_from_s3(s3_client, bucket_name, key_name):
+    '''
+    Pulls pre-processed data from S3.
+
+    Args:
+        - s3_client: boto3 s3 client
+        - bucket_name: name of bucket on s3 to pull data from
+        - key_name: directory/file_name to pull data from
+    Returns:
+        - Nothing
+    
+    https://stackoverflow.com/questions/48049557/how-to-write-npy-file-to-s3-directly
+    '''
+    
+    array_data = io.BytesIO()
+    s3_client.download_fileobj(bucket_name, key_name, array_data)
+    
+    array_data.seek(0)
+    array = pickle.load(array_data)
+
+    return array
+
+
+def get_index(long,lat):
+    
+    '''
+    Get the pixel of a given coordinate.
+    
+    Args:
+        - Long: longitude of point
+        - Lat: latitude of point
+    Returns:
+        - pixelrow: index of row of point
+        - pixelcol: index of column of point
+    
+    '''
+
+    left = -123.50294421461426
+    top = 39.00106654811723
+
+    xres = 0.004411751262768785
+    yres = -0.0041759449407971815
+    
+    pixelcol = int(np.rint((long - left)/xres))
+    pixelrow = int(np.rint((lat - top)/yres))
+    
+    return (pixelrow, pixelcol)
+
+
+def get_coords(y, x):
+    
+    '''
+    Get the coordinates of a given pixel in the tif coordinate system.
+    
+    Args:
+        - Y: index of row of point
+        - X: index of column of point
+    Returns:
+        - Long: longitude of point
+        - Lat: latitude of point
+    '''
+    
+    left = -123.50294421461426
+    top = 39.00106654811723
+
+    xres = 0.004411751262768785
+    yres = -0.0041759449407971815
+
+    deltax = xres*x
+    deltay = yres*y
+
+    long = left+deltax
+    lat = top+deltay
+    
+    return (long, lat)
+
+
+def get_weather(max_values, lat, long, day):
+
+    '''
+    Get tomorrow's weather forecast for fire prediction.
+    
+    Args:
+        - Max_values: list of weather max_values used to scale weather
+        - Lat: latitude of point to fetch weather for
+        - Long: longitude of point to fetch weather for
+    Returns:
+        - weather: a list of weather data to use for prediction
+    '''
+    
+    
+    s = requests.Session()
+    s.auth = ('user', 'pass')
+    s.headers.update({'Accept-Encoding':'gzip'})
+    headers = {'Accept-Encoding':'gzip'}
+    
+    key = '5ffac5f056d341c6296cba58fa96e9ba'
+    date = str(datetime.date.today() + datetime.timedelta(days = day)) + 'T12:00:00'
+    lat = str(lat,)
+    long = str(long)
+    blocks = '[currently,minutely,hourly,alerts]'
+    units = 'ca'
+
+    # set the query string for darksky
+    query = ('https://api.darksky.net/forecast/'+key+'/'+ 
+    lat+','+long+','+date+'?exclude=' 
+    +blocks+'&units='+units)
+
+    # Make the call to Dark Sky to get all the data for that date and location
+    r = s.get(query,headers=headers)
+
+    data = r.json()
+    data = data['daily']['data'][0]
+    
+    rainint = data['precipIntensityMax']
+    high_t = data['temperatureHigh']
+    low_t= data['temperatureLow']
+    humidity = data['humidity']
+    wind_speed = data['windSpeed']
+    wind_direction = data['windBearing']
+    
+    weather_data = {
+        'rainint': rainint,
+        'High T': high_t,
+        'Low T': low_t,
+        'Humidity': humidity,
+        'Wind Speed': wind_speed,
+        'Wind Direction': wind_direction,
+        'Fire Direction': 8,
+        'Fire Speed': 6
+    }
+    
+    weather = []
+        
+    for k, v in weather_data.items():
+        max_val = max_values.get(k, 1)
+        
+        val = v/float(max_val)
+        weather.append(val)
+          
+    return weather
+
+
+def pull_weather_maxes_from_s3():
+    '''
+    Pull files from S3 for the provided year and save to local directory
+    '''
+    
+        
+    s3 = boto3.resource('s3')
+    
+    key = "BayAreaWeather/max_values/max_values.pickle"
+    directory = 'static/'
+    path = directory + 'max_values.pickle'
+    
+    s3.Bucket('hotzone').download_file(key, path)
+    
+    total_path = os.path.abspath(directory)
+    
+    for f in os.listdir(total_path):
+        if f.endswith('.pickle'):
+            max_values = total_path + '/' + f
+
+    max_values = pd.read_pickle(max_values)
+    
+    return max_values
+
+
+def predict_day(lat_long_coords, day=1):
+
+    '''
+    Predict where fire will be in the next day.
+    
+    Args:
+        - lat_long_coords: a list of lat/long coordinates that make up a polygon representing where fire is
+    Returns:
+        - prediction: a list of lat/long coordinates that make up a polygon representing where fire will be
+    '''
+    
+    # load model from s3
+
+    new_config = pull_data_from_s3(s3_client, bucket_name, 'models/model_config.pickle')
+    new_weights = pull_data_from_s3(s3_client, bucket_name, 'models/model_weights.pickle')
+
+    model = keras.Model.from_config(new_config)
+    model.set_weights(new_weights)
+
+    today = np.zeros((719, 908))
+    side = 16
+    
+    values = []
+    
+    for (long, lat) in lat_long_coords:
+        index = get_index(long,lat)
+        today[index] = 1
+        
+    np.pad(today, pad_width=32, mode='constant', constant_values=0)
+    
+    vals = np.where(today == 1)
+    
+    x_avg = int(np.mean(vals[0]))
+    y_avg = int(np.mean(vals[1]))
+
+    x_min = x_avg - 50
+    x_max = x_avg + 50
+    
+    x_min = max(x_min, 0)
+    x_max = min(x_max, 972)
+    
+    y_min = y_avg - 50
+    y_max = y_avg + 50
+    
+    y_min = max(y_min, 0)
+    y_max = min(y_max, 783)
+    
+    
+    x_vals = range(x_min, x_max)
+    y_vals = range(y_min, y_max)
+    
+    vals = list(itertools.product(x_vals, y_vals))
+    
+    values = []
+    
+    shape = today.shape
+    prediction = np.zeros(shape)
+    
+    (long, lat) = get_coords(x_avg, y_avg)
+    
+    # get max weather values
+    max_values = pull_weather_maxes_from_s3()
+    
+    weather = get_weather(max_values, lat, long, day)
+    
+    for (xi, yi) in vals:
+        
+        point = (xi, yi)
+
+        xi_r = int(xi + side)
+        xi_l = int(xi - side)
+        yi_b = int(yi + side)
+        yi_t = int(yi - side)
+        
+        if xi_r > 0 and xi_l > 0 and yi_b > 0 and yi_t > 0:
+
+            m = today[xi_l:xi_r, yi_t:yi_b]
+
+            if (m.shape == (32, 32)):
+                values.append((point, weather, m))
+                
+
+    for (point, w, f) in values:        
+        fire = []
+        weather = []
+
+        fire.append(np.asarray(f))
+        weather.append(np.asarray(w))
+
+        fire = np.asarray(fire)
+        weather = np.asarray(weather)
+        
+        obs = len(fire)
+        fire = fire.reshape(obs, 32, 32, 1)
+
+        val = model.predict([fire, weather])
+            
+        prediction[point] = val
+    
+    
+    outline = np.rint(prediction)
+    outline = np.diff(outline)
+    outline = np.abs(outline)
+
+    # get pixels from outline
+    poly_to_plot = np.where(outline != 0)
+
+    # instantiate a matrix in the target shape
+    shape = outline.shape
+    poly = np.zeros(shape)
+
+    # create a list of coordinates in the tif coordinate system
+    tif_coordinates = []
+
+    for (xi, yi) in list(zip(poly_to_plot[0], poly_to_plot[1])):
+        poly[xi,yi] = 1
+        coords = get_coords(xi, yi)
+        tif_coordinates.append(coords)
+
+    return tif_coordinates
+
+
+# For Flask application
 
 @app.route('/')
 def index():
@@ -389,15 +700,99 @@ def fire_map():
 	add_loc = []
 	map_output = []
 	geo_fire = []
-	map_output = []
+	map_output_day1 = []
+	map_output_day2 = []
 	outside_bound = "false"
 	no_fire	= "false"
 
 	# call function (active_fire) to get this list of active fire for map plotting and convert it into dataframe for table visualization
 	geo_fire, fire_table = active_fire()
 
-	# this is the polygon shape for map_output for demo purpose only
+	# this is the polygon shape for map_output_day1 for demo purpose only
 	poly_shape = [[-121.923043159997,36.5243953595764],[-121.895555446772,36.5243953595764],[-121.927624445535,36.5207136879198],[-121.886392875697,36.5207136879198],[-121.927624445535,36.5170318410666],[-121.886392875697,36.5170318410666],[-121.932205731072,36.5133498190239],[-121.872649019084,36.5133498190239],[-121.932205731072,36.5096676217985],[-121.872649019084,36.5096676217985],[-121.932205731072,36.5059852493972],[-121.868067733547,36.5059852493972],[-121.932205731072,36.5023027018269],[-121.868067733547,36.5023027018269],[-121.93678701661,36.4986199790946],[-121.868067733547,36.4986199790946],[-121.93678701661,36.494937081207],[-121.868067733547,36.494937081207],[-121.932205731072,36.4912540081711],[-121.868067733547,36.4912540081711],[-121.932205731072,36.4875707599937],[-121.868067733547,36.4875707599937],[-121.932205731072,36.4838873366818],[-121.858905162472,36.4838873366818],[-121.932205731072,36.4802037382423],[-121.868067733547,36.4802037382423],[-121.932205731072,36.476519964682],[-121.858905162472,36.476519964682],[-121.932205731072,36.4728360160079],[-121.854323876934,36.4728360160079],[-121.932205731072,36.4691518922269],[-121.822254878171,36.4691518922269],[-121.932205731072,36.4654675933458],[-121.813092307096,36.4654675933458],[-121.927624445535,36.4617831193716],[-121.808511021559,36.4617831193716],[-121.932205731072,36.4580984703112],[-121.808511021559,36.4580984703112],[-121.932205731072,36.4544136461716],[-121.803929736021,36.4544136461716],[-121.93678701661,36.4507286469595],[-121.794767164946,36.4507286469595],[-121.950530873222,36.4470434726821],[-121.895555446772,36.4470434726821],[-121.890974161234,36.4470434726821],[-121.886392875697,36.4470434726821],[-121.881811590159,36.4470434726821],[-121.794767164946,36.4470434726821],[-121.950530873222,36.4433581233461],[-121.886392875697,36.4433581233461],[-121.881811590159,36.4433581233461],[-121.790185879409,36.4433581233461],[-121.950530873222,36.4396725989586],[-121.895555446772,36.4396725989586],[-121.881811590159,36.4396725989586],[-121.790185879409,36.4396725989586],[-121.950530873222,36.4359868995264],[-121.785604593871,36.4359868995264],[-121.950530873222,36.4323010250566],[-121.785604593871,36.4323010250566],[-121.950530873222,36.428614975556],[-121.781023308334,36.428614975556],[-121.950530873222,36.4249287510315],[-121.895555446772,36.4249287510315],[-121.872649019084,36.4249287510315],[-121.781023308334,36.4249287510315],[-121.950530873222,36.4212423514902],[-121.895555446772,36.4212423514902],[-121.872649019084,36.4212423514902],[-121.776442022796,36.4212423514902],[-121.950530873222,36.417555776939],[-121.895555446772,36.417555776939],[-121.872649019084,36.417555776939],[-121.776442022796,36.417555776939],[-121.941368302147,36.4138690273849],[-121.900136732309,36.4138690273849],[-121.863486448009,36.4138690273849],[-121.776442022796,36.4138690273849],[-121.932205731072,36.4101821028348],[-121.904718017847,36.4101821028348],[-121.863486448009,36.4101821028348],[-121.776442022796,36.4101821028348],[-121.932205731072,36.4064950032956],[-121.909299303385,36.4064950032956],[-121.863486448009,36.4064950032956],[-121.776442022796,36.4064950032956],[-121.932205731072,36.4028077287743],[-121.909299303385,36.4028077287743],[-121.863486448009,36.4028077287743],[-121.776442022796,36.4028077287743],[-121.923043159997,36.399120279278],[-121.91846187446,36.399120279278],[-121.863486448009,36.399120279278],[-121.776442022796,36.399120279278],[-121.863486448009,36.3954326548135],[-121.776442022796,36.3954326548135],[-121.863486448009,36.3917448553878],[-121.781023308334,36.3917448553878],[-121.863486448009,36.388056881008],[-121.781023308334,36.388056881008],[-121.863486448009,36.3843687316809],[-121.785604593871,36.3843687316809],[-121.863486448009,36.3806804074137],[-121.790185879409,36.3806804074137],[-121.858905162472,36.3769919082132],[-121.794767164946,36.3769919082132],[-121.858905162472,36.3733032340865],[-121.794767164946,36.3733032340865],[-121.858905162472,36.3696143850405],[-121.799348450484,36.3696143850405],[-121.858905162472,36.3659253610823],[-121.799348450484,36.3659253610823],[-121.849742591397,36.3622361622188],[-121.813092307096,36.3622361622188],[-121.831417449246,36.3585467884571],[-121.826836163709,36.3585467884571],[-121.923043159997,36.5243953595764]]
+
+	# these are just some dummy lat/long coordinates i made
+
+	lat_long_coords = [
+		(-120.63089414255178, 38.86743631001172),
+	    (-120.62207064002624, 38.86743631001172),
+	    (-120.63089414255178, 38.86326036507092),
+	    (-120.61765888876347, 38.86326036507092),
+	    (-120.63530589381455, 38.859084420130124),
+	    (-120.60442363497516, 38.859084420130124),
+	    (-120.63971764507731, 38.854908475189326),
+	    (-120.6000118837124, 38.854908475189326),
+	    (-120.64412939634009, 38.85073253024853),
+	    (-120.6000118837124, 38.85073253024853),
+	    (-120.63530589381455, 38.84655658530773),
+	    (-120.58677662992409, 38.84655658530773),
+	    (-120.62207064002624, 38.84238064036694),
+	    (-120.56912962487301, 38.84238064036694),
+	    (-120.61765888876347, 38.83820469542614),
+	    (-120.61324713750071, 38.83820469542614),
+	    (-120.59560013244963, 38.83820469542614),
+	    (-120.56471787361025, 38.83820469542614),
+	    (-120.59560013244963, 38.834028750485345),
+	    (-120.56030612234748, 38.834028750485345),
+	    (-120.5558943710847, 38.834028750485345),
+	    (-120.55148261982194, 38.834028750485345),
+	    (-120.64412939634009, 38.82985280554455),
+	    (-120.63971764507731, 38.82985280554455),
+	    (-120.59118838118687, 38.82985280554455),
+	    (-120.54707086855917, 38.82985280554455),
+	    (-120.64412939634009, 38.82567686060375),
+	    (-120.63089414255178, 38.82567686060375),
+	    (-120.6000118837124, 38.82567686060375),
+	    (-120.53824736603363, 38.82567686060375),
+	    (-120.64854114760286, 38.82150091566295),
+	    (-120.54707086855917, 38.82150091566295),
+	    (-120.53824736603363, 38.82150091566295),
+	    (-120.53383561477087, 38.82150091566295),
+	    (-120.68824690896777, 38.817324970722154),
+	    (-120.683835157705, 38.817324970722154),
+	    (-120.6573646501284, 38.817324970722154),
+	    (-120.53824736603363, 38.817324970722154),
+	    (-120.683835157705, 38.81314902578136),
+	    (-120.6705999039167, 38.81314902578136),
+	    (-120.66618815265393, 38.81314902578136),
+	    (-120.5294238635081, 38.81314902578136),
+	    (-120.67942340644224, 38.80897308084056),
+	    (-120.67501165517947, 38.80897308084056),
+	    (-120.66177640139117, 38.80897308084056),
+	    (-120.5294238635081, 38.80897308084056),
+	    (-120.6705999039167, 38.80479713589976),
+	    (-120.5294238635081, 38.80479713589976),
+	    (-120.683835157705, 38.800621190958964),
+	    (-120.58236487866132, 38.800621190958964),
+	    (-120.57795312739856, 38.800621190958964),
+	    (-120.51618860971979, 38.800621190958964),
+	    (-120.67501165517947, 38.796445246018166),
+	    (-120.66177640139117, 38.796445246018166),
+	    (-120.64854114760286, 38.796445246018166),
+	    (-120.59560013244963, 38.796445246018166),
+	    (-120.58236487866132, 38.796445246018166),
+	    (-120.53824736603363, 38.796445246018166),
+	    (-120.5294238635081, 38.796445246018166),
+	    (-120.51177685845703, 38.796445246018166),
+	    (-120.683835157705, 38.79226930107737),
+	    (-120.66618815265393, 38.79226930107737),
+	    (-120.61324713750071, 38.79226930107737),
+	    (-120.6000118837124, 38.79226930107737),
+	    (-120.57795312739856, 38.79226930107737),
+	    (-120.50295335593148, 38.79226930107737),
+	    (-120.60442363497516, 38.78809335613657),
+	    (-120.59560013244963, 38.78809335613657),
+	    (-120.58677662992409, 38.78809335613657),
+	    (-120.48971810214319, 38.78809335613657),
+	    (-120.60442363497516, 38.78391741119577),
+	    (-120.49412985340595, 38.78391741119577),
+	    (-120.58677662992409, 38.779741466254976),
+	    (-120.48971810214319, 38.779741466254976),
+	    (-120.56471787361025, 38.775565521314185),
+	    (-120.50736510719426, 38.775565521314185),
+	    (-120.54707086855917, 38.77138957637339),
+	    (-120.50736510719426, 38.77138957637339)
+	]
 
 	# POST address entered by user
 	address = "Berkeley, CA" # set initial address to Berkeley
@@ -416,11 +811,16 @@ def fire_map():
 		# check to see if function above returns any active fire, if exist, convert the polygon to crs coordinate for model to use
 		if len(geo_center) > 0:
 
-			cnn_poly = convert_polygon(geo_poly)
+			# cnn_poly = convert_polygon(geo_poly)
 			# write_csv(cnn_poly,"static/initial_polygon.csv")
 
-			# this called the cnn_model to get the final polygon shape for mapping
-			map_output = cnn_model(geo_poly)
+			# this called the CNN model to predict the polygon shape for mapping for day 1 of fire
+			predict_day1 = predict_day(geo_poly, 1)
+			map_output_day1 = [list(row) for row in predict_day1] # to convert to format for mapbox
+
+			# this called the CNN model to predict the polygon shape for mapping for day 2 of fire
+			predict_day2 = predict_day(predict_day1, 2)
+			map_output_day2 = [list(row) for row in predict_day2]
 
 		# uncomment this code if true deployment
 		# else:
@@ -430,7 +830,14 @@ def fire_map():
 		# this is for our demo if there happened to be no active fire nearby
 		else:
 
-			map_output = poly_shape
+			map_output_day1 = poly_shape
+			# predict_day1 = [tuple(l) for l in map_output_day1]
+
+			# predict_day1 = predict_day(lat_long_coords, 1)
+			# map_output_day1 = [list(row) for row in predict_day1] # to convert to format for mapbox
+
+			# predict_day2 = predict_day(predict_day1, 2)
+			# map_output_day2 = [list(row) for row in predict_day2]
 
 			# map_output = read_csv()
 
@@ -444,9 +851,10 @@ def fire_map():
 	# 	crs = convert_point(geo_lat, geo_lon)
 
 	return render_template('/fire_map.html', 
-							fire_table = [fire_table.to_html (classes = "ftable", justify = "center", index_names = "false")],
+							fire_table = [fire_table.to_html (classes = "ftable")],
 							ACCESS_KEY = MAPBOX_ACCESS_KEY, 
-							map_output = map_output, 
+							map_output_day1 = map_output_day1,
+							map_output_day2 = map_output_day2,
 							add_loc = [add_lon, add_lat],
 							geo_fire = geo_fire,
 							no_fire = no_fire,
