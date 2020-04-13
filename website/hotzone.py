@@ -830,14 +830,14 @@ def fire_map():
 		# this is for our demo if there happened to be no active fire nearby
 		else:
 
-			# map_output_day1 = poly_shape
+			map_output_day1 = poly_shape
 			# predict_day1 = [tuple(l) for l in map_output_day1]
 
-			predict_day1 = predict_day(lat_long_coords, 1)
-			map_output_day1 = [list(row) for row in predict_day1] # to convert to format for mapbox
+			# predict_day1 = predict_day(lat_long_coords, 1)
+			# map_output_day1 = [list(row) for row in predict_day1] # to convert to format for mapbox
 
-			predict_day2 = predict_day(predict_day1, 2)
-			map_output_day2 = [list(row) for row in predict_day2]
+			# predict_day2 = predict_day(predict_day1, 2)
+			# map_output_day2 = [list(row) for row in predict_day2]
 
 			# map_output = read_csv()
 
