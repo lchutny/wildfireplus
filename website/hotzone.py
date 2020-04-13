@@ -728,8 +728,10 @@ def fire_map():
 			# cnn_poly = convert_polygon(geo_poly)
 			# write_csv(cnn_poly,"static/initial_polygon.csv")
 
-			# this called the cnn_model to get the final polygon shape for mapping
+			# this called the CNN model to predict the polygon shape for mapping for day 1 of fire
 			map_output_day1 = predict_day(geo_poly, 1)
+
+			# this called the CNN model to predict the polygon shape for mapping for day 2 of fire
 			map_output_day2 = predict_day(map_output_day1, 2)
 
 		# uncomment this code if true deployment
@@ -741,6 +743,8 @@ def fire_map():
 		else:
 
 			map_output_day1 = poly_shape
+
+			map_output_day2 = predict_day(map_output_day1, 2)
 
 			# map_output = read_csv()
 
