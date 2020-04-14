@@ -83,7 +83,7 @@
                 <br>
                 <h2 class="section-heading">HOTzone</h2>
                 <hr class="primary">
-                <h4>Instruction: Please enter an address below to see if there is an active fire within 100 miles of that location and see its potentially spread in 24 hours.</h4>
+                <h4>Instruction: Please enter an address below to see if there is an active fire within 100 miles of that location and see its potential spread in the next 24 hours.</h4>
                 <br>
                 <h5>Note: Current fire spread prediction is limited to within 100 miles of Berkeley, CA.  The team is working on expanding the model beyond this area.</h5>
                 <h5>However, a list of current active fires in the United States are provided below for reference.</h5>
@@ -191,6 +191,7 @@
                 alert("Based on the address you have entered, we find no active fire within 100 miles of this location.");
             }
 
+            // initiate map
             var map = new mapboxgl.Map({
                 container: 'map',
                 style: 'mapbox://styles/mapbox/streets-v11',
@@ -199,15 +200,25 @@
                 zoom: 10
             });
 
+            // add blue marker for address of interest
             var marker = new mapboxgl.Marker() // Initialize a new marker
                 .setLngLat(add_loc) // Marker [lng, lat] coordinates
+                .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
+                    .setHTML('<h4>' + "YOU ARE HERE" + '</h4>'))
                 .addTo(map); // Add the marker to the map
 
+
+            // create a HTML element for each feature
+            var el = document.createElement('div');
+            el.className = 'marker';
+            el.style.backgroundImage = 'static/images/fire_icon.png';
+
+            // add fire marker for active fire locations
             var i;
 
             for (i = 0; i < geo_fire.length; i++) {
-                var marker = new mapboxgl.Marker({color: 'red'}
-                ) // Initialize a new marker
+                // var marker = new mapboxgl.Marker(el) // Initialize a new marker
+                var marker = new mapboxgl.Marker({color: 'red'}) // Initialize a new marker
                     .setLngLat(geo_fire[i]) // Marker [lng, lat] coordinates
                     .addTo(map); // Add the marker to the map
                 };
