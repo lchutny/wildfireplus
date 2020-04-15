@@ -101,6 +101,7 @@
             <p><input type = "submit" value = "Submit" /></p>
         </form>
         <br>
+        <br>
         <p>Explore map by dragging or zooming in/out with mouse/mousepad, or click on map and use - and + to zoom in/out with keyboard</p>
         <br>
     </div>
@@ -126,7 +127,7 @@
         <br>
         <br>
     </div>
-
+    
     <!-- <div id='map' style='width: 1800px; height: 1400px; margin-right: auto; margin-left: auto;'> -->
 
 <!--         <div id="comparison-container">
@@ -190,9 +191,9 @@
 
             mapboxgl.accessToken = mapkey;
 
-            poly_output_day1 = {{map_output_day1|safe}}
+            // poly_output_day1 = {{map_output_day1|safe}}
 
-            // poly_output_day2 = {{map_output_day2|safe}}
+            poly_output_day2 = {{map_output_day2|safe}}
 
             geo_center = {{geo_center|safe}}
 
@@ -283,7 +284,7 @@
                             'type': 'Feature',
                             'geometry': {
                                 'type': 'Polygon',
-                                'coordinates': [ poly_output_day1
+                                'coordinates': [ poly_output_day2
                             ]
                         }
                     },

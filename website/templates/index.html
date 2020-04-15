@@ -20,7 +20,7 @@
 </head>
 
 <body>
-
+3
     <nav class="navbar-default navbar-fixed-top affix">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -251,6 +251,9 @@
                     <br>
                     <h2 class="section-heading">How HOTzone Works</h2>
                     <hr class="primary">
+                    <img src="static/images/hotzone_icon.png" alt="logo" class="img-responsive img-us" width="150" height="150">
+                    <br>
+                    <br>
                 </div>
             </div>
         </div>
@@ -259,9 +262,17 @@
         </div>
 
         <div class="col-lg-10" style="font-size:1vw">
-            <p>HOTzone uses the Convolutional Neural Network (CNN) algorithm 
+            <p>HOTzone uses the Convolutional Neural Network (CNN) algorithm to predict the potential spread of an active fire.  It identifies hierarchical patterns in the train data and assemble more complex pattersn using smaller and simpler patterns.  It learns the dependencies between the different pixels, learns whether a pixel will be on "fire" based on whether the pixels around it are on "fire".  
+            <br>
+            <br>
+            Currently, HOTzone is a web application that takes a location input from users, check to see if there is an active within 100 miles of that address.  If there is a nearby active fire, the current fire perimeter will be fed into the model.  In return, the model will predict how the current fire will spread in the next 24 hours.  This potential perimeter spread for the next day will be shown on the map.  If there is no active fire nearby, the user will be prompted with a message that there is no active fire within 100 miles radius.
+            <br>
+            <br>
+            Given the complications and differences in terrains and other geographical factors, currently HOTzone can only make decent prediction for fires that occur within the geographical boundary of the train dataset.
+            <br>
+            <br>
+            </p>
         </div>
-            
         <br>
         <br>
         <br>
@@ -304,7 +315,6 @@
                 <br>
                 <li><a href="https://stackoverflow.com">Stackoverflow.com</a></li>
             </ul>
-            <br>
             <br>
             <br>
             <a href="https://darksky.net"><img src="/static/images/darksky.png" class="img-us" alt=darksky width="80" height="40"></a>

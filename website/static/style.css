@@ -185,6 +185,35 @@ tr:nth-child(even) { background-color:#fff; }
 
 tr:hover { background-color: #ffff99;}
 
+/* button link */
+
+.lnkButton {
+    display: inline-block;
+    position: relative;
+}
+
+.lnkButton > a {
+    margin: auto; 
+    
+    position: absolute; 
+    top: 0; 
+    right: 0; 
+    bottom: 0; 
+    left: 0; 
+    z-index: 2; 
+    
+    cursor: default;
+}
+
+.lnkButton > a:active + button {
+    border-style: inset;
+}
+
+.lnkButton > button {
+    position: relative; 
+    z-index: 1;
+}
+
 /* mapping */
 
 /*.marker {
