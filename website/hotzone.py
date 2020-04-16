@@ -13,6 +13,7 @@ import os
 import pickle
 import itertools
 import keras
+import tensorflow
 import numpy as np
 import pandas as pd
 import rasterio as rio
@@ -76,7 +77,7 @@ def read_csv():
 
 def write_csv(poly, filename):
 	"""
-	This function writes the active fire intial polygon to csv to be used for the ML model to calculate 
+	This function writes the active fire intial polygon to csv to be used for the ML model to calculate
 	spread on the next day.
 	"""
 	# f = open("/static/intial_polygon.csv", "w")
@@ -98,59 +99,59 @@ def convert_point(lat,lon):
 
     # Declare point (longitude (or x) always comes first, then latitude (y))
     point = Point(lon,lat)
-    
+
     # Set Source CRS (Mapbox or Google Maps)
     src_crs = "EPSG:4326"
-    
+
     # create dataframe from input lat/long
     gdf=gpd.GeoDataFrame(index=[0],crs = src_crs, geometry=[point])
-        
+
     # Change CRS to match Wildfire CRS (3857)
     gdf_tf = gdf.to_crs("epsg:3857")
-    
+
     # pull x and y value out from the POINT attribute, then get
     # the value in the data series at row[0]
     x = gdf_tf.geometry.x.at[0]
     y = gdf_tf.geometry.y.at[0]
-        
+
     return (x,y)
 
 
 def convert_polygon(fire_polygon):
-    """Convert Coord ref system (CRS) from fire data (EPSG 3857) to map 
+    """Convert Coord ref system (CRS) from fire data (EPSG 3857) to map
     lat/long (EPSG 4326), polygon starts and ends on same point (to close it)
-    
+
     Input: list containing tuples of x,y points in fire CRS that describe a polygon
     Output: list containing tuples of lat/long points that describe the polygon
     """
-    
+
     # create polygon
     poly = geometry.Polygon([(p[0], p[1]) for p in fire_polygon])
-    
+
     #CRS
     src_crs = "EPSG:3857"
     dst_crs = "EPSG:4326"
-    
+
     # Create Geo DataFrame
     gfp = gpd.GeoDataFrame(index=[0],crs=src_crs,geometry=[poly])
-    
+
     # Convert CRS
     gfp2 = gfp.to_crs(dst_crs)
-    
+
     # pull data from dataframe
     polyout = gfp2.iloc[0]['geometry']
-    
+
     # create list of tuples, but longitude is first
     l = list(map(tuple,np.asarray(polyout.exterior.coords)))
     l = list(map(lambda m: (m[1],m[0]), l))
-    
+
     return l
-    
+
 
 def get_loc(address):
 	"""
-	Convert a string of address to latitude and longitude 
-	Input: String 
+	Convert a string of address to latitude and longitude
+	Input: String
 	Output: latitude, longitude coordinate
 	"""
 
@@ -178,7 +179,7 @@ def chk_polygon(pt_lon, pt_lat):
 	result = point_interest.within(poly_bound)
 
 	return result
-	
+
 
 def points(poly):
     return list(map(tuple,np.asarray(poly.exterior.coords)))
@@ -201,7 +202,7 @@ def active_fire():
 
 	# read JSON on active fire
 	url = 'https://opendata.arcgis.com/datasets/5da472c6d27b4b67970acc7b5044c862_0.geojson'
-	# geo_data = requests.get(url).json()	
+	# geo_data = requests.get(url).json()
 	geo_data = gpd.read_file(url)
 
 	poly_list = geo_data.geometry
@@ -232,7 +233,7 @@ def active_fire():
 
 	geo_fire = [[a, b] for a, b in zip(lon_geo, lat_geo)]
 
-	# 
+	#
 	fire_names = geo_data.IncidentName
 	acres = geo_data.GISAcres
 
@@ -273,7 +274,7 @@ def active_fire():
 
 	for a in range(0,len(acres)):
 		fireacre.append(acres[a])
-		
+
 	firestate = pd.Series(state_output)
 
 	fireloc = pd.Series(loc_output)
@@ -282,7 +283,7 @@ def active_fire():
 
 	fireacre = pd.Series(fireacre)
 
-	df = {"State": firestate, "Active Fire Name": firename, "Approximate Fire Location": fireloc, "Acre Burned": fireacre } 
+	df = {"State": firestate, "Active Fire Name": firename, "Approximate Fire Location": fireloc, "Acre Burned": fireacre }
 
 	fire_table = pd.DataFrame(df)
 
@@ -327,7 +328,7 @@ def chk_fire(lon_origin, lat_origin):
 
 	# read JSON on active fire
 	url = 'https://opendata.arcgis.com/datasets/5da472c6d27b4b67970acc7b5044c862_0.geojson'
-	# geo_data = requests.get(url).json()	
+	# geo_data = requests.get(url).json()
 	geo_data = gpd.read_file(url)
 
 	poly_list = geo_data.geometry
@@ -387,7 +388,7 @@ def chk_fire(lon_origin, lat_origin):
 			break
 
 	# convert to format for prediction
-	geo_poly = [tuple(l) for l in geo_poly] 
+	geo_poly = [tuple(l) for l in geo_poly]
 
 	return geo_center, geo_poly
 
@@ -409,13 +410,13 @@ def pull_data_from_s3(s3_client, bucket_name, key_name):
         - key_name: directory/file_name to pull data from
     Returns:
         - Nothing
-    
+
     https://stackoverflow.com/questions/48049557/how-to-write-npy-file-to-s3-directly
     '''
-    
+
     array_data = io.BytesIO()
     s3_client.download_fileobj(bucket_name, key_name, array_data)
-    
+
     array_data.seek(0)
     array = pickle.load(array_data)
 
@@ -423,17 +424,17 @@ def pull_data_from_s3(s3_client, bucket_name, key_name):
 
 
 def get_index(long,lat):
-    
+
     '''
     Get the pixel of a given coordinate.
-    
+
     Args:
         - Long: longitude of point
         - Lat: latitude of point
     Returns:
         - pixelrow: index of row of point
         - pixelcol: index of column of point
-    
+
     '''
 
     left = -123.50294421461426
@@ -441,18 +442,18 @@ def get_index(long,lat):
 
     xres = 0.004411751262768785
     yres = -0.0041759449407971815
-    
+
     pixelcol = int(np.rint((long - left)/xres))
     pixelrow = int(np.rint((lat - top)/yres))
-    
+
     return (pixelrow, pixelcol)
 
 
 def get_coords(y, x):
-    
+
     '''
     Get the coordinates of a given pixel in the tif coordinate system.
-    
+
     Args:
         - Y: index of row of point
         - X: index of column of point
@@ -460,7 +461,7 @@ def get_coords(y, x):
         - Long: longitude of point
         - Lat: latitude of point
     '''
-    
+
     left = -123.50294421461426
     top = 39.00106654811723
 
@@ -472,7 +473,7 @@ def get_coords(y, x):
 
     long = left+deltax
     lat = top+deltay
-    
+
     return (long, lat)
 
 
@@ -480,7 +481,7 @@ def get_weather(max_values, lat, long, day):
 
     '''
     Get tomorrow's weather forecast for fire prediction.
-    
+
     Args:
         - Max_values: list of weather max_values used to scale weather
         - Lat: latitude of point to fetch weather for
@@ -488,13 +489,13 @@ def get_weather(max_values, lat, long, day):
     Returns:
         - weather: a list of weather data to use for prediction
     '''
-    
-    
+
+
     s = requests.Session()
     s.auth = ('user', 'pass')
     s.headers.update({'Accept-Encoding':'gzip'})
     headers = {'Accept-Encoding':'gzip'}
-    
+
     key = '5ffac5f056d341c6296cba58fa96e9ba'
     date = str(datetime.date.today() + datetime.timedelta(days = day)) + 'T12:00:00'
     lat = str(lat,)
@@ -503,8 +504,8 @@ def get_weather(max_values, lat, long, day):
     units = 'ca'
 
     # set the query string for darksky
-    query = ('https://api.darksky.net/forecast/'+key+'/'+ 
-    lat+','+long+','+date+'?exclude=' 
+    query = ('https://api.darksky.net/forecast/'+key+'/'+
+    lat+','+long+','+date+'?exclude='
     +blocks+'&units='+units)
 
     # Make the call to Dark Sky to get all the data for that date and location
@@ -512,14 +513,14 @@ def get_weather(max_values, lat, long, day):
 
     data = r.json()
     data = data['daily']['data'][0]
-    
+
     rainint = data['precipIntensityMax']
     high_t = data['temperatureHigh']
     low_t= data['temperatureLow']
     humidity = data['humidity']
     wind_speed = data['windSpeed']
     wind_direction = data['windBearing']
-    
+
     weather_data = {
         'rainint': rainint,
         'High T': high_t,
@@ -528,15 +529,15 @@ def get_weather(max_values, lat, long, day):
         'Wind Speed': wind_speed,
         'Wind Direction': wind_direction
     }
-    
+
     weather = []
-        
+
     for k, v in weather_data.items():
         max_val = max_values.get(k, 1)
-        
+
         val = v/float(max_val)
         weather.append(val)
-          
+
     return weather
 
 
@@ -544,24 +545,24 @@ def pull_weather_maxes_from_s3():
     '''
     Pull files from S3 for the provided year and save to local directory
     '''
-    
-        
+
+
     s3 = boto3.resource('s3')
-    
+
     key = "BayAreaWeather/max_values/max_values.pickle"
     directory = 'static/'
     path = directory + 'max_values.pickle'
-    
+
     s3.Bucket('hotzone').download_file(key, path)
-    
+
     total_path = os.path.abspath(directory)
-    
+
     for f in os.listdir(total_path):
         if f.endswith('.pickle'):
             max_values = total_path + '/' + f
 
     max_values = pd.read_pickle(max_values)
-    
+
     return max_values
 
 
@@ -569,74 +570,78 @@ def predict_day(lat_long_coords, day=1):
 
     '''
     Predict where fire will be in the next day.
-    
+
     Args:
         - lat_long_coords: a list of lat/long coordinates that make up a polygon representing where fire is
     Returns:
         - prediction: a list of lat/long coordinates that make up a polygon representing where fire will be
     '''
-    
+
     # load model from s3
 
     new_config = pull_data_from_s3(s3_client, bucket_name, 'models/model_config.pickle')
     new_weights = pull_data_from_s3(s3_client, bucket_name, 'models/model_weights.pickle')
+
+    # Need this line to run on Laura's Machine
+    keras.backend.tensorflow_backend._SYMBOLIC_SCOPE.value=True
+    #  Comment out for server
 
     model = keras.Model.from_config(new_config)
     model.set_weights(new_weights)
 
     today = np.zeros((719, 908))
     side = 16
-        
+
     for (long, lat) in lat_long_coords:
         index = get_index(long,lat)
         today[index] = 1
-        
+
     np.pad(today, pad_width=32, mode='constant', constant_values=0)
-    
+
     fire_vals = np.where(today == 1)
-    
+
     x_avg = int(np.mean(fire_vals[0]))
     y_avg = int(np.mean(fire_vals[1]))
 
     x_min = x_avg - 50
     x_max = x_avg + 50
-    
+
     x_min = max(x_min, 0)
     x_max = min(x_max, 972)
-    
+
     y_min = y_avg - 50
     y_max = y_avg + 50
-    
+
     y_min = max(y_min, 0)
     y_max = min(y_max, 783)
-    
-    
+
+
     x_vals = range(x_min, x_max)
     y_vals = range(y_min, y_max)
-    
+
     vals = list(itertools.product(x_vals, y_vals))
-    
+
     values = []
-    
+
     shape = today.shape
     prediction = np.zeros(shape)
-    
+
     (long, lat) = get_coords(x_avg, y_avg)
-    
+
     # get max weather values
     max_values = pull_weather_maxes_from_s3()
-    
+
     weather = get_weather(max_values, lat, long, day)
-    
+
     for (xi, yi) in vals:
-        
+
         point = (xi, yi)
 
         xi_r = int(xi + side)
         xi_l = int(xi - side)
         yi_b = int(yi + side)
         yi_t = int(yi - side)
-        
+
         if xi_r > 0 and xi_l > 0 and yi_b > 0 and yi_t > 0:
 
             m = today[xi_l:xi_r, yi_t:yi_b]
@@ -647,10 +652,10 @@ def predict_day(lat_long_coords, day=1):
 
                 fire.append(np.asarray(m))
                 w.append(np.asarray(weather))
-                
+
                 fire = np.asarray(fire)
                 w = np.asarray(w)
-            
+
                 obs = len(fire)
                 fire = fire.reshape(obs, 32, 32, 1)
 
@@ -664,7 +669,7 @@ def predict_day(lat_long_coords, day=1):
 
     # get pixels from outline
     poly_to_plot = np.where(outline != 0)
-    
+
 
     # instantiate a matrix in the target shape
     shape = outline.shape
@@ -725,10 +730,10 @@ def fire_map():
         address = str(request.form["address"])
 
     data.a = address
-	
+
 	# call function (get_loc) to convert address into longitude and latitude
     add_lat, add_lon = get_loc(address)
-	
+
 	# check to see if address entered is within the polygon the model is trained on
     if chk_polygon(add_lon, add_lat):
 
@@ -762,7 +767,7 @@ def fire_map():
 
             # map_output_day1 = coords1
             # map_output_day2 = coords2
-            geo_poly = [tuple(l) for l in coords] 
+            geo_poly = [tuple(l) for l in coords]
             predict_day1 = predict_day(geo_poly, 1)
             map_output_day1 = [list(row) for row in predict_day1] # to convert to format for mapbox
 
@@ -823,10 +828,10 @@ def fire_map2():
     # if request.method == "POST":
     #     address = str(request.form["address"])
     address = data.a
-    
+
     # # call function (get_loc) to convert address into longitude and latitude
     add_lat, add_lon = get_loc(address)
-    
+
     # check to see if address entered is within the polygon the model is trained on
     if chk_polygon(add_lon, add_lat):
 
@@ -860,7 +865,7 @@ def fire_map2():
 
             # map_output_day2 = coords2
 
-            geo_poly = [tuple(l) for l in coords] 
+            geo_poly = [tuple(l) for l in coords]
             predict_day1 = predict_day(geo_poly, 1)
 
             # predict_day2 = predict_day(predict_day1, 2)
@@ -878,7 +883,7 @@ def fire_map2():
 
         outside_bound = "true"
 
-    return render_template('/fire_map2.html', 
+    return render_template('/fire_map2.html',
                             fire_table = [fire_table.to_html (classes = "ftable")],
                             ACCESS_KEY = MAPBOX_ACCESS_KEY,
                             map_output_day2 = map_output_day2,
