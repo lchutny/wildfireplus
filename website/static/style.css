@@ -126,6 +126,11 @@
     margin-right: auto;
 }
 
+.img-resp {
+    max-width: 50%;
+    height: auto;
+}
+
 .container-us {
     margin-right: auto;
     margin-left: auto;

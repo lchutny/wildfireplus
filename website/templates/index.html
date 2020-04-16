@@ -47,7 +47,7 @@
     </nav>
 
     <div class="wrapper-banner" id="banner-id">
-        <img class="banner-img1" src="static/images/cover1-01.jpg" alt="fire" height="100">
+        <img class="banner-img" src="static/images/cover.jpg" alt="fire">
     </div>
 
 <a name="proj"></a>
@@ -60,7 +60,7 @@
                 <div >
                     <br>
 					<br>
-                    <img src="static/images/HotzoneIcon.png" alt="logo" class="img-responsive pull-left alignleft" width="300" height="300">
+                    <img src="static/images/HotzoneIcon.png" alt="logo" class="img-resp pull-left" width="350" height="350">
                     <h2 class="lead">
                     <p style="font-size:1.05vw">Millions of acres burn annually in wildfires across the globe. As population grows, as climate change challenges the environment, and as wildfires grow in intensity and frequency, every second of warning counts.
                     <br>
@@ -261,10 +261,10 @@
             <p>HOTzone uses the Convolutional Neural Network (CNN) algorithm to predict the potential spread of an active fire.  It identifies hierarchical patterns in the train data and assemble more complex pattersn using smaller and simpler patterns.  It learns the dependencies between the different pixels, learns whether a pixel will be on "fire" based on whether the pixels around it are on "fire".  
             <br>
             <br>
-            Currently, HOTzone is a web application that takes a location input from users, check to see if there is an active within 100 miles of that address.  If there is a nearby active fire, the current fire perimeter will be fed into the model.  In return, the model will predict how the current fire will spread in the next 24 hours.  This potential perimeter spread for the next day will be shown on the map.  If there is no active fire nearby, the user will be prompted with a message that there is no active fire within 100 miles radius.
+            Currently, HOTzone is a web application that takes a location input from users, check to see if there is an active fire within 100 miles of that address.  If there is a nearby active fire, the current fire perimeter will be fed into the model.  In return, the model will predict how the current fire will spread in the next 24 hours.  This potential perimeter spread for the next day will be shown on the map.  If there is no active fire nearby, the user will be prompted with a message that there is no active fire within 100 miles radius.
             <br>
             <br>
-            Given the complications and differences in terrains and other geographical factors, currently HOTzone can only make decent prediction for fires that occur within the geographical boundary of the train dataset.
+            Given the complications and differences in terrains and other geographical factors, currently HOTzone can only make decent prediction for fires that occur within the geographical boundary of the train dataset.  If users input a location outside such geographical boundary, the model will return a message that it is currently not possible to provide a prediction.
             <br>
             <br>
             </p>

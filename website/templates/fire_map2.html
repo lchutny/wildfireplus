@@ -3,7 +3,7 @@
 
 <head>
 
-    <title>hotzone</title>
+    <title>fire_map2</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -21,13 +21,13 @@
     <!-- This is for Flask -->
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" type="text/css" href="static/style.css">
 
 </head>
 
 <body>
 
-<style>
+<!-- <style>
     
     body * {
         -webkit-touch-callout: none;
@@ -44,7 +44,7 @@
         width: 100%;
     }
 
-</style>
+</style> -->
 
     <nav class="navbar-default navbar-fixed-top affix">
         <div class="container-fluid">
@@ -64,42 +64,31 @@
                     </li>   
                     <li><a href="/#proj">About the Project - Why It Matters</a></li>
                     <li><a href="/#expert">Discussion with Experts</a></li>
-                    <li><a href="/#alg">How HOTzone Works</a></li>
+                    <li><a href="/#alg">How <img src="static/images/hotzonet.png" alt="HOTzone" width="54" height="20" hspace="5"> Works</a></li>
                     <li><a href="/#data">Data Source / References</a></li>
                     <li><a href="/#us">About the Team</a></li>
                     <li><a>||</a></li>
-                    <li><a href="/fire_map">HOTzone App</a></li>
+                    <li><a href="/fire_map"><img src="static/images/hotzonet.png" alt="HOTzone" width="54" height="20" hspace="5"> App</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 
     <!-- Header for App -->
-    <div class="container">
-        <div class="row">   
-            <div class="col-lg-12 text-center">
-                <br>
-                <br>
-                <br>
-                <h2 class="section-heading">HOTzone</h2>
-                <hr class="primary">
-                <h4>Instruction: Please enter an address below to see if there is an active fire within 100 miles of that location and see its potential spread in the next 24 hours.</h4>
-                <br>
-                <h5>Note: Current fire spread prediction is limited to within 100 miles of Berkeley, CA.  The team is working on expanding the model beyond this area.</h5>
-                <h5>However, a list of current active fires in the United States are provided below for reference.</h5>
-            </div>
-        </div>
+    <div class="col-lg-12 text-center">
+        <br>
+        <br>
+        <br>
+        <h2 class="section-heading"><img src="static/images/HotzoneIcon.png" alt="HOTzone" width="150" height="150"></h2>
+        <hr class="primary">
+        <h3>Day 2 potential fire spread</h3>
+        <br>
+        <h5>Note: Current fire spread prediction is limited to within 100 miles of Berkeley, CA.  The team is working on expanding the model beyond this area.</h5>
+        <h5>However, a list of current active fires in the United States are provided below for reference.</h5>
     </div>
 
+
     <div class="col-lg-12 text-center">
-        <h3>Enter address of interest</h3>
-        <p>For precision, enter address with details</p>
-        <p>Example: 2535 Channing Way, Berkeley, CA</p>
-        <br>
-        <form method = "POST">
-            <p><input name = "address" /></p>
-            <p><input type = "submit" value = "Submit" /></p>
-        </form>
         <br>
         <br>
         <p>Explore map by dragging or zooming in/out with mouse/mousepad, or click on map and use - and + to zoom in/out with keyboard</p>
@@ -112,15 +101,15 @@
     </div>
 
     <div class="lnkButton col-lg-4 text-center">
-        <a href="fire_map.html"></a>
-        <button>Day 1 Fire Perimeter</button>
-        <br>
+        <form action="/fire_map" method="post">
+            <button name="forwardBtn" type="submit">Day 1 Fire Perimeter</button>
+        </form>
     </div>
-    
+
     <div class="lnkButton col-lg-4 text-center">
-        <a href="fire_map2.html"></a>
-        <button>Day 2 Fire Perimeter</button>
-        <br>
+        <form action="/fire_map2" method="post">
+            <button name="forwardBtn" type="submit">Day 2 Fire Perimeter</button>
+        </form>
     </div>
 
     <div class="col-lg-2 text-center">
