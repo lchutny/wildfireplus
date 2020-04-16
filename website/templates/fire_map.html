@@ -3,7 +3,9 @@
 
 <head>
 
-    <title>fire_map</title>
+    <title>HOTzone Fire Map</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="../static/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../static/images/favicon-16x16.png">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,7 +19,7 @@
     <link href="https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.css" rel="stylesheet" />
     <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.min.js'></script>
     <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.css' type='text/css' />
-    
+
     <!-- This is for Flask -->
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
@@ -28,7 +30,7 @@
 <body>
 
 <!-- <style>
-    
+
     body * {
         -webkit-touch-callout: none;
         -webkit-user-select: none;
@@ -36,7 +38,7 @@
         -ms-user-select: none;
         user-select: none;
     }
-    
+
     .map {
         position: static;
         top: 0;
@@ -52,7 +54,7 @@
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>                        
+                    <span class="icon-bar"></span>
                 </button>
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
@@ -61,7 +63,7 @@
                         <a href="/">
                         <img src="static/images/home.png" alt="home" width="20" height="20" hspace="5">
                         </a>
-                    </li>   
+                    </li>
                     <li><a href="/#proj">About the Project - Why It Matters</a></li>
                     <li><a href="/#expert">Discussion with Experts</a></li>
                     <li><a href="/#alg">How <img src="static/images/hotzonet.png" alt="HOTzone" width="54" height="20" hspace="5"> Works</a></li>
@@ -74,7 +76,7 @@
         </div>
     </nav>
 
-    <!-- Header for App -->  
+    <!-- Header for App -->
     <div class="col-lg-5 text-center">
         <br>
         <br>
@@ -142,7 +144,7 @@
 <!--         <div id="comparison-container">
 
             <div id="before" class="map"></div>
-            
+
             <div id="after" class="map"></div>
         </div> -->
 
@@ -299,9 +301,9 @@
                     },
                     ]
                 }
-            }); 
+            });
 
-                map.addLayer({  
+                map.addLayer({
                     'id': 'park-boundary',
                     'type': 'line',
                     'source': 'national-park',
@@ -314,13 +316,13 @@
                 });
 
             });
-           
+
 
         </script>
     </div>
 
     <div class="container">
-        <div class="row">   
+        <div class="row">
             <div class="col-lg-12 text-center">
                 <br>
                 <br>
@@ -344,9 +346,9 @@
         <h1>Thank you for visiting!</h1>
         <br>
         <br>
-        <br> 
         <br>
-        <br>       
+        <br>
+        <br>
     </div>
 
 
