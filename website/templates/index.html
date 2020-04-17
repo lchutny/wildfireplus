@@ -5,7 +5,7 @@
 
     <title>HOTzone</title>
 	<!-- <link rel="shortcut icon" href="../static/images/favicon.ico"> -->
-	  <link rel="icon" type="image/png" sizes="32x32" href="../static/images/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="../static/images/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="../static/images/favicon-16x16.png">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -23,7 +23,7 @@
 </head>
 
 <body>
-3
+
     <nav class="navbar-default navbar-fixed-top affix">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -50,7 +50,7 @@
     </nav>
 
     <div class="wrapper-banner" id="banner-id">
-        <img class="banner-img" src="static/images/cover.jpg" alt="fire">
+        <img class="banner-img" src="static/images/hz_cover.jpg" alt="fire">
     </div>
 
 <a name="proj"></a>
@@ -63,7 +63,7 @@
                 <div >
                     <br>
 					<br>
-                    <img src="static/images/HotzoneIcon.png" alt="logo" class="img-resp pull-left" width="350" height="350">
+                    <img src="static/images/hotzone_icon.png" alt="logo" class="img-resp pull-left" width="350" height="350">
                     <h2 class="lead">
                     <p style="font-size:1.10vw">Millions of acres burn annually in wildfires across the globe. As population grows, as climate change challenges the environment, and as wildfires grow in intensity and frequency, every second of warning counts.
                     <br>
@@ -180,7 +180,6 @@
         </div>
 
         <div class="col-lg-10" style="font-size:1vw">
-        <!-- <h2 style="color:#2045e8;">Papers and Discussion</h2> -->
         <h2 style="color:#FF4f00;">Papers and Discussion</h2>
         <br>
         <p>Much of the existing work on fire prediction centers around predicting the final fire perimeter. Other work focuses on predicting the risk that an area will experience a fire if one <b>is</b> ignited. Early work to predict final fire perimeters using machine learning started in approximately 2010 using a dataset from Montesinho, Portugal which was featured in a kaggle competition (Cortez & Morais, n.d.). This early work on perimeter modeling determined that the best predictions were obtained using a Support Vector Machine (SVM) with 4 meteorological inputs (temperature, relative humidity, rain and wind). The predicted value of the final burned area was accurately predicted to within 2 hectares approximately 61% of the time.
@@ -239,6 +238,9 @@
         </p>
     </div>
 
+        <div class="col-lg-1">
+        </div>
+
         <div class="banner-parallax-flex" style="background-image:url('static/images/wildfire14.jpg');overflow:auto; max-width: 1800px; max-height: 800px; margin: auto">
         </div>
 
@@ -274,16 +276,17 @@
             Given the complications and differences in terrains and other geographical factors, currently HOTzone can only make reasonable predictions for fires that occur within the geographical boundary of the training dataset.  If users input a location outside the geographical boundary over which the model was trained, the application will return a message that it is currently not possible to provide a prediction.
             <br>
             <br>
+        	</p>
             <h3 style="color:#FF4f00;">Future Development of HOTzone</h3>
             <br>
-            Future versions of HOTzone should ensure that vegetation data such as Vegetation Optical Depth (as a proxy for moisture) and the Normalized Difference Vegetation Index are included. Other additional features such as fuel type and landscape features of elevation, aspect and pitch should also be included. We foresee that models should be trained in local areas in order to be as accurate as possible, and thus provide the best predictions. These local models should be stitched together within the application to create the grid of models required to accurately predict fire growth, and yet provide a seamless experience to the user. The HOTzone model and web application currently use open source weather data from DarkSky, but the open source access will end in 2021 following DarkSky's acquisition by Apple Inc. A future open source weather data alternative must be found. 
-            </p>
+            <p>Future versions of HOTzone should ensure that vegetation data such as Vegetation Optical Depth (as a proxy for moisture) and the Normalized Difference Vegetation Index are included. Other additional features such as fuel type and landscape features of elevation, aspect and pitch should also be included. We foresee that models should be trained in local areas in order to be as accurate as possible, and thus provide the best predictions. These local models should be stitched together within the application to create the grid of models required to accurately predict fire growth, and yet provide a seamless experience to the user. The HOTzone model and web application currently use open source weather data from DarkSky, but the open source access will end in 2021 following DarkSky's acquisition by Apple Inc. A future open source weather data alternative must be found. 
+        	</p>
+        	<br>
+        	<br>
         </div>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
+
+        <div class="col-lg-1">
+        </div>
 
         <div class="banner-parallax-flex" style="background-image:url('static/images/wildfire28.jpg');overflow:auto; max-width: 1800px; max-height: 800px; margin: auto">
         </div>
@@ -320,55 +323,54 @@
                 <li><a href="https://www.mapbox.com">Mapbox.com</a></li>
                 <br>
                 <li><a href="https://stackoverflow.com">Stackoverflow.com</a></li>
+                <br>
+                <li><a href="https://darksky.net">Dark Sky</a></li>
+                <br>
+                <li>--------------------</li>
             </ul>
             <br>
-            <br>
+            <ul style="list-style-type:none;">
+            	<li>2016 Fort McMurray wildfire. (2020). In <i>Wikipedia</i>.<a href="https://en.wikipedia.org/w/index.php?title=2016_Fort_McMurray_wildfire&amp;oldid=935431323"> https://en.wikipedia.org/w/index.php?title=2016_Fort_McMurray_wildfire&amp;oldid=935431323</a></li>
+            	<br>
+            	<li>2020-Wildfire-Safety-Plan.pdf (p. 494). (2020). [Planning]. Pacific Gas and Electric Company.<a href="https://www.pge.com/pge_global/common/pdfs/safety/emergency-preparedness/natural-disaster/wildfires/wildfire-mitigation-plan/2020-Wildfire-Safety-Plan.pdf"> https://www.pge.com/pge_global/common/pdfs/safety/emergency-preparedness/natural-disaster/wildfires/wildfire-mitigation-plan/2020-Wildfire-Safety-Plan.pdf</a></li>
+            	<br>
+            	<li>Ager, A. A., Vaillant, N. M., Finney, M. A., & Preisler, H. K. (2012). Analyzing wildfire exposure and source–sink relationships on a fire prone forest landscape. <i>Forest Ecology and Management</i>, <i>267</i>, 271–283.<a href="https://doi.org/10.1016/j.foreco.2011.11.021"> https://doi.org/10.1016/j.foreco.2011.11.021</a></li>
+            	<br>
+            	<li>Andela, N., Morton, D. C., Giglio, L., Paugam, R., Chen, Y., Hantson, S., Werf, G. R. van der, & Randerson, J. T. (2019). The Global Fire Atlas of individual fire size, duration, speed and direction. <i>Earth System Science Data</i>, <i>11(2)</i>, 529–552.<a href="https://doi.org/10.5194/essd-11-529-2019"> https://doi.org/10.5194/essd-11-529-2019</a></li>
+            	<br>
+            	<li>Andela, N., Morton, D. C., Giglio, L., & Randerson, J. T. (2019). <i>Global Fire Atlas with Characteristics of Individual Fires</i>, <i>2003-2016</i> [Data set].<a href="https://doi.org/10.3334/ORNLDAAC/1642"> https://doi.org/10.3334/ORNLDAAC/1642</a></li>
+            	<br>
+            	<li><i>Canadian Wildland Fire Information System _ Canadian Forest Fire Weather Index (FWI) System.pdf.</i> (n.d.).</li>
+            	<br>
+            	<li>Coffield, S. R., Graff, C. A., Chen, Y., Smyth, P., Foufoula-Georgiou, E., & Randerson, J. T. (2019). Machine learning to predict final fire size at the time of ignition. <i>International Journal of Wildland Fire</i>, <i>28</i>(11), 861.<a href="https://doi.org/10.1071/WF19023"> https://doi.org/10.1071/WF19023</a></li>
+            	<br>
+            	<li>Cortez, P., & Morais, A. (n.d.). <i>A Data Mining Approach to Predict Forest Fires using Meteorological Data</i>. 12.</li>
+            	<br>
+            	<li>Crowley, M. A., Cardille, J. A., White, J. C., & Wulder, M. A. (2019). Generating intra-year metrics of wildfire progression using multiple open-access satellite data streams. <i>Remote Sensing of Environment</i>, <i>232</i>, 111295.<a href="https://doi.org/10.1016/j.rse.2019.111295"> https://doi.org/10.1016/j.rse.2019.111295</a></li>
+            	<br>
+            	<li>Finney, M. A. (2002). Fire growth using minimum travel time methods. <i>Canadian Journal of Forest Research</i>, <i>32</i>(8), 1420–1424.<a href="https://doi.org/10.1139/x02-068"> https://doi.org/10.1139/x02-068</a></li>
+            	<br>
+            	<li><i>FireGrowthModel.ca—Prometheus</i>. (n.d.). Retrieved March 28, 2020, from<a href="http://www.firegrowthmodel.ca/prometheus/overview_e.php"> http://www.firegrowthmodel.ca/prometheus/overview_e.php></a></li>
+            	<br>
+            	<li><i>Fuels Management-How to Measure Success: Conference Proceedings</i>. (n.d.). 17.</li>
+            	<br>
+            	<li>Lautenberger, C. (2013). Wildland fire modeling with an Eulerian level set method and automated calibration. <i>Fire Safety Journal</i>, <i>62</i>, 289–298.<a href="https://doi.org/10.1016/j.firesaf.2013.08.014"> https://doi.org/10.1016/j.firesaf.2013.08.014</a></li>
+            	<br>
+            	<li>Radke, D., Hessler, A., & Ellsworth, D. (2019). FireCast: Leveraging Deep Learning to Predict Wildfire Spread. <i>Proceedings of the Twenty-Eighth International Joint Conference on Artificial Intelligence</i>, 4575–4581.<a href="https://doi.org/10.24963/ijcai.2019/636"> https://doi.org/10.24963/ijcai.2019/636</a></li>
+            	<br>
+            	<li>Subramanian, S. G., & Crowley, M. (2018). Combining MCTS and A3C for Prediction of Spatially Spreading Processes in Forest Wildfire Settings. In E. Bagheri & J. C. K. Cheung (Eds.), <i>Advances in Artificial Intelligence</i> (pp. 285–291). Springer International Publishing.<a href="https://doi.org/10.1007/978-3-319-89656-4_28"> https://doi.org/10.1007/978-3-319-89656-4_28</a></li>
+            	<br>
+            	<li>Tymstra, C., & Northern Forestry Centre (Canada). (2010). <i>Development and structure of Prometheus: The Canadian Wildland Fire Growth Simulation Model</i>. Northern Forestry Centre.<a href="https://central.bac-lac.gc.ca/.item?id=31775&op=pdf&app=Library"> https://central.bac-lac.gc.ca/.item?id=31775&op=pdf&app=Library</a></li>
+            	<br>
+            	<li>Vitolo, C., Di Giuseppe, F., Krzeminski, B., & San-Miguel-Ayanz, J. (2019). A 1980–2018 global fire danger re-analysis dataset for the Canadian Fire Weather Indices. <i>Scientific Data</i>, <i>6</i>(1), 190032.<a href="https://doi.org/10.1038/sdata.2019.32"> https://doi.org/10.1038/sdata.2019.32</a></li>
+            	<br>
+            	<li><i>Wildfire-MNP-Report.pdf</i>. (n.d.). Retrieved February 2, 2020, from<a href="https://www.alberta.ca/assets/documents/Wildfire-MNP-Report.pdf"> https://www.alberta.ca/assets/documents/Wildfire-MNP-Report.pdf</a></li>
+            	<br>
+            </ul>
             <a href="https://darksky.net"><img src="/static/images/darksky.png" class="img-us" alt=darksky width="80" height="40"></a>
             <br>
             <br>
         </div>
-        <div class="csl-bib-body" style="line-height: 2; margin-left: 4em; text-indent: -3em;">
-            <div class="csl-entry">2016 Fort McMurray wildfire. (2020). In <i>Wikipedia</i>. <a href="https://en.wikipedia.org/w/index.php?title=2016_Fort_McMurray_wildfire&amp;oldid=935431323">https://en.wikipedia.org/w/index.php?title=2016_Fort_McMurray_wildfire&amp;oldid=935431323</a></div>
-            <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Adc&amp;rft.type=encyclopediaArticle&amp;rft.title=2016%20Fort%20McMurray%20wildfire&amp;rft.rights=Creative%20Commons%20Attribution-ShareAlike%20License&amp;rft.description=On%20May%201%2C%202016%2C%20a%20wildfire%20began%20southwest%20of%20Fort%20McMurray%2C%20Alberta%2C%20Canada.%20On%20May%203%2C%20it%20swept%20through%20the%20community%2C%20forcing%20the%20largest%20wildfire%20evacuation%20in%20Alberta's%20history%2C%20with%20upwards%20of%2088%2C000%20people%20forced%20from%20their%20homes.%20Firefighters%20were%20assisted%20by%20personnel%20from%20both%20the%20Canadian%20Forces%20and%20Royal%20Canadian%20Mounted%20Police%2C%20as%20well%20as%20other%20Canadian%20provincial%20agencies%2C%20to%20fight%20the%20wildfire.%20%20Aid%20for%20evacuees%20was%20provided%20by%20various%20governments%20and%20via%20donations%20through%20the%20Canadian%20Red%20Cross%20and%20other%20local%20and%20national%20charitable%20organizations.%0ASweeping%20through%20Fort%20McMurray%2C%20the%20wildfire%20destroyed%20approximately%202%2C400%20homes%20and%20buildings.%20Another%202%2C000%20residents%20in%20three%20communities%20were%20displaced%20after%20their%20homes%20were%20declared%20unsafe%20for%20reoccupation%20due%20to%20contamination.%20The%20fire%20continued%20to%20spread%20across%20northern%20Alberta%20and%20into%20Saskatchewan%2C%20consuming%20forested%20areas%20and%20impacting%20Athabasca%20oil%20sands%20operations.%20With%20an%20estimated%20damage%20cost%20of%20C%249.9%20billion%2C%20it%20was%20the%20costliest%20disaster%20in%20Canadian%20history.%0AThe%20fire%20spread%20across%20approximately%20590%2C000%20hectares%20(1%2C500%2C000%20acres)%20before%20it%20was%20declared%20to%20be%20under%20control%20on%20July%205%2C%202016.%20It%20continued%20to%20smoulder%2C%20and%20was%20fully%20extinguished%20on%20August%202%2C%202017.%20It%20is%20suspected%20to%20have%20been%20caused%20by%20humans%20in%20a%20remote%20area%2015%20kilometres%20(9.3%20mi)%20from%20Fort%20McMurray%2C%20but%20no%20official%20cause%20has%20been%20determined%20to%20date.&amp;rft.identifier=https%3A%2F%2Fen.wikipedia.org%2Fw%2Findex.php%3Ftitle%3D2016_Fort_McMurray_wildfire%26oldid%3D935431323&amp;rft.date=2020-01-12&amp;rft.language=en"></span>
-            <div class="csl-entry"><i>2020-Wildfire-Safety-Plan.pdf</i> (p. 494). (2020). [Planning]. Pacific Gas and Electric Company. <a href="https://www.pge.com/pge_global/common/pdfs/safety/emergency-preparedness/natural-disaster/wildfires/wildfire-mitigation-plan/2020-Wildfire-Safety-Plan.pdf">https://www.pge.com/pge_global/common/pdfs/safety/emergency-preparedness/natural-disaster/wildfires/wildfire-mitigation-plan/2020-Wildfire-Safety-Plan.pdf</a></div>
-            <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=report&amp;rft.btitle=2020-Wildfire-Safety-Plan.pdf&amp;rft.place=California&amp;rft.date=2020-02-28&amp;rft.pages=494"></span>
-            <div class="csl-entry">Ager, A. A., Vaillant, N. M., Finney, M. A., &amp; Preisler, H. K. (2012). Analyzing wildfire exposure and source–sink relationships on a fire prone forest landscape. <i>Forest Ecology and Management</i>, <i>267</i>, 271–283. <a href="https://doi.org/10.1016/j.foreco.2011.11.021">https://doi.org/10.1016/j.foreco.2011.11.021</a></div>
-            <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_id=info%3Adoi%2F10.1016%2Fj.foreco.2011.11.021&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.atitle=Analyzing%20wildfire%20exposure%20and%20source%E2%80%93sink%20relationships%20on%20a%20fire%20prone%20forest%20landscape&amp;rft.jtitle=Forest%20Ecology%20and%20Management&amp;rft.stitle=Forest%20Ecology%20and%20Management&amp;rft.volume=267&amp;rft.aufirst=Alan%20A.&amp;rft.aulast=Ager&amp;rft.au=Alan%20A.%20Ager&amp;rft.au=Nicole%20M.%20Vaillant&amp;rft.au=Mark%20A.%20Finney&amp;rft.au=Haiganoush%20K.%20Preisler&amp;rft.date=2012-03&amp;rft.pages=271-283&amp;rft.spage=271&amp;rft.epage=283&amp;rft.issn=03781127&amp;rft.language=en"></span>
-            <div class="csl-entry">Andela, N., Morton, D. C., Giglio, L., Paugam, R., Chen, Y., Hantson, S., Werf, G. R. van der, &amp; Randerson, J. T. (2019). The Global Fire Atlas of individual fire size, duration, speed and direction. <i>Earth System Science Data</i>, <i>11</i>(2), 529–552. <a href="https://doi.org/10.5194/essd-11-529-2019">https://doi.org/10.5194/essd-11-529-2019</a></div>
-            <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_id=info%3Adoi%2Fhttps%3A%2F%2Fdoi.org%2F10.5194%2Fessd-11-529-2019&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.atitle=The%20Global%20Fire%20Atlas%20of%20individual%20fire%20size%2C%20duration%2C%20speed%20and%20direction&amp;rft.jtitle=Earth%20System%20Science%20Data&amp;rft.volume=11&amp;rft.issue=2&amp;rft.aufirst=Niels&amp;rft.aulast=Andela&amp;rft.au=Niels%20Andela&amp;rft.au=Douglas%20C.%20Morton&amp;rft.au=Louis%20Giglio&amp;rft.au=Ronan%20Paugam&amp;rft.au=Yang%20Chen&amp;rft.au=Stijn%20Hantson&amp;rft.au=Guido%20R.%20van%20der%20Werf&amp;rft.au=James%20T.%20Randerson&amp;rft.date=2019-04-24&amp;rft.pages=529-552&amp;rft.spage=529&amp;rft.epage=552&amp;rft.issn=1866-3508&amp;rft.language=English"></span>
-            <div class="csl-entry">Andela, N., Morton, D. C., Giglio, L., &amp; Randerson, J. T. (2019). <i>Global Fire Atlas with Characteristics of Individual Fires, 2003-2016</i> [Data set]. <a href="https://doi.org/10.3334/ORNLDAAC/1642">https://doi.org/10.3334/ORNLDAAC/1642</a></div>
-            <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Adc&amp;rft.type=document&amp;rft.title=Global%20Fire%20Atlas%20with%20Characteristics%20of%20Individual%20Fires%2C%202003-2016&amp;rft.identifier=https%3A%2F%2Fdaac.ornl.gov%2Fcgi-bin%2Fdsviewer.pl%3Fds_id%3D1642&amp;rft.aufirst=N.&amp;rft.aulast=ANDELA&amp;rft.au=N.%20ANDELA&amp;rft.au=D.C.%20MORTON&amp;rft.au=L.%20GIGLIO&amp;rft.au=J.T.%20RANDERSON&amp;rft.date=2019&amp;rft.language=eng"></span>
-            <div class="csl-entry"><i>Canadian Wildland Fire Information System _ Canadian Forest Fire Weather Index (FWI) System.pdf</i>. (n.d.).</div>
-            <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Adc&amp;rft.type=attachment&amp;rft.title=Canadian%20Wildland%20Fire%20Information%20System%20_%20Canadian%20Forest%20Fire%20Weather%20Index%20(FWI)%20System.pdf"></span>
-            <div class="csl-entry">Coffield, S. R., Graff, C. A., Chen, Y., Smyth, P., Foufoula-Georgiou, E., &amp; Randerson, J. T. (2019). Machine learning to predict final fire size at the time of ignition. <i>International Journal of Wildland Fire</i>, <i>28</i>(11), 861. <a href="https://doi.org/10.1071/WF19023">https://doi.org/10.1071/WF19023</a></div>
-            <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_id=info%3Adoi%2F10.1071%2FWF19023&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.atitle=Machine%20learning%20to%20predict%20final%20fire%20size%20at%20the%20time%20of%20ignition&amp;rft.jtitle=International%20Journal%20of%20Wildland%20Fire&amp;rft.stitle=Int.%20J.%20Wildland%20Fire&amp;rft.volume=28&amp;rft.issue=11&amp;rft.aufirst=Shane%20R.&amp;rft.aulast=Coffield&amp;rft.au=Shane%20R.%20Coffield&amp;rft.au=Casey%20A.%20Graff&amp;rft.au=Yang%20Chen&amp;rft.au=Padhraic%20Smyth&amp;rft.au=Efi%20Foufoula-Georgiou&amp;rft.au=James%20T.%20Randerson&amp;rft.date=2019&amp;rft.pages=861&amp;rft.issn=1049-8001&amp;rft.language=en"></span>
-            <div class="csl-entry">Cortez, P., &amp; Morais, A. (n.d.). <i>A Data Mining Approach to Predict Forest Fires using Meteorological Data</i>. 12.</div>
-            <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.atitle=A%20Data%20Mining%20Approach%20to%20Predict%20Forest%20Fires%20using%20Meteorological%20Data&amp;rft.aufirst=Paulo&amp;rft.aulast=Cortez&amp;rft.au=Paulo%20Cortez&amp;rft.au=An%C4%B1bal%20Morais&amp;rft.pages=12&amp;rft.language=en"></span>
-            <div class="csl-entry">Crowley, M. A., Cardille, J. A., White, J. C., &amp; Wulder, M. A. (2019). Generating intra-year metrics of wildfire progression using multiple open-access satellite data streams. <i>Remote Sensing of Environment</i>, <i>232</i>, 111295. <a href="https://doi.org/10.1016/j.rse.2019.111295">https://doi.org/10.1016/j.rse.2019.111295</a></div>
-            <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_id=info%3Adoi%2F10.1016%2Fj.rse.2019.111295&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.atitle=Generating%20intra-year%20metrics%20of%20wildfire%20progression%20using%20multiple%20open-access%20satellite%20data%20streams&amp;rft.jtitle=Remote%20Sensing%20of%20Environment&amp;rft.stitle=Remote%20Sensing%20of%20Environment&amp;rft.volume=232&amp;rft.aufirst=Morgan%20A.&amp;rft.aulast=Crowley&amp;rft.au=Morgan%20A.%20Crowley&amp;rft.au=Jeffrey%20A.%20Cardille&amp;rft.au=Joanne%20C.%20White&amp;rft.au=Michael%20A.%20Wulder&amp;rft.date=2019-10-01&amp;rft.pages=111295&amp;rft.issn=0034-4257&amp;rft.language=en"></span>
-            <div class="csl-entry">Finney, M. A. (2002). Fire growth using minimum travel time methods. <i>Canadian Journal of Forest Research</i>, <i>32</i>(8), 1420–1424. <a href="https://doi.org/10.1139/x02-068">https://doi.org/10.1139/x02-068</a></div>
-            <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_id=info%3Adoi%2F10.1139%2Fx02-068&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.atitle=Fire%20growth%20using%20minimum%20travel%20time%20methods&amp;rft.jtitle=Canadian%20Journal%20of%20Forest%20Research&amp;rft.stitle=Can.%20J.%20For.%20Res.&amp;rft.volume=32&amp;rft.issue=8&amp;rft.aufirst=Mark%20A&amp;rft.aulast=Finney&amp;rft.au=Mark%20A%20Finney&amp;rft.date=2002-08-01&amp;rft.pages=1420-1424&amp;rft.spage=1420&amp;rft.epage=1424&amp;rft.issn=0045-5067%2C%201208-6037&amp;rft.language=en"></span>
-            <div class="csl-entry"><i>FireGrowthModel.ca—Prometheus</i>. (n.d.). Retrieved March 28, 2020, from <a href="http://www.firegrowthmodel.ca/prometheus/overview_e.php">http://www.firegrowthmodel.ca/prometheus/overview_e.php</a></div>
-            <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Adc&amp;rft.type=webpage&amp;rft.title=FireGrowthModel.ca%20-%20Prometheus&amp;rft.identifier=http%3A%2F%2Fwww.firegrowthmodel.ca%2Fprometheus%2Foverview_e.php"></span>
-            <div class="csl-entry"><i>Fuels Management-How to Measure Success: Conference Proceedings</i>. (n.d.). 17.</div>
-            <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.atitle=Fuels%20Management-How%20to%20Measure%20Success%3A%20Conference%20Proceedings&amp;rft.pages=17&amp;rft.language=en"></span>
-            <div class="csl-entry">Lautenberger, C. (2013). Wildland fire modeling with an Eulerian level set method and automated calibration. <i>Fire Safety Journal</i>, <i>62</i>, 289–298. <a href="https://doi.org/10.1016/j.firesaf.2013.08.014">https://doi.org/10.1016/j.firesaf.2013.08.014</a></div>
-            <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_id=info%3Adoi%2Fhttps%3A%2F%2Fdoi.org%2F10.1016%2Fj.firesaf.2013.08.014&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.atitle=Wildland%20fire%20modeling%20with%20an%20Eulerian%20level%20set%20method%20and%20automated%20calibration&amp;rft.jtitle=Fire%20Safety%20Journal&amp;rft.volume=62&amp;rft.aufirst=Chris&amp;rft.aulast=Lautenberger&amp;rft.au=Chris%20Lautenberger&amp;rft.date=2013&amp;rft.pages=289%20-%20298&amp;rft.spage=289%20&amp;rft.epage=%20298&amp;rft.issn=0379-7112"></span>
-            <div class="csl-entry">Radke, D., Hessler, A., &amp; Ellsworth, D. (2019). FireCast: Leveraging Deep Learning to Predict Wildfire Spread. <i>Proceedings of the Twenty-Eighth International Joint Conference on Artificial Intelligence</i>, 4575–4581. <a href="https://doi.org/10.24963/ijcai.2019/636">https://doi.org/10.24963/ijcai.2019/636</a></div>
-            <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_id=info%3Adoi%2F10.24963%2Fijcai.2019%2F636&amp;rft_id=urn%3Aisbn%3A978-0-9992411-4-1&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=proceeding&amp;rft.atitle=FireCast%3A%20Leveraging%20Deep%20Learning%20to%20Predict%20Wildfire%20Spread&amp;rft.btitle=Proceedings%20of%20the%20Twenty-Eighth%20International%20Joint%20Conference%20on%20Artificial%20Intelligence&amp;rft.place=Macao%2C%20China&amp;rft.publisher=International%20Joint%20Conferences%20on%20Artificial%20Intelligence%20Organization&amp;rft.aufirst=David&amp;rft.aulast=Radke&amp;rft.au=David%20Radke&amp;rft.au=Anna%20Hessler&amp;rft.au=Dan%20Ellsworth&amp;rft.date=2019-08&amp;rft.pages=4575-4581&amp;rft.spage=4575&amp;rft.epage=4581&amp;rft.isbn=978-0-9992411-4-1&amp;rft.language=en"></span>
-            <div class="csl-entry">Subramanian, S. G., &amp; Crowley, M. (2018). Combining MCTS and A3C for Prediction of Spatially Spreading Processes in Forest Wildfire Settings. In E. Bagheri &amp; J. C. K. Cheung (Eds.), <i>Advances in Artificial Intelligence</i> (pp. 285–291). Springer International Publishing. <a href="https://doi.org/10.1007/978-3-319-89656-4_28">https://doi.org/10.1007/978-3-319-89656-4_28</a></div>
-            <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_id=info%3Adoi%2F10.1007%2F978-3-319-89656-4_28&amp;rft_id=urn%3Aisbn%3A978-3-319-89656-4&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=proceeding&amp;rft.atitle=Combining%20MCTS%20and%20A3C%20for%20Prediction%20of%20Spatially%20Spreading%20Processes%20in%20Forest%20Wildfire%20Settings&amp;rft.btitle=Advances%20in%20Artificial%20Intelligence&amp;rft.place=Cham&amp;rft.publisher=Springer%20International%20Publishing&amp;rft.series=Lecture%20Notes%20in%20Computer%20Science&amp;rft.aufirst=Sriram%20Ganapathi&amp;rft.aulast=Subramanian&amp;rft.au=Sriram%20Ganapathi%20Subramanian&amp;rft.au=Mark%20Crowley&amp;rft.au=Ebrahim%20Bagheri&amp;rft.au=Jackie%20C.K.%20Cheung&amp;rft.date=2018&amp;rft.pages=285-291&amp;rft.spage=285&amp;rft.epage=291&amp;rft.isbn=978-3-319-89656-4&amp;rft.language=en"></span>
-            <div class="csl-entry">Tymstra, C., &amp; Northern Forestry Centre (Canada). (2010). <i>Development and structure of Prometheus: The Canadian Wildland Fire Growth Simulation Model</i>. Northern Forestry Centre. <a href="https://central.bac-lac.gc.ca/.item?id=31775&amp;op=pdf&amp;app=Library">https://central.bac-lac.gc.ca/.item?id=31775&amp;op=pdf&amp;app=Library</a></div>
-            <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_id=urn%3Aisbn%3A978-1-100-14674-4&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=book&amp;rft.btitle=Development%20and%20structure%20of%20Prometheus%3A%20the%20Canadian%20Wildland%20Fire%20Growth%20Simulation%20Model&amp;rft.place=Edmonton&amp;rft.publisher=Northern%20Forestry%20Centre&amp;rft.aufirst=Cordy&amp;rft.aulast=Tymstra&amp;rft.au=Cordy%20Tymstra&amp;rft.au=undefined&amp;rft.date=2010&amp;rft.isbn=978-1-100-14674-4&amp;rft.language=en"></span>
-            <div class="csl-entry">Vitolo, C., Di Giuseppe, F., Krzeminski, B., &amp; San-Miguel-Ayanz, J. (2019). A 1980–2018 global fire danger re-analysis dataset for the Canadian Fire Weather Indices. <i>Scientific Data</i>, <i>6</i>(1), 190032. <a href="https://doi.org/10.1038/sdata.2019.32">https://doi.org/10.1038/sdata.2019.32</a></div>
-            <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_id=info%3Adoi%2F10.1038%2Fsdata.2019.32&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.atitle=A%201980%E2%80%932018%20global%20fire%20danger%20re-analysis%20dataset%20for%20the%20Canadian%20Fire%20Weather%20Indices&amp;rft.jtitle=Scientific%20Data&amp;rft.stitle=Sci%20Data&amp;rft.volume=6&amp;rft.issue=1&amp;rft.aufirst=Claudia&amp;rft.aulast=Vitolo&amp;rft.au=Claudia%20Vitolo&amp;rft.au=Francesca%20Di%20Giuseppe&amp;rft.au=Blazej%20Krzeminski&amp;rft.au=Jesus%20San-Miguel-Ayanz&amp;rft.date=2019-03&amp;rft.pages=190032&amp;rft.issn=2052-4463&amp;rft.language=en"></span>
-            <div class="csl-entry"><i>Wildfire-MNP-Report.pdf</i>. (n.d.). Retrieved February 2, 2020, from <a href="https://www.alberta.ca/assets/documents/Wildfire-MNP-Report.pdf">https://www.alberta.ca/assets/documents/Wildfire-MNP-Report.pdf</a></div>
-            <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Adc&amp;rft.type=attachment&amp;rft.title=Wildfire-MNP-Report.pdf&amp;rft.identifier=https%3A%2F%2Fwww.alberta.ca%2Fassets%2Fdocuments%2FWildfire-MNP-Report.pdf"></span>
-        </div>
-
-        <br>
-        <br>
-        <br>
 
         <div class="banner-parallax-flex" style="background-image:url('static/images/wildfire12.jpg');overflow:auto; max-width: 1800px; max-height: 800px; margin: auto">
         </div>

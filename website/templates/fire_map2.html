@@ -29,25 +29,6 @@
 
 <body>
 
-<!-- <style>
-
-    body * {
-        -webkit-touch-callout: none;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-    }
-
-    .map {
-        position: static;
-        top: 0;
-        bottom: 0;
-        width: 100%;
-    }
-
-</style> -->
-
     <nav class="navbar-default navbar-fixed-top affix">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -66,7 +47,7 @@
                     </li>
                     <li><a href="/#proj">About the Project - Why It Matters</a></li>
                     <li><a href="/#expert">Discussion with Experts</a></li>
-                    <li><a href="/#alg">How <img src="static/images/hotzonet.png" alt="HOTzone" width="54" height="20" hspace="5"> Works</a></li>
+                    <li><a href="/#alg">How HOTzone Works</a></li>
                     <li><a href="/#data">Data Source / References</a></li>
                     <li><a href="/#us">About the Team</a></li>
                     <li><a>||</a></li>
@@ -103,7 +84,7 @@
     </div>
 
     <div class="lnkButton col-lg-4 text-center">
-        <form action="/fire_map" method="post">
+        <form action="/fire_map1" method="post">
             <button name="forwardBtn" type="submit">Day 1 Fire Perimeter</button>
         </form>
     </div>
@@ -118,61 +99,6 @@
         <br>
         <br>
     </div>
-
-    <!-- <div id='map' style='width: 1800px; height: 1400px; margin-right: auto; margin-left: auto;'> -->
-
-<!--         <div id="comparison-container">
-
-            <div id="before" class="map"></div>
-
-            <div id="after" class="map"></div>
-        </div> -->
-
-        <!-- <script type="text/javascript">
-
-            var mapkey = '{{ACCESS_KEY}}'
-
-            mapboxgl.accessToken = mapkey;
-
-            var before = new mapboxgl.Map({
-                container: 'before',
-                style: 'mapbox://styles/mapbox/light-v10',
-                center: [0, 0],
-                zoom: 0
-            });
-
-            var after = new mapboxgl.Map({
-                container: 'after',
-                style: 'mapbox://styles/mapbox/dark-v10',
-                center: [0, 0],
-                zoom: 0
-            });
-
-            // A selector or reference to HTML element
-            var container = '#comparison-container';
-
-            new mapboxgl.Compare(before, after, container, {
-            mousemove: true, // Optional. Set to true to enable swiping during cursor movement.
-            orientation: 'horizontal' // Optional. Sets the orientation of swiper to horizontal or vertical, defaults to vertica
-            });
-
-            compare = new mapboxgl.Compare(before, after, container, {
-            mousemove: true, // Optional. Set to true to enable swiping during cursor movement.
-            orientation: 'horizontal' // Optional. Sets the orientation of swiper to horizontal or vertical, defaults to vertica
-            });
-
-            //Get Current position - this will return the slider's current position, in pixels
-            compare.currentPosition;
-
-            //Set Position - this will set the slider at the specified (x) number of pixels from the left-edge or top-edge of viewport based on swiper orientation
-            compare.setSlider(15);
-
-            //Listen to slider movement - and return current position on each slideend
-            compare.on('slideend', (e) => {
-              console.log(e.currentPosition);
-            });
-
-        </script> -->
 
     <div id='map' style='width: 1800px; height: 700px; margin-right: auto; margin-left: auto;'>
 
@@ -235,35 +161,6 @@
                     .setLngLat(geo_fire[i]) // Marker [lng, lat] coordinates
                     .addTo(map); // Add the marker to the map
                 };
-
-            // var legend = new mapboxgl.legendControl({ position: 'topright' })
-            // .addLegend('<strong>My walk from the White House to the hill!</strong>')
-            // .addTo(map);
-
-            // if (geo_center.length == 0) {
-            //     alert(result);
-            // }
-
-            // var url = 'https://opendata.arcgis.com/datasets/5da472c6d27b4b67970acc7b5044c862_0.geojson';
-
-            // map.on('load', function() {
-            //     window.setInterval(function() {
-            //         map.getSource('drone').setData(url);
-            //     }, 2000);
-
-            //     map.addSource('drone', { type: 'geojson', data: url });
-            //     map.addLayer({
-            //         'id': 'drone',
-            //         'type': 'fill',
-            //         'source': 'drone',
-            //         'paint': {
-            //             'line-color': '#a83271',
-            //             'line-width': 5,
-            //             'line-opacity': 0.8
-            //         },
-            //         'filter': ['==', '$type', 'Polygon']
-            //     });
-            // });
 
             map.on('load', function() {
                 map.addSource('national-park', {
