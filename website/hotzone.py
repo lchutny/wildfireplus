@@ -503,8 +503,8 @@ def get_weather(max_values, lat, long, day):
 
     weather_data = {
         'rainint': rainint,
-        'High T': high_t,
-        'Low T': low_t,
+        'High T': high_t+273.15,
+        'Low T': low_t+273.15,
         'Humidity': humidity,
         'Wind Speed': wind_speed,
         'Wind Direction': wind_direction
