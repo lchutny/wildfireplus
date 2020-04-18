@@ -7,3 +7,6 @@
 *.zip
 /data
 /weather_data
+/__pycache__
+*.pem
+/website/wsgi.py

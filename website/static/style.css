@@ -126,6 +126,11 @@
     margin-right: auto;
 }
 
+.img-resp {
+    max-width: 50%;
+    height: auto;
+}
+
 .container-us {
     margin-right: auto;
     margin-left: auto;
@@ -185,7 +190,45 @@ tr:nth-child(even) { background-color:#fff; }
 
 tr:hover { background-color: #ffff99;}
 
+/* button link */
+
+.lnkButton {
+    display: inline-block;
+    position: relative;
+}
+
+.lnkButton > a {
+    margin: auto; 
+    
+    position: absolute; 
+    top: 0; 
+    right: 0; 
+    bottom: 0; 
+    left: 0; 
+    z-index: 2; 
+    
+    cursor: default;
+}
+
+.lnkButton > a:active + button {
+    border-style: inset;
+}
+
+.lnkButton > button {
+    position: relative; 
+    z-index: 1;
+}
+
 /* mapping */
+
+/*.marker {
+  background-image: url('static/images/fire_icon.png');
+  background-size: cover;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+}*/
 
 /*#map { position: absolute; top: 0; bottom: 0; width: 100%; }*/
 
