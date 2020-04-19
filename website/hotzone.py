@@ -550,7 +550,7 @@ def pull_weather_maxes_from_s3():
     return max_values
 
 
-def predict_day(lat_long_coords, day=1, threshold=0.999):
+def predict_day(lat_long_coords, day=1, threshold=0.99):
 
     '''
     Predict where fire will be in the next day.
@@ -728,11 +728,11 @@ def fire_map():
         if len(geo_center) > 0:
 
             # this called the CNN model to predict the polygon shape for mapping for day 1 of fire
-            predict_day1 = predict_day(geo_poly, 1, 0.999)
+            predict_day1 = predict_day(geo_poly, 1, 0.998)
             map_output_day1 = [list(row) for row in predict_day1] # to convert to format for mapbox
 
             # this called the CNN model to predict the polygon shape for mapping for day 2 of fire
-            predict_day2 = predict_day(predict_day1, 2, 0.99)
+            predict_day2 = predict_day(predict_day1, 2, 0.998)
             map_output_day2 = [list(row) for row in predict_day2]
 
         # uncomment this code if true deployment
@@ -750,7 +750,7 @@ def fire_map():
             # map_output_day2 = coords2
 
             geo_poly = [tuple(l) for l in coords]
-            predict_day1 = predict_day(geo_poly, 1, 0.999)
+            predict_day1 = predict_day(geo_poly, 1, 0.998)
             map_output_day1 = [list(row) for row in predict_day1] # to convert to format for mapbox
 
             # predict_day2 = predict_day(predict_day1, 2)
@@ -819,7 +819,7 @@ def fire_map1():
             # write_csv(cnn_poly,"static/initial_polygon.csv")
 
             # this called the CNN model to predict the polygon shape for mapping for day 1 of fire
-            predict_day1 = predict_day(geo_poly, 1, 0.999)
+            predict_day1 = predict_day(geo_poly, 1, 0.998)
             map_output_day1 = [list(row) for row in predict_day1] # to convert to format for mapbox
 
             # this called the CNN model to predict the polygon shape for mapping for day 2 of fire
@@ -852,7 +852,7 @@ def fire_map1():
             # map_output_day2 = [list(row) for row in predict_day2]
 
             geo_poly = [tuple(l) for l in coords]
-            predict_day1 = predict_day(geo_poly, 1, 0.999)
+            predict_day1 = predict_day(geo_poly, 1, 0.998)
             map_output_day1 = [list(row) for row in predict_day1] # to convert to format for mapbox
 
             # map_output = read_csv()å
@@ -919,11 +919,11 @@ def fire_map2():
             # write_csv(cnn_poly,"static/initial_polygon.csv")
 
             # this called the CNN model to predict the polygon shape for mapping for day 1 of fire
-            predict_day1 = predict_day(geo_poly, 1, 0.999)
+            predict_day1 = predict_day(geo_poly, 1, 0.998)
             # map_output_day1 = [list(row) for row in predict_day1] # to convert to format for mapbox
 
             # this called the CNN model to predict the polygon shape for mapping for day 2 of fire
-            predict_day2 = predict_day(predict_day1, 2, 0.99)
+            predict_day2 = predict_day(predict_day1, 2, 0.998)
             map_output_day2 = [list(row) for row in predict_day2]
 
         # uncomment this code if true deployment
@@ -940,7 +940,7 @@ def fire_map2():
             # map_output_day2 = coords2
 
             geo_poly = [tuple(l) for l in coords]
-            predict_day1 = predict_day(geo_poly, 1, 0.999)
+            predict_day1 = predict_day(geo_poly, 1, 0.998)
 
             # predict_day2 = predict_day(predict_day1, 2)
             # map_output_day2 = [list(row) for row in predict_day2]
@@ -948,7 +948,7 @@ def fire_map2():
             # predict_day1 = predict_day(coords1, 1)
             # map_output_day1 = [list(row) for row in predict_day1] # to convert to format for mapbox
 
-            predict_day2 = predict_day(predict_day1, 2, 0.99)
+            predict_day2 = predict_day(predict_day1, 2, 0.998)
             map_output_day2 = [list(row) for row in predict_day2]
 
             # map_output = read_csv()å
