@@ -659,6 +659,38 @@ def predict_day(lat_long_coords, day=1,threshold=0.999):
 
     return tif_coordinates
 
+def poly_to_plot(geo_poly):
+    """Reorder the polygon points to plot in clockwise fashion
+    Input: geo_poly list of (long,lat) tuples describing fire outline
+    Output: geo_poly list of ordered (long,lat)tuples for plotting fire outline
+    """
+    # Because we always write the points along given latitude lines, we'll create
+    # a left and right pair and reorder that way. For any given latitude, get left and
+    # right most longitude
+
+    geo_poly.sort(key=lambda x:x[1])
+    lhs=[]
+    rhs=[]
+
+    i=0
+    while i < len(geo_poly):
+        lat = geo_poly[i][1]
+        longs=[]
+        while geo_poly[i][1] == lat:
+            longs.append(geo_poly[i][0])
+            i+=1
+            if i==104:
+                break
+        lhs.append([min(longs),lat])
+        rhs.append([max(longs),lat])
+
+    # reverse lhs so that the polygon is clockwise
+    lhs.reverse()
+    # Stitch them back together
+    geo_poly2 = rhs
+    geo_poly2.extend(lhs)
+
+    return geo_poly2
 
 # For Flask application
 
@@ -709,12 +741,12 @@ def fire_map():
         no_fire = "false"
         fire_name = geo_data.iloc[fire_num]['IncidentName']
         fire_acres = geo_data.iloc[fire_num]['GISAcres']
+        map_output_day0 = poly_to_plot(geo_poly)
     else:
         no_fire = "true"
         fire_name = 'Example Fire'
         fire_acres = '5490'
-
-    map_output_day0 = data.coords
+        map_output_day0 = poly_to_plot(data.coords)
 
     return render_template('/fire_map_R1.html',
                             address_entered = address,
