@@ -848,7 +848,7 @@ def fire_map2():
         predict_day2 = glday2
 
     map_output_day2 = polyplot(predict_day2)
-    #map_output_day1 = polyplot(day1) ###
+    map_output_day1 = polyplot(day1)
 
     fire_name = glfirename
 
@@ -858,6 +858,7 @@ def fire_map2():
                             ACCESS_KEY = MAPBOX_ACCESS_KEY,
                             fire_name = fire_name,
                             map_output_day2 = map_output_day2,
+                            map_output_day1 = map_output_day1,
                             add_loc = [add_lon, add_lat],
                             no_fire = no_fire,
                             outside_bound = outside_bound,
