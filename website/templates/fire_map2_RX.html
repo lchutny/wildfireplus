@@ -3,7 +3,7 @@
 
 <head>
 
-    <title>HOTzone Fire Map</title>
+    <title>HOTzone Fire Map Day 2</title>
     <link rel="icon" type="image/png" sizes="32x32" href="../static/images/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="../static/images/favicon-16x16.png">
     <meta charset="utf-8">
@@ -62,7 +62,7 @@
         <br>
         <br>
         <br>
-        <h4>Instructions:<br><br>Please enter an address below to see if there is an active fire within 100 miles of that location.</h4>
+        <br>
         <br>
     </div>
     <div class="col-lg-2 text-center">
@@ -82,16 +82,11 @@
     </div>
 
     <div class="col-lg-12 text-center">
-        <hr class="primary">
-        <h3>Enter address of interest</h3>
-        <p>For precision, enter address with details</p>
-        <p>Example: 2535 Channing Way, Berkeley, CA</p>
-        <form method = "POST">
-            <p><input name = "address" /></p>
-            <p><input type = "submit" value = "Submit" /></p>
-        </form>
         <br>
-        <h4>To see the predicted fire perimeter for the next 24 hours for the active fire, please press <br>
+        <h3>Day 2 potential fire spread</h3>
+        <h4>Predicted spread for the next 48 hours is shown in red on the map below.</h4>
+        <br>
+        <h4>To switch back to the predicted fire perimeter for 1 day out for this fire, please press <br>
           the "Day 1 Fire Prediction" button below.<br><br>**The page will take some time to load, so please be patient!**</h4>
     </div>
 
@@ -102,7 +97,6 @@
             </form>
         </div>
     </div>
-
 
     <div class="col-lg-12 text-center">
         <br>
@@ -117,7 +111,6 @@
         <br>
     </div>
 
-    <!-- <div id='map' style='width: 1800px; height: 700px; margin-right: auto; margin-left: auto;'> -->
     <style>
       #map {
         height:700px;
@@ -134,11 +127,9 @@
 
             mapboxgl.accessToken = mapkey;
 
-            poly_output_day0 = {{map_output_day0|safe}}
+            // poly_output_day1 = {{map_output_day1|safe}}
 
-            //poly_output_day1 = {{map_output_day1|safe}}
-
-            // poly_output_day2 = {{map_output_day2|safe}}
+            poly_output_day2 = {{map_output_day2|safe}}
 
             geo_center = {{geo_center|safe}}
 
@@ -150,15 +141,6 @@
 
             outside_bound = {{outside_bound|safe}}
 
-
-            if ( outside_bound ) {
-                alert("We apologize for the inconvenience.  The address you entered is currently outside the geographical boundary of our trained machine learning model.  Due to potential differences in terrain, vegetation and other factors, we are not able to accurately predict active fire spread beyond the trained boundary.  We are working on expanding, please check back soon or enter another address.  Thank you.");
-            }
-
-            if ( no_fire ) {
-                alert("There is no active fire within 100 miles of {{address_entered}}. Either re-enter an address or we will use an example fire for predictions.");
-            }
-
             // initiate map
             var map = new mapboxgl.Map({
                 container: 'map',
@@ -167,7 +149,6 @@
                 center: add_loc,
                 zoom: 10
             });
-
 
             // add blue marker for address of interest
             var marker = new mapboxgl.Marker() // Initialize a new marker
@@ -202,7 +183,7 @@
                             'type': 'Feature',
                             'geometry': {
                                 'type': 'Polygon',
-                                'coordinates': [
+                                'coordinates': [ poly_output_day2
                             ]
                         }
                     },
@@ -214,10 +195,6 @@
                     'id': 'park-boundary',
                     'type': 'line',
                     'source': 'national-park',
-                    'layout': {
-                        'line-join': 'round',
-                        'line-cap': 'round'
-                    },
                     'paint': {
                         'line-color': '#FF5733',
                         'line-width': 5,

@@ -291,7 +291,7 @@ def active_fire():
 
 	fireacre = pd.Series(fireacre)
 
-	df = {"State": firestate, "Active Fire Name": firename, "Approximate Fire Location": fireloc, "Acre Burned": fireacre }
+	df = {"State": firestate, "Active Fire Name": firename, "Approximate Fire Location": fireloc, "Acres Burned": fireacre }
 
 	fire_table = pd.DataFrame(df)
 
@@ -751,14 +751,10 @@ def fire_map():
         no_fire = "false"
         fire_name = geo_data.iloc[fire_num]['IncidentName']
         fire_acres = geo_data.iloc[fire_num]['GISAcres']
-        map_output_day0 = polyplot(geo_poly)
-        glday0 = geo_poly
     else:
         no_fire = "true"
         fire_name = 'Example'
         fire_acres = '20,703' # From area calculation in Jupyter
-        map_output_day0 = polyplot(data.coords)
-        glday0 = data.coords
 
     glfirename = fire_name
 
@@ -767,7 +763,6 @@ def fire_map():
                             fire_name = fire_name,
                             fire_acres = fire_acres,
                             fire_table = [fire_table.to_html (classes = "ftable")],
-                            map_output_day0 = map_output_day0,
                             ACCESS_KEY = MAPBOX_ACCESS_KEY,
                             add_loc = [add_lon, add_lat],
                             geo_fire = geo_fire,
@@ -788,32 +783,36 @@ def fire_map1():
     no_fire = "false"
     global glalat,glalong,glday0,glday1,glday2,glfirename
 
-    #address = data.a
-    address = "Berkeley, CA"
-    day0 = glday0
+    address = data.a
 
     # call function (active_fire) to get this list of active fire for map plotting and convert it into dataframe for table visualization
     geo_fire, fire_table, geo_data = active_fire()
     add_lat, add_lon = get_loc(address)
 
-    # this calls the CNN model to predict the polygon shape for mapping for day 1 of fire
-    #predict_day1 = predict_day(day0, 1,0.90)
-    #predict_day1 = predict_day(data.coords, 1,0.90)
-    #glday1 = predict_day1
-    #map_output_day1 = polyplot(predict_day1) # to convert to format for mapbox
-    map_output_day1 = polyplot(data.coords) # to convert to format for mapbox
-    #add_lon = glalon
-    #add_lat= glalat
-    #fire_name = glfirename
-    fire_name='Example'
+    # # this calls the CNN model to predict the polygon shape for mapping for day 1 of fire
+    # predict_day1 = predict_day(data.coords, 1,0.99)
+    # glday1 = predict_day1
+    # map_output_day1 = polyplot(predict_day1) # to convert to format for mapbox
 
-    return render_template('/fire_map1_R1.html',
+    if glday1 == None:
+        predict_day1 = predict_day(data.coords, 1,0.99)
+        glday1 = predict_day1
+    else:
+        predict_day1 = glday1
+
+    map_output_day1 = polyplot(predict_day1) # to convert to format for mapbox
+
+    fire_name = glfirename
+
+    return render_template('/fire_map1_RX.html',
                             fire_table = [fire_table.to_html (classes = "ftable")],
-                            address_entered = address,
                             ACCESS_KEY = MAPBOX_ACCESS_KEY,
+                            address_entered = address,
                             fire_name = fire_name,
                             map_output_day1 = map_output_day1,
                             add_loc = [add_lon, add_lat],
+                            no_fire = no_fire,
+                            outside_bound = outside_bound,
                             geo_fire = geo_fire)
 
 
@@ -831,26 +830,37 @@ def fire_map2():
     global glalat,glalong,glday0,glday1,glday2,glfirename
 
     # call function (active_fire) to get this list of active fire for map plotting and convert it into dataframe for table visualization
-    geo_fire, fire_table, geo_data = active_fire()
-
     address = data.a
     day1 = glday1
 
-    # this calls the CNN model to predict the polygon shape for mapping for day 2 of fire
-    predict_day2 = predict_day(day1, 2,0.99)
-    glday2 = predict_day2
+    geo_fire, fire_table, geo_data = active_fire()
+    add_lat, add_lon = get_loc(address)
+
+    # # this calls the CNN model to predict the polygon shape for mapping for day 2 of fire
+    # predict_day2 = predict_day(day1, 2,0.99)
+    # glday2 = predict_day2
+    # map_output_day2 = polyplot(predict_day2)
+
+    if glday2 == None:
+        predict_day2 = predict_day(day1, 2,0.99)
+        glday2 = predict_day2
+    else:
+        predict_day2 = glday2
+
     map_output_day2 = polyplot(predict_day2)
-    add_lon = glalon
-    add_lat= glalat
+    #map_output_day1 = polyplot(day1) ###
+
     fire_name = glfirename
 
-    return render_template('/fire_map2_R1.html',
+    return render_template('/fire_map2_RX.html',
                             fire_table = [fire_table.to_html (classes = "ftable")],
                             address_entered = address,
                             ACCESS_KEY = MAPBOX_ACCESS_KEY,
                             fire_name = fire_name,
                             map_output_day2 = map_output_day2,
                             add_loc = [add_lon, add_lat],
+                            no_fire = no_fire,
+                            outside_bound = outside_bound,
                             geo_fire = geo_fire)
 
 if __name__ == '__main__':
